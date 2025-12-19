@@ -6,35 +6,57 @@ Collects engineering activity data from GitHub using the GitHub API.
 
 from typing import Dict, List, Optional, Any
 import re
+import os
+import json
+import hashlib
 from datetime import datetime, timedelta
+from pathlib import Path
 
 
 class GitHubCollector:
     """Collect data from GitHub"""
 
-    def __init__(self, token: Optional[str] = None):
+    def __init__(self, token: Optional[str] = None, cache_dir: str = "data"):
         """
         Initialize GitHub collector
 
         Args:
             token: GitHub personal access token for API access
+            cache_dir: Directory to store cached GitHub data
         """
         self.token = token
         self.base_url = "https://api.github.com"
+        self.cache_dir = Path(cache_dir)
 
-    def collect_user_data(self, username: str) -> Dict[str, Any]:
+        # Create cache directory if it doesn't exist
+        self.cache_dir.mkdir(parents=True, exist_ok=True)
+
+    def collect_user_data(self, username: str, use_cache: bool = True) -> Dict[str, Any]:
         """
         Collect comprehensive data for a GitHub user
 
         Args:
             username: GitHub username
+            use_cache: Whether to use cached data if available
 
         Returns:
             Dictionary containing collected data
         """
+        # Create a pseudo-URL for cache key
+        user_url = f"https://github.com/{username}"
+
+        # Check cache first if enabled
+        if use_cache:
+            cached_data = self._load_from_cache(user_url)
+            if cached_data is not None:
+                return cached_data.get("data", cached_data)
+
+        # Fetch data (in real implementation, this would use the GitHub API)
+        print(f"[API] Fetching fresh data for user {username}")
+
         # In a real implementation, this would use the GitHub API
         # For now, return a structured template
-        return {
+        data = {
             # Basic metrics
             "total_contributions": 0,
             "repos_contributed_to": 0,
@@ -86,16 +108,29 @@ class GitHubCollector:
             "generated_code_score": 0.0
         }
 
-    def collect_repo_data(self, repo_url: str) -> Dict[str, Any]:
+        # Save to cache
+        self._save_to_cache(user_url, data)
+
+        return data
+
+    def collect_repo_data(self, repo_url: str, use_cache: bool = True) -> Dict[str, Any]:
         """
         Collect data from a specific repository
 
         Args:
             repo_url: GitHub repository URL
+            use_cache: Whether to use cached data if available
 
         Returns:
             Dictionary containing repository data
         """
+        # Check cache first if enabled
+        if use_cache:
+            cached_data = self._load_from_cache(repo_url)
+            if cached_data is not None:
+                # Return the actual data, not the metadata wrapper
+                return cached_data.get("data", cached_data)
+
         # Parse repo URL
         match = re.search(r"github\.com/([^/]+)/([^/]+)", repo_url)
         if not match:
@@ -104,8 +139,14 @@ class GitHubCollector:
         owner, repo = match.groups()
         repo = repo.replace(".git", "")
 
-        # In a real implementation, this would use the GitHub API
-        return self._analyze_repository(owner, repo)
+        # Fetch data (in real implementation, this would use the GitHub API)
+        print(f"[API] Fetching fresh data for {owner}/{repo}")
+        data = self._analyze_repository(owner, repo)
+
+        # Save to cache
+        self._save_to_cache(repo_url, data)
+
+        return data
 
     def _analyze_repository(self, owner: str, repo: str) -> Dict[str, Any]:
         """
@@ -204,6 +245,89 @@ class GitHubCollector:
             "architecture_commits": 0,
             "total_commits": len(commits)
         }
+
+    def _get_cache_path(self, url: str) -> Path:
+        """
+        Generate cache file path based on GitHub URL
+
+        Args:
+            url: GitHub repository or user URL
+
+        Returns:
+            Path to cache file
+        """
+        # Try to extract owner/repo from URL
+        repo_match = re.search(r"github\.com/([^/]+)/([^/]+)", url)
+        if repo_match:
+            owner, repo = repo_match.groups()
+            repo = repo.replace(".git", "")
+            # Create path-like structure: data/owner/repo.json
+            cache_path = self.cache_dir / owner / f"{repo}.json"
+            # Ensure parent directory exists
+            cache_path.parent.mkdir(parents=True, exist_ok=True)
+            return cache_path
+
+        # Try to extract user from URL (e.g., https://github.com/username)
+        user_match = re.search(r"github\.com/([^/]+)$", url)
+        if user_match:
+            username = user_match.group(1)
+            # Create path-like structure: data/users/username.json
+            cache_path = self.cache_dir / "users" / f"{username}.json"
+            cache_path.parent.mkdir(parents=True, exist_ok=True)
+            return cache_path
+
+        # Fallback to hashed URL if pattern doesn't match
+        url_hash = hashlib.md5(url.encode()).hexdigest()
+        return self.cache_dir / f"{url_hash}.json"
+
+    def _load_from_cache(self, repo_url: str) -> Optional[Dict[str, Any]]:
+        """
+        Load cached data for a repository
+
+        Args:
+            repo_url: GitHub repository URL
+
+        Returns:
+            Cached data if exists, None otherwise
+        """
+        cache_path = self._get_cache_path(repo_url)
+
+        if cache_path.exists():
+            try:
+                with open(cache_path, 'r', encoding='utf-8') as f:
+                    cached_data = json.load(f)
+                    print(f"[Cache] Loaded data from cache: {cache_path}")
+                    return cached_data
+            except (json.JSONDecodeError, IOError) as e:
+                print(f"[Cache] Error loading cache file {cache_path}: {e}")
+                return None
+
+        return None
+
+    def _save_to_cache(self, repo_url: str, data: Dict[str, Any]) -> None:
+        """
+        Save repository data to cache
+
+        Args:
+            repo_url: GitHub repository URL
+            data: Data to cache
+        """
+        cache_path = self._get_cache_path(repo_url)
+
+        try:
+            # Add metadata to cached data
+            cached_data = {
+                "cached_at": datetime.now().isoformat(),
+                "repo_url": repo_url,
+                "data": data
+            }
+
+            with open(cache_path, 'w', encoding='utf-8') as f:
+                json.dump(cached_data, f, indent=2, ensure_ascii=False)
+
+            print(f"[Cache] Saved data to cache: {cache_path}")
+        except IOError as e:
+            print(f"[Cache] Error saving cache file {cache_path}: {e}")
 
     def _get_headers(self) -> Dict[str, str]:
         """Get API request headers"""

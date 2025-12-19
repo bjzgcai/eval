@@ -496,7 +496,7 @@
                     <input
                         type="text"
                         id="repoUrl"
-                        
+
                         placeholder="Enter GitHub repository URL (e.g., https://github.com/username/repository)"
                         value=""
                         autocomplete="off">
@@ -504,8 +504,19 @@
                 </div>
                 <button id="analyzeBtn" onclick="analyzeRepository()">Analyze</button>
             </div>
-            <div class="note">
-                Enter a GitHub repository URL to analyze contributors' engineering capabilities
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px;">
+                <div class="note">
+                    Enter a GitHub repository URL to analyze contributors' engineering capabilities
+                </div>
+                <div style="display: flex; gap: 15px; align-items: center;">
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                        <input type="checkbox" id="useCacheCheckbox" checked style="width: 18px; height: 18px; cursor: pointer;">
+                        <span style="font-size: 0.9rem; color: #666;">Use cache</span>
+                    </label>
+                    <div id="cacheStatus" style="font-size: 0.85rem; color: #666; padding: 5px 12px; background: #f0f0f0; border-radius: 12px; display: none;">
+                        <span id="cacheStatusText"></span>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -524,10 +535,45 @@
     </div>
 
     <script>
+        // API Server Configuration
+        // The server auto-selects an available port (8000, 8001, 8002, etc.)
+        // Update this URL if your server is running on a different port
+        let API_SERVER_URL = 'http://localhost:8000'; // Will auto-detect
+
         let repoData = null;
         let contributorsData = [];
         let currentContributor = null;
         let chart = null;
+
+        // Auto-detect API server port on page load
+        async function detectApiServer() {
+            const ports = [8000, 8001, 8002, 8003, 8004, 8005];
+
+            for (const port of ports) {
+                try {
+                    const url = `http://localhost:${port}/health`;
+                    const response = await fetch(url, { method: 'GET', timeout: 1000 });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (data.status === 'healthy') {
+                            API_SERVER_URL = `http://localhost:${port}`;
+                            console.log(`✓ API server detected at port ${port}`);
+                            return true;
+                        }
+                    }
+                } catch (e) {
+                    // Port not available, try next
+                    continue;
+                }
+            }
+
+            console.warn('⚠ API server not detected. Make sure the server is running (./start_server.sh)');
+            return false;
+        }
+
+        // Detect server on page load
+        detectApiServer();
 
         // Six dimensions of engineering capability
         const dimensions = [
@@ -587,18 +633,54 @@
             hideAutocomplete();
 
             try {
-                // Fetch repository data
-                const repoResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}`);
+                // Get cache preference
+                const useCache = document.getElementById('useCacheCheckbox').checked;
+
+                // Fetch repository data from caching server
+                const repoResponse = await fetch(
+                    `${API_SERVER_URL}/api/repo/${owner}/${repo}?use_cache=${useCache}`
+                );
+
                 if (!repoResponse.ok) {
-                    throw new Error('Repository not found or API rate limit exceeded');
+                    if (repoResponse.status === 404) {
+                        throw new Error('Repository not found');
+                    } else if (repoResponse.status === 500) {
+                        throw new Error('Server error. Make sure the caching server is running.');
+                    } else {
+                        throw new Error('Failed to fetch repository data');
+                    }
                 }
-                repoData = await repoResponse.json();
+
+                const repoResult = await repoResponse.json();
+
+                if (!repoResult.success) {
+                    throw new Error('Failed to fetch repository data');
+                }
+
+                // Extract data from server response
+                repoData = {
+                    full_name: repoResult.data.repo_name,
+                    name: repo,
+                    owner: { login: owner },
+                    description: 'Repository data from cache',
+                    html_url: repoUrl,
+                    stargazers_count: 0,
+                    forks_count: 0,
+                    language: repoResult.data.languages[0] || 'N/A'
+                };
+
+                // Show cache status
+                showCacheStatus(repoResult.metadata.cached);
 
                 // Save to history
                 saveToHistory(repoUrl, repoData.full_name);
 
-                // Fetch contributors
-                const contributorsResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/contributors`);
+                // Fetch contributors (mock data for now since we're caching repo data)
+                // In the future, extend the server API to provide contributor data
+                const contributorsResponse = await fetch(
+                    `https://api.github.com/repos/${owner}/${repo}/contributors`
+                );
+
                 if (!contributorsResponse.ok) {
                     throw new Error('Failed to fetch contributors');
                 }
@@ -632,6 +714,7 @@
                 showResults();
             } catch (error) {
                 showError(error.message);
+                hideCacheStatus();
             } finally {
                 showLoading(false);
             }
@@ -879,6 +962,27 @@
 
         function hideResults() {
             document.getElementById('results').classList.remove('active');
+        }
+
+        function showCacheStatus(isCached) {
+            const statusEl = document.getElementById('cacheStatus');
+            const textEl = document.getElementById('cacheStatusText');
+
+            if (isCached) {
+                textEl.innerHTML = '⚡ Loaded from cache';
+                statusEl.style.background = '#e8f5e9';
+                statusEl.style.color = '#2e7d32';
+            } else {
+                textEl.innerHTML = '🔄 Fresh data fetched';
+                statusEl.style.background = '#e3f2fd';
+                statusEl.style.color = '#1565c0';
+            }
+
+            statusEl.style.display = 'block';
+        }
+
+        function hideCacheStatus() {
+            document.getElementById('cacheStatus').style.display = 'none';
         }
 
         // Autocomplete functionality
