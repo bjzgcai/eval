@@ -1,0 +1,630 @@
+#!/usr/bin/env python3
+"""
+FastAPI server for GitHub data collection with caching
+"""
+
+from fastapi import FastAPI, HTTPException, Query
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
+from typing import Optional, Dict, Any
+from pathlib import Path
+import os
+import json
+from datetime import datetime
+from dotenv import load_dotenv
+
+# Load environment variables from .env.local
+load_dotenv('.env.local')
+
+# Import GitHubCollector directly
+import importlib.util
+
+github_module_path = Path(__file__).parent / "evaluator" / "collectors" / "github.py"
+spec = importlib.util.spec_from_file_location("github_collector", github_module_path)
+github_module = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(github_module)
+
+GitHubCollector = github_module.GitHubCollector
+
+# Import CommitEvaluator
+evaluator_module_path = Path(__file__).parent / "evaluator" / "commit_evaluator.py"
+spec = importlib.util.spec_from_file_location("commit_evaluator", evaluator_module_path)
+evaluator_module = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(evaluator_module)
+
+CommitEvaluator = evaluator_module.CommitEvaluator
+
+# Initialize FastAPI app
+app = FastAPI(
+    title="GitHub Data Collector API",
+    description="API for collecting GitHub data with caching support",
+    version="1.0.0"
+)
+
+# Add CORS middleware to allow frontend access
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # In production, specify actual origins
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Initialize GitHub collector
+# Token can be set via environment variable: GITHUB_TOKEN
+github_token = os.getenv("GITHUB_TOKEN")
+collector = GitHubCollector(token=github_token, cache_dir="data")
+
+# Initialize Commit Evaluator
+# API key can be set via environment variable: OPEN_ROUTER_KEY
+openrouter_key = os.getenv("OPEN_ROUTER_KEY")
+commit_evaluator = CommitEvaluator(api_key=openrouter_key)
+
+
+@app.get("/")
+async def root():
+    """Root endpoint with API information"""
+    return {
+        "message": "GitHub Data Collector API",
+        "version": "1.0.0",
+        "endpoints": {
+            "repo_data": "/api/repo/{owner}/{repo}",
+            "user_data": "/api/user/{username}",
+            "commits_list": "/api/commits/{owner}/{repo}",
+            "commit_detail": "/api/commits/{owner}/{repo}/{commit_sha}",
+            "fetch_all_commits": "/api/commits/{owner}/{repo}/fetch-all",
+            "evaluate_engineer": "/api/evaluate/{owner}/{repo}/{username}",
+            "cache_stats": "/api/cache/stats",
+            "clear_repo_cache": "/api/cache/repo/{owner}/{repo}",
+            "clear_user_cache": "/api/cache/user/{username}",
+            "clear_all_cache": "/api/cache/clear"
+        }
+    }
+
+
+@app.get("/api/repo/{owner}/{repo}")
+async def get_repo_data(
+    owner: str,
+    repo: str,
+    use_cache: bool = Query(True, description="Whether to use cached data")
+):
+    """
+    Get repository data with optional caching
+
+    Args:
+        owner: Repository owner
+        repo: Repository name
+        use_cache: Whether to use cache (default: True)
+
+    Returns:
+        Repository data
+    """
+    try:
+        repo_url = f"https://github.com/{owner}/{repo}"
+        data = collector.collect_repo_data(repo_url, use_cache=use_cache)
+
+        cache_path = collector._get_cache_path(repo_url)
+        is_cached = cache_path.exists()
+
+        return {
+            "success": True,
+            "data": data,
+            "metadata": {
+                "repo_url": repo_url,
+                "cached": is_cached,
+                "cache_path": str(cache_path) if is_cached else None
+            }
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/api/user/{username}")
+async def get_user_data(
+    username: str,
+    use_cache: bool = Query(True, description="Whether to use cached data")
+):
+    """
+    Get user data with optional caching
+
+    Args:
+        username: GitHub username
+        use_cache: Whether to use cache (default: True)
+
+    Returns:
+        User data
+    """
+    try:
+        data = collector.collect_user_data(username, use_cache=use_cache)
+
+        user_url = f"https://github.com/{username}"
+        cache_path = collector._get_cache_path(user_url)
+        is_cached = cache_path.exists()
+
+        return {
+            "success": True,
+            "data": data,
+            "metadata": {
+                "username": username,
+                "cached": is_cached,
+                "cache_path": str(cache_path) if is_cached else None
+            }
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/api/cache/stats")
+async def get_cache_stats():
+    """
+    Get cache statistics
+
+    Returns:
+        Cache statistics including file count, total size, etc.
+    """
+    try:
+        cache_dir = Path("data")
+
+        if not cache_dir.exists():
+            return {
+                "success": True,
+                "stats": {
+                    "total_files": 0,
+                    "total_size_bytes": 0,
+                    "total_size_mb": 0,
+                    "repos_cached": 0,
+                    "users_cached": 0,
+                    "cache_dir": str(cache_dir)
+                }
+            }
+
+        # Count files and calculate sizes
+        total_files = 0
+        total_size = 0
+        repos_cached = 0
+        users_cached = 0
+        cache_entries = []
+
+        for root, dirs, files in os.walk(cache_dir):
+            for file in files:
+                if file.endswith('.json'):
+                    total_files += 1
+                    file_path = Path(root) / file
+                    file_size = file_path.stat().st_size
+                    total_size += file_size
+
+                    # Categorize
+                    if '/users/' in str(file_path):
+                        users_cached += 1
+                    else:
+                        repos_cached += 1
+
+                    # Load cache metadata
+                    try:
+                        with open(file_path, 'r') as f:
+                            cache_data = json.load(f)
+                            cache_entries.append({
+                                "path": str(file_path.relative_to(cache_dir)),
+                                "cached_at": cache_data.get("cached_at"),
+                                "url": cache_data.get("repo_url"),
+                                "size_bytes": file_size
+                            })
+                    except:
+                        pass
+
+        return {
+            "success": True,
+            "stats": {
+                "total_files": total_files,
+                "total_size_bytes": total_size,
+                "total_size_mb": round(total_size / (1024 * 1024), 2),
+                "repos_cached": repos_cached,
+                "users_cached": users_cached,
+                "cache_dir": str(cache_dir),
+                "entries": cache_entries
+            }
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.delete("/api/cache/repo/{owner}/{repo}")
+async def clear_repo_cache(owner: str, repo: str):
+    """
+    Clear cache for a specific repository
+
+    Args:
+        owner: Repository owner
+        repo: Repository name
+
+    Returns:
+        Success status
+    """
+    try:
+        repo_url = f"https://github.com/{owner}/{repo}"
+        cache_path = collector._get_cache_path(repo_url)
+
+        if cache_path.exists():
+            cache_path.unlink()
+            return {
+                "success": True,
+                "message": f"Cache cleared for {owner}/{repo}",
+                "cache_path": str(cache_path)
+            }
+        else:
+            return {
+                "success": False,
+                "message": f"No cache found for {owner}/{repo}"
+            }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.delete("/api/cache/user/{username}")
+async def clear_user_cache(username: str):
+    """
+    Clear cache for a specific user
+
+    Args:
+        username: GitHub username
+
+    Returns:
+        Success status
+    """
+    try:
+        user_url = f"https://github.com/{username}"
+        cache_path = collector._get_cache_path(user_url)
+
+        if cache_path.exists():
+            cache_path.unlink()
+            return {
+                "success": True,
+                "message": f"Cache cleared for user {username}",
+                "cache_path": str(cache_path)
+            }
+        else:
+            return {
+                "success": False,
+                "message": f"No cache found for user {username}"
+            }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.delete("/api/cache/clear")
+async def clear_all_cache():
+    """
+    Clear all cached data
+
+    Returns:
+        Success status with count of cleared files
+    """
+    try:
+        cache_dir = Path("data")
+
+        if not cache_dir.exists():
+            return {
+                "success": True,
+                "message": "Cache directory does not exist",
+                "files_cleared": 0
+            }
+
+        files_cleared = 0
+        for root, dirs, files in os.walk(cache_dir):
+            for file in files:
+                if file.endswith('.json'):
+                    file_path = Path(root) / file
+                    file_path.unlink()
+                    files_cleared += 1
+
+        return {
+            "success": True,
+            "message": f"All cache cleared",
+            "files_cleared": files_cleared
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/api/commits/{owner}/{repo}")
+async def get_commits_list(
+    owner: str,
+    repo: str,
+    limit: int = Query(100, description="Maximum number of commits to fetch"),
+    use_cache: bool = Query(True, description="Whether to use cached data")
+):
+    """
+    Get list of commits from a repository
+
+    Args:
+        owner: Repository owner
+        repo: Repository name
+        limit: Maximum number of commits to fetch (default: 100)
+        use_cache: Whether to use cache (default: True)
+
+    Returns:
+        List of commits
+    """
+    try:
+        commits = collector.fetch_commits_list(owner, repo, limit=limit, use_cache=use_cache)
+
+        cache_path = collector._get_commits_list_cache_path(owner, repo)
+        is_cached = cache_path.exists()
+
+        return {
+            "success": True,
+            "data": commits,
+            "metadata": {
+                "owner": owner,
+                "repo": repo,
+                "count": len(commits),
+                "cached": is_cached,
+                "cache_path": str(cache_path) if is_cached else None
+            }
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/api/commits/{owner}/{repo}/{commit_sha}")
+async def get_commit_detail(
+    owner: str,
+    repo: str,
+    commit_sha: str,
+    use_cache: bool = Query(True, description="Whether to use cached data")
+):
+    """
+    Get detailed information about a specific commit
+
+    Args:
+        owner: Repository owner
+        repo: Repository name
+        commit_sha: Commit SHA hash
+        use_cache: Whether to use cache (default: True)
+
+    Returns:
+        Detailed commit data including files changed and diffs
+    """
+    try:
+        commit_data = collector.fetch_commit_data(owner, repo, commit_sha, use_cache=use_cache)
+
+        cache_path = collector._get_commit_cache_path(owner, repo, commit_sha)
+        is_cached = cache_path.exists()
+
+        return {
+            "success": True,
+            "data": commit_data,
+            "metadata": {
+                "owner": owner,
+                "repo": repo,
+                "commit_sha": commit_sha,
+                "cached": is_cached,
+                "cache_path": str(cache_path) if is_cached else None
+            }
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/api/commits/{owner}/{repo}/fetch-all")
+async def fetch_all_commits(
+    owner: str,
+    repo: str,
+    limit: int = Query(100, description="Maximum number of commits to fetch"),
+    use_cache: bool = Query(True, description="Whether to use cached data for commit list")
+):
+    """
+    Fetch all commits and their detailed data for a repository
+
+    This endpoint will:
+    1. Fetch the list of commits
+    2. Fetch detailed data for each commit
+    3. Store all data in the cache
+
+    Args:
+        owner: Repository owner
+        repo: Repository name
+        limit: Maximum number of commits to fetch (default: 100)
+        use_cache: Whether to use cache for commit list (default: True)
+
+    Returns:
+        Summary of fetched commits
+    """
+    try:
+        # First, get the list of commits
+        commits_list = collector.fetch_commits_list(owner, repo, limit=limit, use_cache=use_cache)
+
+        # Then, fetch detailed data for each commit
+        fetched_commits = []
+        errors = []
+
+        for commit_summary in commits_list:
+            commit_sha = commit_summary.get("sha")
+            if not commit_sha:
+                continue
+
+            try:
+                # Fetch detailed commit data (will be cached automatically)
+                commit_data = collector.fetch_commit_data(owner, repo, commit_sha, use_cache=use_cache)
+                fetched_commits.append({
+                    "sha": commit_sha,
+                    "message": commit_summary.get("commit", {}).get("message", ""),
+                    "author": commit_summary.get("commit", {}).get("author", {}).get("name", ""),
+                    "date": commit_summary.get("commit", {}).get("author", {}).get("date", ""),
+                    "files_changed": len(commit_data.get("files", []))
+                })
+            except Exception as e:
+                errors.append({
+                    "sha": commit_sha,
+                    "error": str(e)
+                })
+
+        return {
+            "success": True,
+            "summary": {
+                "owner": owner,
+                "repo": repo,
+                "total_commits": len(commits_list),
+                "fetched_commits": len(fetched_commits),
+                "errors": len(errors)
+            },
+            "commits": fetched_commits,
+            "errors": errors if errors else None
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/api/evaluate/{owner}/{repo}/{username}")
+async def evaluate_engineer(
+    owner: str,
+    repo: str,
+    username: str,
+    limit: int = Query(30, description="Maximum number of commits to analyze"),
+    use_cache: bool = Query(True, description="Whether to use cached commit data")
+):
+    """
+    Evaluate an engineer's skill based on their commits in a repository
+
+    This endpoint:
+    1. Fetches commits by the specified author
+    2. Analyzes commits using LLM
+    3. Returns evaluation scores across six dimensions
+
+    Args:
+        owner: Repository owner
+        repo: Repository name
+        username: GitHub username to evaluate
+        limit: Maximum number of commits to analyze (default: 30)
+        use_cache: Whether to use cached data (default: True)
+
+    Returns:
+        Evaluation results with scores for each dimension
+    """
+    try:
+        # First, get commits by this author
+        commits_list = collector.fetch_commits_list(owner, repo, limit=limit, use_cache=use_cache)
+
+        # Fetch detailed commit data for each commit
+        detailed_commits = []
+        for commit_summary in commits_list:
+            commit_sha = commit_summary.get("sha")
+            commit_author = commit_summary.get("commit", {}).get("author", {}).get("name", "")
+
+            # Check if commit is by this user (case-insensitive match)
+            if commit_author.lower() == username.lower() or \
+               commit_summary.get("author", {}).get("login", "").lower() == username.lower():
+
+                try:
+                    # Fetch detailed commit with files and diffs
+                    commit_data = collector.fetch_commit_data(owner, repo, commit_sha, use_cache=use_cache)
+                    detailed_commits.append(commit_data)
+
+                    # Stop if we have enough commits
+                    if len(detailed_commits) >= limit:
+                        break
+                except Exception as e:
+                    print(f"[Warning] Failed to fetch commit {commit_sha}: {e}")
+                    continue
+
+        if not detailed_commits:
+            return {
+                "success": False,
+                "error": f"No commits found for user {username} in {owner}/{repo}",
+                "evaluation": commit_evaluator._get_empty_evaluation(username)
+            }
+
+        # Evaluate using LLM
+        evaluation = commit_evaluator.evaluate_engineer(detailed_commits, username)
+
+        return {
+            "success": True,
+            "evaluation": evaluation,
+            "metadata": {
+                "owner": owner,
+                "repo": repo,
+                "username": username,
+                "commits_analyzed": len(detailed_commits)
+            }
+        }
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/health")
+async def health_check():
+    """Health check endpoint"""
+    return {
+        "status": "healthy",
+        "timestamp": datetime.now().isoformat(),
+        "cache_enabled": True,
+        "github_token_configured": github_token is not None,
+        "llm_configured": openrouter_key is not None
+    }
+
+
+def find_available_port(start_port: int = 8000, max_attempts: int = 10) -> int:
+    """
+    Find an available port starting from start_port
+
+    Args:
+        start_port: Port to start checking from
+        max_attempts: Maximum number of ports to try
+
+    Returns:
+        Available port number
+
+    Raises:
+        RuntimeError: If no available port found
+    """
+    import socket
+
+    for port in range(start_port, start_port + max_attempts):
+        try:
+            # Try to bind to the port
+            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+                s.bind(("0.0.0.0", port))
+                return port
+        except OSError:
+            # Port is in use, try next one
+            continue
+
+    raise RuntimeError(f"No available port found in range {start_port}-{start_port + max_attempts - 1}")
+
+
+if __name__ == "__main__":
+    import uvicorn
+
+    # Get port from environment variable or find available port
+    try:
+        port = int(os.getenv("PORT", "8000"))
+    except ValueError:
+        port = 8000
+
+    # Find available port if specified port is in use
+    try:
+        available_port = find_available_port(port, max_attempts=10)
+    except RuntimeError as e:
+        print(f"Error: {e}")
+        exit(1)
+
+    if available_port != port:
+        print(f"Port {port} is in use, using port {available_port} instead")
+
+    print("=" * 60)
+    print("Starting GitHub Data Collector API Server")
+    print("=" * 60)
+    print(f"Server URL: http://localhost:{available_port}")
+    print(f"API Documentation: http://localhost:{available_port}/docs")
+    print(f"Health Check: http://localhost:{available_port}/health")
+    print(f"Cache directory: data/")
+    print(f"GitHub token configured: {github_token is not None}")
+    print("=" * 60)
+
+    uvicorn.run(
+        app,
+        host="0.0.0.0",
+        port=available_port,
+        log_level="info"
+    )
