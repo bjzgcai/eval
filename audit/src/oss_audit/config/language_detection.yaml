@@ -1,0 +1,519 @@
+version: "2.0"
+description: "多语言检测配置 - 支持项目语言组成分析"
+
+# 语言检测规则
+languages:
+  python:
+    file_extensions: [".py", ".pyx", ".pyi", ".pyw"]
+    key_files: 
+      - "requirements.txt"
+      - "requirements-dev.txt"
+      - "requirements-prod.txt"
+      - "setup.py"
+      - "setup.cfg"
+      - "pyproject.toml"
+      - "Pipfile"
+      - "Pipfile.lock"
+      - "poetry.lock"
+      - "environment.yml"
+      - "conda.yml"
+      - "tox.ini"
+    key_directories:
+      - "__pycache__"
+      - ".pytest_cache"
+      - "venv"
+      - ".venv"
+      - "env"
+      - ".env"
+    weight_multiplier: 1.0
+    min_files_threshold: 1
+    
+  javascript:
+    file_extensions: [".js", ".jsx", ".mjs", ".cjs"]
+    key_files:
+      - "package.json"
+      - "package-lock.json"
+      - "yarn.lock"
+      - ".babelrc"
+      - ".babelrc.json"
+      - "babel.config.json"
+      - "webpack.config.js"
+      - "gulpfile.js"
+      - "gruntfile.js"
+      - ".eslintrc.json"
+      - ".eslintrc.js"
+    key_directories:
+      - "node_modules"
+      - "dist"
+      - "build"
+    weight_multiplier: 1.0
+    min_files_threshold: 1
+    
+  typescript:
+    file_extensions: [".ts", ".tsx", ".d.ts"]
+    key_files:
+      - "tsconfig.json"
+      - "tsconfig.build.json"
+      - "tslint.json"
+      - "angular.json"
+    key_directories:
+      - "src"
+      - "lib"
+      - "types"
+    weight_multiplier: 1.2  # TypeScript权重稍高于JavaScript
+    min_files_threshold: 1
+    
+  java:
+    file_extensions: [".java", ".class", ".jar"]
+    key_files:
+      - "pom.xml"
+      - "build.gradle"
+      - "build.xml"
+      - "maven.xml"
+      - "settings.gradle"
+      - "gradle.properties"
+      - "application.properties"
+      - "application.yml"
+    key_directories:
+      - "src/main/java"
+      - "src/test/java"
+      - "target"
+      - "build"
+      - ".gradle"
+      - ".m2"
+    weight_multiplier: 1.0
+    min_files_threshold: 1
+    
+  go:
+    file_extensions: [".go"]
+    key_files:
+      - "go.mod"
+      - "go.sum"
+      - "Gopkg.toml"
+      - "Gopkg.lock"
+      - "glide.yaml"
+      - "vendor.json"
+    key_directories:
+      - "vendor"
+      - "cmd"
+      - "pkg"
+      - "internal"
+    weight_multiplier: 1.0
+    min_files_threshold: 1
+    
+  rust:
+    file_extensions: [".rs", ".rlib"]
+    key_files:
+      - "Cargo.toml"
+      - "Cargo.lock"
+      - "rust-toolchain"
+      - "rust-toolchain.toml"
+    key_directories:
+      - "src"
+      - "target"
+      - "benches"
+      - "examples"
+    weight_multiplier: 1.0
+    min_files_threshold: 1
+    
+  cpp:
+    file_extensions: [".cpp", ".cxx", ".cc", ".c++", ".hpp", ".hxx", ".h++", ".h"]
+    key_files:
+      - "CMakeLists.txt"
+      - "Makefile"
+      - "makefile"
+      - "GNUmakefile"
+      - "configure.ac"
+      - "configure.in"
+      - "conanfile.txt"
+      - "conanfile.py"
+      - "vcpkg.json"
+      - ".clang-format"
+      - ".clang-tidy"
+    key_directories:
+      - "src"
+      - "include"
+      - "lib"
+      - "build"
+      - "cmake"
+      - ".vs"
+    weight_multiplier: 1.0
+    min_files_threshold: 1
+    
+  c:
+    file_extensions: [".c", ".h"]
+    key_files:
+      - "Makefile"
+      - "makefile"
+      - "GNUmakefile"
+      - "configure.ac"
+      - "configure.in"
+      - "CMakeLists.txt"
+    key_directories:
+      - "src"
+      - "include"
+      - "lib"
+    weight_multiplier: 0.9  # C权重略低于C++
+    min_files_threshold: 1
+    
+  csharp:
+    file_extensions: [".cs", ".csx", ".vb"]
+    key_files:
+      - "*.csproj"
+      - "*.sln"
+      - "packages.config"
+      - "project.json"
+      - "*.nuspec"
+      - "global.json"
+      - "Directory.Build.props"
+      - "Directory.Build.targets"
+    key_directories:
+      - "bin"
+      - "obj"
+      - "packages"
+      - "Properties"
+    weight_multiplier: 1.0
+    min_files_threshold: 1
+    
+  php:
+    file_extensions: [".php", ".phtml", ".php3", ".php4", ".php5", ".phps"]
+    key_files:
+      - "composer.json"
+      - "composer.lock"
+      - "phpunit.xml"
+      - "phpcs.xml"
+      - ".phpcs.xml"
+      - "psalm.xml"
+    key_directories:
+      - "vendor"
+      - "tests"
+      - "src"
+    weight_multiplier: 1.0
+    min_files_threshold: 1
+    
+  ruby:
+    file_extensions: [".rb", ".rbw", ".rake", ".gemspec"]
+    key_files:
+      - "Gemfile"
+      - "Gemfile.lock"
+      - "Rakefile"
+      - "*.gemspec"
+      - ".ruby-version"
+      - ".rvmrc"
+    key_directories:
+      - "lib"
+      - "spec"
+      - "test"
+      - "vendor"
+    weight_multiplier: 1.0
+    min_files_threshold: 1
+    
+  swift:
+    file_extensions: [".swift"]
+    key_files:
+      - "Package.swift"
+      - "Podfile"
+      - "Podfile.lock"
+      - "Cartfile"
+      - "Cartfile.resolved"
+      - "*.xcodeproj"
+      - "*.xcworkspace"
+    key_directories:
+      - "Sources"
+      - "Tests"
+      - "Pods"
+      - "Carthage"
+    weight_multiplier: 1.0
+    min_files_threshold: 1
+    
+  kotlin:
+    file_extensions: [".kt", ".kts"]
+    key_files:
+      - "build.gradle.kts"
+      - "settings.gradle.kts"
+      - "gradle.properties"
+    key_directories:
+      - "src/main/kotlin"
+      - "src/test/kotlin"
+    weight_multiplier: 1.1  # Kotlin权重略高于Java
+    min_files_threshold: 1
+    
+  scala:
+    file_extensions: [".scala", ".sc"]
+    key_files:
+      - "build.sbt"
+      - "project/build.properties"
+      - "project/plugins.sbt"
+    key_directories:
+      - "src/main/scala"
+      - "src/test/scala"
+      - "target"
+      - "project"
+    weight_multiplier: 1.0
+    min_files_threshold: 1
+
+# 项目结构类型检测规则
+structure_detection:
+  monorepo_indicators:
+    # 文件指示器
+    files:
+      - "lerna.json"
+      - "nx.json"
+      - "rush.json"
+      - "workspace.json"
+      - "yarn.lock"  # 根目录的yarn.lock通常表示monorepo
+      - "pnpm-workspace.yaml"
+      - "packages.json"  # Bolt monorepo
+    
+    # 目录模式指示器
+    directory_patterns:
+      - "packages/*"
+      - "apps/*" 
+      - "projects/*"
+      - "modules/*"
+      - "workspaces/*"
+      - "libs/*"
+      - "components/*"
+      - "services/*"
+    
+    # 多package.json检测阈值
+    package_json_threshold: 3  # 发现超过3个package.json文件时考虑为monorepo
+    
+  multi_project_indicators:
+    # 多项目标志文件模式
+    file_patterns:
+      - "*/setup.py"
+      - "*/pom.xml"
+      - "*/Cargo.toml"
+      - "*/go.mod"
+      - "*/package.json"
+      - "*/build.gradle"
+      - "*/CMakeLists.txt"
+      - "*/composer.json"
+      - "*/Gemfile"
+      
+    # 目录深度阈值
+    max_search_depth: 3
+    
+    # 最小项目数量阈值
+    min_project_count: 2
+    
+  single_project_indicators:
+    # 单项目根文件
+    root_files:
+      - "setup.py"
+      - "pom.xml" 
+      - "Cargo.toml"
+      - "go.mod"
+      - "package.json"
+      - "build.gradle"
+      - "CMakeLists.txt"
+      - "composer.json"
+      - "Gemfile"
+      - "requirements.txt"
+      - "pyproject.toml"
+
+# 项目类型推断规则
+project_type_inference:
+  web_application:
+    indicators:
+      files:
+        - "index.html"
+        - "app.py"  # Flask
+        - "wsgi.py"  # Django
+        - "manage.py"  # Django
+        - "server.js"  # Node.js
+        - "next.config.js"  # Next.js
+        - "nuxt.config.js"  # Nuxt.js
+        - "vue.config.js"  # Vue.js
+        - "angular.json"  # Angular
+      directories:
+        - "static"
+        - "templates"
+        - "public"
+        - "src/components"
+        - "src/pages"
+      dependencies:
+        python: ["flask", "django", "fastapi", "tornado", "pyramid"]
+        javascript: ["express", "koa", "react", "vue", "angular", "next", "nuxt"]
+        java: ["spring-boot", "spring-mvc", "spring-webmvc"]
+        go: ["gin", "echo", "fiber", "beego"]
+    weight: 1.0
+    
+  library:
+    indicators:
+      files:
+        - "setup.py"
+        - "__init__.py"
+        - "lib.rs"
+        - "index.js"
+        - "main.go"
+      directories:
+        - "src"
+        - "lib"
+        - "pkg"
+      package_indicators:
+        python: ["setup.py", "pyproject.toml"]
+        javascript: ["index.js", "main field in package.json"]
+        rust: ["lib.rs"]
+        go: ["go.mod with module declaration"]
+        java: ["pom.xml", "build.gradle"]
+    weight: 0.9
+    
+  cli_tool:
+    indicators:
+      files:
+        - "main.py"
+        - "cli.py"
+        - "main.go" 
+        - "main.rs"
+        - "bin/*"
+      directories:
+        - "bin"
+        - "cmd"
+        - "cli"
+      shebang_patterns:
+        - "#!/usr/bin/env python"
+        - "#!/bin/bash"
+        - "#!/bin/sh"
+    weight: 0.8
+    
+  data_science:
+    indicators:
+      files:
+        - "*.ipynb"
+        - "*.Rmd"
+        - "requirements.txt"
+        - "environment.yml"
+      directories:
+        - "notebooks"
+        - "data"
+        - "models"
+        - "analysis"
+      dependencies:
+        python: ["pandas", "numpy", "scikit-learn", "tensorflow", "pytorch", "matplotlib", "seaborn", "jupyter"]
+        r: ["ggplot2", "dplyr", "tidyr", "shiny"]
+    weight: 1.1
+    
+  mobile_app:
+    indicators:
+      files:
+        - "*.xcodeproj"
+        - "*.xcworkspace"
+        - "build.gradle"  # Android
+        - "pubspec.yaml"  # Flutter
+        - "react-native.config.js"
+      directories:
+        - "ios"
+        - "android"
+        - "src/main/java"  # Android
+        - "lib"  # Flutter
+      dependencies:
+        javascript: ["react-native", "expo"]
+        dart: ["flutter"]
+    weight: 1.0
+    
+  desktop_app:
+    indicators:
+      files:
+        - "*.pro"  # Qt
+        - "CMakeLists.txt"
+        - "main.cpp"
+        - "*.vcxproj"  # Visual Studio
+      directories:
+        - "src"
+        - "include"
+        - "Resources"  # macOS
+      dependencies:
+        python: ["tkinter", "pyqt", "pyside", "kivy"]
+        javascript: ["electron"]
+        cpp: ["qt", "gtk", "wxwidgets"]
+    weight: 0.9
+    
+  game:
+    indicators:
+      files:
+        - "*.unity"
+        - "*.unitypackage"
+        - "*.godot"
+        - "game.py"
+      directories:
+        - "Assets"  # Unity
+        - "scenes"
+        - "sprites"
+        - "sounds"
+        - "textures"
+      dependencies:
+        python: ["pygame", "panda3d"]
+        javascript: ["phaser", "three.js"]
+        cpp: ["unreal", "godot"]
+        csharp: ["unity"]
+    weight: 0.8
+
+# 检测参数配置
+detection_settings:
+  # 文件扫描限制
+  max_files_scan: 10000  # 最大扫描文件数
+  max_file_size: 1048576  # 最大文件大小 (1MB)
+  max_depth: 10  # 最大目录深度
+  
+  # 忽略的目录
+  ignore_directories:
+    - ".git"
+    - ".svn"
+    - ".hg"
+    - "node_modules"
+    - "__pycache__"
+    - ".pytest_cache"
+    - "venv"
+    - ".venv"
+    - "env"
+    - ".env"
+    - "target"  # Rust
+    - "build"
+    - "dist"
+    - "out"
+    - "bin"
+    - "obj"
+    - ".vs"
+    - ".vscode"
+    - ".idea"
+    - "*.egg-info"
+    - ".tox"
+    - ".coverage"
+    - ".mypy_cache"
+    
+  # 忽略的文件模式
+  ignore_file_patterns:
+    - "*.pyc"
+    - "*.pyo"
+    - "*.pyd"
+    - "*.class"
+    - "*.o"
+    - "*.so"
+    - "*.dll"
+    - "*.dylib"
+    - "*.exe"
+    - "*.jar"
+    - "*.war"
+    - "*.ear"
+    - "*.log"
+    - "*.tmp"
+    - "*.temp"
+    - "*.cache"
+    - "*~"
+    - ".DS_Store"
+    - "Thumbs.db"
+    
+  # 语言检测阈值
+  language_thresholds:
+    min_percentage: 0.01  # 最小语言占比阈值 (1%)
+    primary_language_threshold: 0.30  # 主语言阈值 (30%)
+    
+  # 项目大小分类
+  size_categories:
+    tiny: 100       # 100行以下
+    small: 1000     # 1000行以下
+    medium: 10000   # 10000行以下
+    large: 100000   # 100000行以下
+    huge: 1000000   # 1000000行以下

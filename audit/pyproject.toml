@@ -1,0 +1,241 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "oss-audit"
+version = "1.0.0"
+description = "开源软件成熟度评估工具"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "OSS Audit Team", email = "team@oss-audit.org"}
+]
+maintainers = [
+    {name = "OSS Audit Team", email = "team@oss-audit.org"}
+]
+keywords = ["audit", "open-source", "quality", "assessment", "maturity"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Quality Assurance",
+    "Topic :: Software Development :: Testing",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "flask>=3.0.3",
+    "pytest>=8.2.1",
+    "coverage>=7.6.1",
+    "pylint>=3.2.6",
+    "jinja2>=3.1.4",
+    "mkdocs>=1.6.0",
+    "google-generativeai>=0.3.0",
+    "PyYAML>=6.0",
+    "openai>=1.0.0",
+    "bandit>=1.7.5",
+    "safety>=2.3.5",
+    "requests>=2.31.0",
+    "click>=8.1.0",
+    "rich>=13.0.0",
+    "tabulate>=0.9.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pre-commit>=3.3.0",
+    "tox>=4.6.0",
+    "black>=23.0.0",
+    "flake8>=6.0.0",
+    "mypy>=1.5.0",
+    "isort>=5.12.0",
+    "autopep8>=2.0.0",
+    "pytest-cov>=4.1.0",
+    "pytest-mock>=3.11.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-xdist>=3.3.0",
+    "pytest-html>=3.2.0",
+    "pytest-benchmark>=4.0.0",
+    "mkdocs-material>=9.2.0",
+    "mkdocs-get-deps>=0.2.0",
+    "mkdocs-autorefs>=0.4.0",
+    "mkdocs-include-markdown-plugin>=6.0.0",
+    "pip-audit>=2.6.0",
+    "memory-profiler>=0.61.0",
+    "line-profiler>=4.1.0",
+    "ipdb>=0.13.0",
+    "ipython>=8.14.0",
+    "types-requests>=2.31.0",
+    "types-PyYAML>=6.0.0",
+]
+
+[project.scripts]
+oss-audit = "oss_audit.core.audit_project:main"
+
+[project.urls]
+Homepage = "https://github.com/oss-audit/oss-audit"
+Documentation = "https://oss-audit.readthedocs.io/"
+Repository = "https://github.com/oss-audit/oss-audit.git"
+"Bug Tracker" = "https://github.com/oss-audit/oss-audit/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"*" = ["*.yaml", "*.yml", "*.json", "*.html", "*.css", "*.js"]
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = [
+    "-ra",
+    "--strict-markers",
+    "--strict-config",
+    "--cov=src/oss_audit",
+    "--cov-report=term-missing",
+    "--cov-report=html:htmlcov",
+    "--cov-report=xml",
+    "--cov-fail-under=10",
+]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+    "unit: marks tests as unit tests",
+]
+
+[tool.coverage.run]
+source = ["src/oss_audit"]
+omit = [
+    "*/tests/*",
+    "*/test_*",
+    "*/__pycache__/*",
+    "*/venv/*",
+    "*/env/*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+]
+
+[tool.black]
+line-length = 120
+target-version = ['py38', 'py39', 'py310', 'py311', 'py312']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 120
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+ensure_newline_before_comments = true
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+
+[[tool.mypy.overrides]]
+module = [
+    "google.generativeai.*",
+    "openai.*",
+    "flask.*",
+    "jinja2.*",
+    "mkdocs.*",
+    "pylint.*",
+    "bandit.*",
+    "safety.*",
+]
+ignore_missing_imports = true
+
+[tool.pylint.messages_control]
+disable = [
+    "C0114",  # missing-module-docstring
+    "C0115",  # missing-class-docstring
+    "C0116",  # missing-function-docstring
+    "R0903",  # too-few-public-methods
+    "R0913",  # too-many-arguments
+    "R0914",  # too-many-locals
+    "W0621",  # redefined-outer-name
+    "W0703",  # broad-except
+]
+
+[tool.pylint.format]
+max-line-length = 120
+
+[tool.pylint.design]
+max-args = 10
+max-locals = 20
+max-returns = 10
+max-branches = 15
+max-statements = 60
+
+[tool.bandit]
+exclude_dirs = ["tests", "docs"]
+skips = ["B101", "B601"]
+
+[tool.tox]
+legacy_tox_ini = """
+[tox]
+envlist = py38, py39, py310, py311, py312
+isolated_build = True
+
+[testenv]
+deps =
+    pytest>=6.0
+    pytest-cov>=4.0
+    pytest-mock>=3.10
+    black>=22.0
+    flake8>=5.0
+    mypy>=1.0
+commands =
+    pytest {posargs:tests}
+    black --check src tests
+    flake8 src tests
+    mypy src
+"""

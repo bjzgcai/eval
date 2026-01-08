@@ -1,0 +1,38 @@
+# 核心依赖
+flask==3.0.3
+pytest==8.2.1
+coverage==7.6.1
+pylint==3.2.6
+jinja2==3.1.4
+mkdocs==1.6.0
+google-generativeai>=0.3.0
+PyYAML>=6.0
+openai>=1.0.0
+
+# 安全扫描工具
+bandit>=1.7.5
+safety>=2.3.5
+
+# 代码质量工具
+black>=23.0.0
+flake8>=6.0.0
+mypy>=1.5.0
+
+# 测试工具
+pytest-cov>=4.1.0
+pytest-mock>=3.11.0
+pytest-asyncio>=0.21.0
+
+# 文档工具
+mkdocs-material>=9.2.0
+mkdocs-get-deps>=0.2.0
+
+# 工具链
+requests>=2.31.0
+click>=8.1.0
+rich>=13.0.0
+tabulate>=0.9.0
+
+# 开发工具
+pre-commit>=3.3.0
+tox>=4.6.0

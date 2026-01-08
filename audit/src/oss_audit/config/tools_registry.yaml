@@ -1,0 +1,602 @@
+version: "2.0"
+description: "OSS Audit 2.0 工具注册表 - 支持多语言开源工具生态"
+
+# 语言配置
+languages:
+  python:
+    quality_tools:
+      - name: "pylint"
+        command: ["python", "-m", "pylint"]
+        args: 
+          - "--output-format=json"
+          - "--disable=all"
+          - "--enable=C0111,C0103,C0301,C0302,C0303,C0321,C0322,C0323,C0324,C0325,C0326"
+          - "--max-line-length=120"
+          - "--good-names=i,j,k,ex,Run,_,id"
+          - "--disable=locally-disabled,locally-enabled"
+          - "--reports=y"
+          - "--score=y"
+          - "--ignore=venv,.venv,__pycache__,.git,.pytest_cache"
+        install: ["pip", "install", "pylint"]
+        priority: 1
+        estimated_time: 60
+        categories: ["quality", "style"]
+        timeout: 180
+        output_format: "json"
+        severity_levels:
+          convention: 1
+          refactor: 2
+          warning: 3
+          error: 4
+          fatal: 5
+        score_weights:
+          convention: 0.1
+          refactor: 0.2
+          warning: 0.3
+          error: 0.4
+          fatal: 0.5
+        
+      - name: "flake8"
+        command: ["python", "-m", "flake8"]
+        args:
+          - "--max-line-length=120"
+          - "--extend-ignore=E203,W503"
+          - "--select=E,W,F,C90"
+          - "--statistics"
+          - "--exclude=venv,.venv,__pycache__,.git,.pytest_cache"
+        install: ["pip", "install", "flake8"]
+        priority: 2
+        estimated_time: 20
+        categories: ["quality", "style"]
+        timeout: 120
+        output_format: "text"
+        severity_levels:
+          E: 1
+          W: 2
+          F: 3
+          C90: 4
+        score_weights:
+          E: 0.3
+          W: 0.2
+          F: 0.4
+          C90: 0.1
+
+      - name: "mypy"
+        command: ["python", "-m", "mypy"]
+        args:
+          - "."
+          - "--ignore-missing-imports"
+          - "--disallow-untyped-defs"
+          - "--disallow-incomplete-defs"
+          - "--check-untyped-defs"
+          - "--disallow-untyped-decorators"
+          - "--no-implicit-optional"
+          - "--warn-redundant-casts"
+          - "--warn-unused-ignores"
+          - "--warn-return-any"
+          - "--warn-unreachable"
+          - "--strict-equality"
+        install: ["pip", "install", "mypy"]
+        priority: 2
+        estimated_time: 30
+        categories: ["quality", "typing"]
+        timeout: 120
+        output_format: "text"
+        severity_levels:
+          note: 1
+          warning: 2
+          error: 3
+        score_weights:
+          note: 0.1
+          warning: 0.3
+          error: 0.6
+
+    security_tools:
+      - name: "bandit"
+        command: ["python", "-m", "bandit"]
+        args:
+          - "-r"
+          - "."
+          - "-f"
+          - "json"
+          - "-ll"
+          - "--skip"
+          - "tests,venv,.venv,__pycache__"
+        install: ["pip", "install", "bandit"]
+        priority: 1
+        estimated_time: 30
+        categories: ["security"]
+        timeout: 90
+        output_format: "json"
+        severity_levels:
+          LOW: 1
+          MEDIUM: 2
+          HIGH: 3
+        score_weights:
+          LOW: 0.2
+          MEDIUM: 0.5
+          HIGH: 0.8
+
+      - name: "safety"
+        command: ["python", "-m", "safety"]
+        args:
+          - "check"
+          - "--json"
+        install: ["pip", "install", "safety"]
+        priority: 2
+        estimated_time: 20
+        categories: ["security", "dependencies"]
+        timeout: 60
+        output_format: "json"
+        severity_levels:
+          LOW: 1
+          MEDIUM: 2
+          HIGH: 3
+          CRITICAL: 4
+        score_weights:
+          LOW: 0.1
+          MEDIUM: 0.3
+          HIGH: 0.6
+          CRITICAL: 0.9
+
+    test_tools:
+      - name: "pytest"
+        command: ["python", "-m", "pytest"]
+        args:
+          - "--tb=short"
+          - "-v"
+          - "--maxfail=5"
+          - "--disable-warnings"
+        install: ["pip", "install", "pytest"]
+        priority: 1
+        estimated_time: 60
+        categories: ["testing"]
+        timeout: 120
+        output_format: "text"
+
+      - name: "coverage"
+        command: ["python", "-m", "coverage"]
+        args:
+          - "run"
+          - "--source=."
+          - "-m"
+          - "pytest"
+        install: ["pip", "install", "coverage"]
+        priority: 2
+        estimated_time: 90
+        categories: ["testing", "coverage"]
+        timeout: 90
+        output_format: "text"
+
+    format_tools:
+      - name: "black"
+        command: ["python", "-m", "black"]
+        args:
+          - "--check"
+          - "--diff"
+          - "--line-length=120"
+          - "--target-version=py38"
+          - "--include=\\\\.pyi?$"
+          - "--exclude=/(\\\\.eggs|\\\\.git|\\\\.hg|\\\\.mypy_cache|\\\\.tox|\\\\.venv|_build|buck-out|build|dist)/"
+        install: ["pip", "install", "black"]
+        priority: 1
+        estimated_time: 30
+        categories: ["format", "style"]
+        timeout: 60
+        output_format: "text"
+
+      - name: "isort"
+        command: ["python", "-m", "isort"]
+        args:
+          - "--check-only"
+          - "--diff"
+          - "--profile=black"
+          - "--line-length=120"
+          - "--multi-line=3"
+          - "--include-trailing-comma"
+          - "--force-grid-wrap=0"
+          - "--use-parentheses"
+          - "--ensure-newline-before-comments"
+        install: ["pip", "install", "isort"]
+        priority: 2
+        estimated_time: 20
+        categories: ["format", "imports"]
+        timeout: 60
+        output_format: "text"
+
+  javascript:
+    quality_tools:
+      - name: "eslint"
+        command: ["npx", "eslint"]
+        args:
+          - "."
+          - "--format=json"
+        install: ["npm", "install", "eslint"]
+        priority: 1
+        estimated_time: 30
+        categories: ["quality", "style"]
+        timeout: 90
+        output_format: "json"
+        requires_dependencies: true
+
+      - name: "jshint"
+        command: ["npx", "jshint"]
+        args:
+          - "."
+          - "--reporter=json"
+        install: ["npm", "install", "jshint"]
+        priority: 2
+        estimated_time: 20
+        categories: ["quality", "style"]
+        timeout: 60
+        output_format: "json"
+        requires_dependencies: true
+
+    security_tools:
+      - name: "npm-audit"
+        command: ["npm", "audit"]
+        args:
+          - "--json"
+        install: []  # npm内置
+        priority: 1
+        estimated_time: 15
+        categories: ["security", "dependencies"]
+        timeout: 60
+        output_format: "json"
+
+    test_tools:
+      - name: "jest"
+        command: ["npx", "jest"]
+        args:
+          - "--json"
+          - "--coverage"
+        install: ["npm", "install", "jest"]
+        priority: 1
+        estimated_time: 45
+        categories: ["testing", "coverage"]
+        timeout: 120
+        output_format: "json"
+        requires_dependencies: true
+
+    format_tools:
+      - name: "prettier"
+        command: ["npx", "prettier"]
+        args:
+          - "--check"
+          - "."
+        install: ["npm", "install", "prettier"]
+        priority: 1
+        estimated_time: 20
+        categories: ["format", "style"]
+        timeout: 60
+        output_format: "text"
+        requires_dependencies: true
+
+  typescript:
+    quality_tools:
+      - name: "tsc"
+        command: ["npx", "tsc"]
+        args:
+          - "--noEmit"
+          - "--pretty"
+        install: ["npm", "install", "typescript"]
+        priority: 1
+        estimated_time: 40
+        categories: ["quality", "typing"]
+        timeout: 120
+        output_format: "text"
+        requires_dependencies: true
+
+      - name: "tslint"
+        command: ["npx", "tslint"]
+        args:
+          - "**/*.ts"
+          - "--format=json"
+        install: ["npm", "install", "tslint"]
+        priority: 2
+        estimated_time: 30
+        categories: ["quality", "style"]
+        timeout: 90
+        output_format: "json"
+        requires_dependencies: true
+
+  java:
+    quality_tools:
+      - name: "checkstyle"
+        command: ["java", "-jar", "/opt/checkstyle.jar"]
+        args:
+          - "-f"
+          - "xml"
+        install: ["download_checkstyle"]
+        priority: 1
+        estimated_time: 45
+        categories: ["quality", "style"]
+        timeout: 120
+        output_format: "xml"
+
+      - name: "pmd"
+        command: ["/opt/pmd/bin/run.sh", "pmd"]
+        args:
+          - "-f"
+          - "xml"
+          - "-R"
+          - "rulesets/java/quickstart.xml"
+        install: ["download_pmd"]
+        priority: 2
+        estimated_time: 60
+        categories: ["quality"]
+        timeout: 150
+        output_format: "xml"
+
+    security_tools:
+      - name: "spotbugs"
+        command: ["/opt/spotbugs/bin/spotbugs"]
+        args:
+          - "-textui"
+          - "-xml"
+        install: ["download_spotbugs"]
+        priority: 1
+        estimated_time: 90
+        categories: ["security", "quality"]
+        timeout: 180
+        output_format: "xml"
+
+    test_tools:
+      - name: "junit"
+        command: ["mvn", "test"]
+        args: []
+        install: []  # Maven内置
+        priority: 1
+        estimated_time: 120
+        categories: ["testing"]
+        timeout: 300
+        output_format: "text"
+
+  go:
+    quality_tools:
+      - name: "golint"
+        command: ["golint"]
+        args:
+          - "./..."
+        install: ["go", "install", "golang.org/x/lint/golint@latest"]
+        priority: 1
+        estimated_time: 20
+        categories: ["quality", "style"]
+        timeout: 60
+        output_format: "text"
+
+      - name: "go-vet"
+        command: ["go", "vet"]
+        args:
+          - "./..."
+        install: []  # Go内置
+        priority: 2
+        estimated_time: 15
+        categories: ["quality"]
+        timeout: 45
+        output_format: "text"
+
+    security_tools:
+      - name: "gosec"
+        command: ["gosec"]
+        args:
+          - "-fmt=json"
+          - "./..."
+        install: ["go", "install", "github.com/securecodewarrior/gosec/v2/cmd/gosec@latest"]
+        priority: 1
+        estimated_time: 30
+        categories: ["security"]
+        timeout: 90
+        output_format: "json"
+
+    test_tools:
+      - name: "go-test"
+        command: ["go", "test"]
+        args:
+          - "-v"
+          - "-cover"
+          - "./..."
+        install: []  # Go内置
+        priority: 1
+        estimated_time: 60
+        categories: ["testing", "coverage"]
+        timeout: 120
+        output_format: "text"
+
+  rust:
+    quality_tools:
+      - name: "clippy"
+        command: ["cargo", "clippy"]
+        args:
+          - "--"
+          - "-D"
+          - "warnings"
+        install: ["rustup", "component", "add", "clippy"]
+        priority: 1
+        estimated_time: 45
+        categories: ["quality", "style"]
+        timeout: 120
+        output_format: "text"
+
+    format_tools:
+      - name: "rustfmt"
+        command: ["cargo", "fmt"]
+        args:
+          - "--check"
+        install: ["rustup", "component", "add", "rustfmt"]
+        priority: 1
+        estimated_time: 20
+        categories: ["format", "style"]
+        timeout: 60
+        output_format: "text"
+
+    security_tools:
+      - name: "cargo-audit"
+        command: ["cargo", "audit"]
+        args: []
+        install: ["cargo", "install", "cargo-audit"]
+        priority: 1
+        estimated_time: 30
+        categories: ["security", "dependencies"]
+        timeout: 90
+        output_format: "text"
+
+    test_tools:
+      - name: "cargo-test"
+        command: ["cargo", "test"]
+        args: []
+        install: []  # Cargo内置
+        priority: 1
+        estimated_time: 60
+        categories: ["testing"]
+        timeout: 120
+        output_format: "text"
+
+  cpp:
+    quality_tools:
+      - name: "cppcheck"
+        command: ["cppcheck"]
+        args:
+          - "--xml"
+          - "."
+        install: ["apt-get", "install", "cppcheck"]  # Linux
+        priority: 1
+        estimated_time: 90
+        categories: ["quality", "security"]
+        timeout: 180
+        output_format: "xml"
+
+      - name: "clang-tidy"
+        command: ["clang-tidy"]
+        args:
+          - "**/*.cpp"
+        install: ["apt-get", "install", "clang-tidy"]
+        priority: 2
+        estimated_time: 120
+        categories: ["quality", "style"]
+        timeout: 240
+        output_format: "text"
+
+    format_tools:
+      - name: "clang-format"
+        command: ["clang-format"]
+        args:
+          - "-style=file"
+          - "--dry-run"
+          - "--Werror"
+        install: ["apt-get", "install", "clang-format"]
+        priority: 1
+        estimated_time: 30
+        categories: ["format", "style"]
+        timeout: 60
+        output_format: "text"
+
+# 通用工具（跨语言）
+universal_tools:
+  security:
+    - name: "semgrep"
+      command: ["semgrep"]
+      args:
+        - "--config=auto"
+        - "--json"
+        - "."
+      install: ["pip", "install", "semgrep"]
+      priority: 1
+      estimated_time: 60
+      categories: ["security", "quality"]
+      timeout: 180
+      output_format: "json"
+      supports: ["python", "javascript", "java", "go", "rust", "cpp"]
+
+    - name: "gitleaks"
+      command: ["gitleaks"]
+      args:
+        - "detect"
+        - "--source"
+        - "."
+        - "--report-format"
+        - "json"
+      install: ["download_gitleaks"]
+      priority: 2
+      estimated_time: 30
+      categories: ["security", "secrets"]
+      timeout: 90
+      output_format: "json"
+      supports: ["all"]
+
+    - name: "trivy"
+      command: ["trivy"]
+      args:
+        - "fs"
+        - "--format"
+        - "json"
+        - "."
+      install: ["download_trivy"]
+      priority: 3
+      estimated_time: 45
+      categories: ["security", "dependencies", "vulnerabilities"]
+      timeout: 120
+      output_format: "json"
+      supports: ["all"]
+
+  dependencies:
+    - name: "syft"
+      command: ["syft"]
+      args:
+        - "-o"
+        - "json"
+        - "."
+      install: ["download_syft"]
+      priority: 1
+      estimated_time: 40
+      categories: ["dependencies", "sbom"]
+      timeout: 120
+      output_format: "json"
+      supports: ["all"]
+
+  quality:
+    - name: "sonarqube-scanner"
+      command: ["sonar-scanner"]
+      args: []
+      install: ["download_sonar_scanner"]
+      priority: 1
+      estimated_time: 300
+      categories: ["quality", "security", "coverage"]
+      timeout: 600
+      output_format: "text"
+      supports: ["all"]
+      requires_config: true
+
+# 工具安装脚本
+installation_scripts:
+  download_checkstyle:
+    - "wget -O /opt/checkstyle.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.12.4/checkstyle-10.12.4-all.jar"
+  
+  download_spotbugs:
+    - "wget -O /tmp/spotbugs.tgz https://github.com/spotbugs/spotbugs/releases/download/4.8.1/spotbugs-4.8.1.tgz"
+    - "tar -xzf /tmp/spotbugs.tgz -C /opt/"
+    - "mv /opt/spotbugs-4.8.1 /opt/spotbugs"
+  
+  download_pmd:
+    - "wget -O /tmp/pmd.zip https://github.com/pmd/pmd/releases/download/pmd_releases%2F6.55.0/pmd-bin-6.55.0.zip"
+    - "unzip /tmp/pmd.zip -d /opt/"
+    - "mv /opt/pmd-bin-6.55.0 /opt/pmd"
+  
+  download_gitleaks:
+    - "wget -O /usr/local/bin/gitleaks https://github.com/gitleaks/gitleaks/releases/download/v8.18.0/gitleaks_8.18.0_linux_x64.tar.gz"
+    - "chmod +x /usr/local/bin/gitleaks"
+  
+  download_trivy:
+    - "wget -qO- https://aquasecurity.github.io/trivy-repo/deb/public.key | apt-key add -"
+    - "echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | tee -a /etc/apt/sources.list.d/trivy.list"
+    - "apt-get update && apt-get install trivy"
+  
+  download_syft:
+    - "wget -O /usr/local/bin/syft https://github.com/anchore/syft/releases/download/v0.97.1/syft_0.97.1_linux_amd64.tar.gz"
+    - "chmod +x /usr/local/bin/syft"
+  
+  download_sonar_scanner:
+    - "wget -O /tmp/sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.8.0.2856-linux.zip"
+    - "unzip /tmp/sonar-scanner.zip -d /opt/"
+    - "mv /opt/sonar-scanner-4.8.0.2856-linux /opt/sonar-scanner"
+    - "ln -s /opt/sonar-scanner/bin/sonar-scanner /usr/local/bin/sonar-scanner"

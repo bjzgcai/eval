@@ -1,0 +1,140 @@
+# OSS Audit 2.0 配置文件模板
+# 复制此文件为 config.yaml 并填入您的真实配置信息
+# 注意: config.yaml 不会被提交到版本控制系统
+
+# AI 分析配置（可选 - 如不需要AI分析可跳过此部分）
+ai:
+  # AI模型优先级顺序
+  priority: ["openai", "gemini", "rules"]
+  
+  # 智能模型选择
+  smart_model_selection: true
+  selection_strategy: "balanced"  # balanced, performance, cost, quality
+  
+  # 协同分析配置
+  collaborative:
+    enabled: false
+    strategy: "ensemble"  # ensemble, weighted, consensus, specialized
+    max_models: 2  # 最多使用2个模型进行协同分析
+    min_models: 2  # 至少需要2个模型才启用协同分析
+  
+  # 维度特定策略
+  dimension_strategies:
+    code_quality:
+      strategy: "weighted"
+      weights:
+        openai: 0.6
+        gemini: 0.4
+    security:
+      strategy: "consensus"
+      require_agreement: true
+    documentation:
+      strategy: "specialized"
+      preferred_model: "openai"
+
+  # OpenAI/DeepSeek 配置
+  openai:
+    api_key: "your-openai-or-deepseek-api-key-here"  # 请填入您的真实API密钥
+    base_url: "https://api.openai.com/v1"  # OpenAI官方API，DeepSeek请使用对应的base_url
+    # 不指定具体模型，系统自动选择最佳可用模型
+
+  # Gemini 配置
+  gemini:
+    api_key: "your-gemini-api-key-here"  # 请填入您的真实API密钥
+    # 不指定具体模型，系统自动选择最佳可用模型
+
+  # 规则分析配置（始终启用作为备选方案）
+  rules:
+    enabled: true
+
+# 工具配置
+tools:
+  # Python工具配置
+  pylint:
+    enabled: true
+    max_line_length: 120
+  
+  mypy:
+    enabled: true
+  
+  bandit:
+    enabled: true
+    severity_level: "medium"
+  
+  # 测试覆盖率
+  coverage:
+    enabled: true
+    min_coverage: 70
+  
+  # 安全扫描
+  security:
+    bandit:
+      enabled: true
+      severity_level: "medium"
+    gitleaks:
+      enabled: false  # 默认禁用，需要时启用
+  
+  # 依赖分析
+  dependencies:
+    enabled: true
+    check_licenses: true
+    check_vulnerabilities: true
+
+# 工具服务配置（Docker服务 - 可选）
+tool_services:
+  # SonarQube服务配置
+  sonarqube:
+    enabled: false  # 默认禁用
+    url: "http://localhost:9000"
+    username: "admin"
+    password: "admin"
+    timeout: 300
+  
+  # Dependency-Track服务配置
+  dependency_track:
+    enabled: false  # 默认禁用
+    url: "http://localhost:8081"
+    api_key: null  # 可选，如果需要API密钥
+    timeout: 300
+
+# 报告配置
+reports:
+  formats: ["html", "json"]
+  output_dir: "reports"
+  language: "zh"  # zh: 中文, en: 英文
+  detailed: true
+  include_ai_analysis: true
+
+# 日志配置
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "oss_audit.log"
+
+# 高级配置
+advanced:
+  timeout:
+    api_request: 30
+    tool_execution: 120
+  
+  concurrency:
+    max_workers: 4
+  
+  cache:
+    enabled: true
+    ttl: 3600
+
+# 项目排除配置
+exclude:
+  paths: 
+    - "node_modules/"
+    - "venv/"
+    - ".git/"
+    - "__pycache__/"
+    - "build/"
+    - "dist/"
+  files:
+    - "*.min.js"
+    - "*.pyc"
+    - "*.log"
+    - "*.tmp"

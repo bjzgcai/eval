@@ -1,0 +1,522 @@
+{
+  "project_info": {
+    "name": "evaluator",
+    "path": "/home/carter/eval/evaluator",
+    "languages": {
+      "python": 1.0
+    },
+    "structure_type": "single_project",
+    "project_type": "data_science",
+    "size_metrics": {
+      "total_files": 27,
+      "total_lines": 10697,
+      "code_files": 16,
+      "code_lines": 5178,
+      "test_files": 0,
+      "test_lines": 0,
+      "doc_files": 1,
+      "doc_lines": 14
+    },
+    "build_tools": [],
+    "confidence": 0.8
+  },
+  "timestamp": "2026-01-08 15:24:13",
+  "overall_score": 57.3611111111111,
+  "overall_status": "NEEDS_IMPROVEMENT",
+  "summary": {
+    "total_dimensions": 14,
+    "passed_dimensions": 0,
+    "warned_dimensions": 10,
+    "failed_dimensions": 4,
+    "primary_language": "python",
+    "project_size": "medium",
+    "code_lines": 5178,
+    "structure_type": "single_project",
+    "project_type": "data_science",
+    "adaptive_scoring": {
+      "confidence_level": 0.5,
+      "model_version": "adapted_1767857053",
+      "weights_adjusted": true
+    },
+    "intelligent_recommendations": {
+      "total_recommendations": 2,
+      "roadmap_phases": 2,
+      "estimated_roi": 7.2492,
+      "confidence_level": 0.6
+    },
+    "optimization_actions": {
+      "additional_tools": 0,
+      "weight_adjustments": 0,
+      "has_time_adjustment": false
+    }
+  },
+  "dimensions": [
+    {
+      "dimension_id": 1,
+      "dimension_name": "代码结构与可维护性",
+      "score": 60.0,
+      "status": "WARN",
+      "tools_used": [
+        "pylint",
+        "semgrep"
+      ],
+      "issues_count": 0,
+      "details": {
+        "primary_language": "python",
+        "code_lines": 5178,
+        "code_files": 16,
+        "total_issues": 0,
+        "quality_tools_results": {
+          "pylint": {
+            "tool_name": "pylint",
+            "status": "not_available",
+            "suggestion": "建议使用容器模式或安装 pylint 工具以获得更准确的分析结果",
+            "install_command": "pip install pylint",
+            "categories": [
+              "quality",
+              "style"
+            ],
+            "description": "pylint 是 python 语言的 quality, style 工具",
+            "container_recommendation": "容器方式: 启动 Docker/Podman 后重新运行审计"
+          }
+        },
+        "adaptive_score_applied": true,
+        "original_score": 60.0
+      },
+      "recommendations": [
+        "继续保持当前的良好实践"
+      ],
+      "ai_analysis": null
+    },
+    {
+      "dimension_id": 2,
+      "dimension_name": "测试覆盖与质量保障",
+      "score": 50.0,
+      "status": "FAIL",
+      "tools_used": [
+        "pytest",
+        "coverage"
+      ],
+      "issues_count": 0,
+      "details": {
+        "test_files": 0,
+        "test_lines": 0,
+        "coverage_percentage": 0,
+        "total_issues": 0,
+        "test_tools_results": {
+          "pytest": {
+            "tool_name": "pytest",
+            "status": "not_available",
+            "suggestion": "建议使用容器模式或安装 pytest 工具以获得更准确的分析结果",
+            "install_command": "pip install pytest",
+            "categories": [
+              "testing"
+            ],
+            "description": "pytest 是 python 语言的 testing 工具",
+            "container_recommendation": "容器方式: 启动 Docker/Podman 后重新运行审计"
+          },
+          "coverage": {
+            "tool_name": "coverage",
+            "status": "not_available",
+            "suggestion": "建议使用容器模式或安装 coverage 工具以获得更准确的分析结果",
+            "install_command": "pip install coverage",
+            "categories": [
+              "testing",
+              "coverage"
+            ],
+            "description": "coverage 是 python 语言的 testing, coverage 工具",
+            "container_recommendation": "容器方式: 启动 Docker/Podman 后重新运行审计"
+          }
+        },
+        "adaptive_score_applied": true,
+        "original_score": 50.0
+      },
+      "recommendations": [
+        "缺少测试文件，建议添加单元测试",
+        "测试覆盖率较低，建议提高到70%以上"
+      ],
+      "ai_analysis": null
+    },
+    {
+      "dimension_id": 3,
+      "dimension_name": "构建与工程可重复性",
+      "score": 60.0,
+      "status": "WARN",
+      "tools_used": [],
+      "issues_count": 0,
+      "details": {
+        "build_tools": [],
+        "dependencies_count": 7,
+        "total_issues": 0,
+        "format_tools_results": {},
+        "adaptive_score_applied": true,
+        "original_score": 60.0
+      },
+      "recommendations": [
+        "继续保持当前的良好实践"
+      ],
+      "ai_analysis": null
+    },
+    {
+      "dimension_id": 4,
+      "dimension_name": "依赖与许可证合规",
+      "score": 70.0,
+      "status": "WARN",
+      "tools_used": [],
+      "issues_count": 0,
+      "details": {
+        "dependencies": {
+          "python": [
+            "fastapi",
+            "uvicorn[standard]",
+            "pydantic",
+            "requests",
+            "httpx",
+            "python-dotenv",
+            "python-multipart"
+          ]
+        },
+        "total_dependencies": 7,
+        "total_issues": 0,
+        "security_tools_results": {},
+        "adaptive_score_applied": true,
+        "original_score": 70.0
+      },
+      "recommendations": [
+        "继续保持当前的良好实践"
+      ],
+      "ai_analysis": null
+    },
+    {
+      "dimension_id": 5,
+      "dimension_name": "安全性与敏感信息防护",
+      "score": 75.0,
+      "status": "WARN",
+      "tools_used": [
+        "bandit",
+        "semgrep"
+      ],
+      "issues_count": 0,
+      "details": {
+        "security_issues": 0,
+        "total_issues": 0,
+        "security_tools_results": {
+          "bandit": {
+            "tool_name": "bandit",
+            "status": "not_available",
+            "suggestion": "建议使用容器模式或安装 bandit 工具以获得更准确的分析结果",
+            "install_command": "pip install bandit",
+            "categories": [
+              "security"
+            ],
+            "description": "bandit 是 python 语言的 security 工具",
+            "container_recommendation": "容器方式: 启动 Docker/Podman 后重新运行审计"
+          },
+          "semgrep": {
+            "tool_name": "semgrep",
+            "status": "not_available",
+            "suggestion": "建议使用容器模式或安装 semgrep 工具以获得更准确的分析结果",
+            "install_command": "pip install semgrep",
+            "categories": [
+              "security",
+              "quality"
+            ],
+            "description": "semgrep 是 universal 语言的 security, quality 工具",
+            "container_recommendation": "容器方式: 启动 Docker/Podman 后重新运行审计"
+          }
+        },
+        "adaptive_score_applied": true,
+        "original_score": 75.0
+      },
+      "recommendations": [
+        "继续保持当前的良好实践"
+      ],
+      "ai_analysis": null
+    },
+    {
+      "dimension_id": 6,
+      "dimension_name": "CI/CD 自动化保障",
+      "score": 45.0,
+      "status": "FAIL",
+      "tools_used": [],
+      "issues_count": 0,
+      "details": {
+        "analysis_method": "basic_heuristic",
+        "base_score": 45.0,
+        "adaptive_score_applied": true,
+        "original_score": 45.0
+      },
+      "recommendations": [
+        "继续保持当前的良好实践"
+      ],
+      "ai_analysis": null
+    },
+    {
+      "dimension_id": 7,
+      "dimension_name": "使用文档与复现性",
+      "score": 40.0,
+      "status": "FAIL",
+      "tools_used": [],
+      "issues_count": 0,
+      "details": {
+        "analysis_method": "basic_heuristic",
+        "base_score": 40.0,
+        "adaptive_score_applied": true,
+        "original_score": 40.0
+      },
+      "recommendations": [
+        "继续保持当前的良好实践"
+      ],
+      "ai_analysis": null
+    },
+    {
+      "dimension_id": 8,
+      "dimension_name": "接口与平台兼容性",
+      "score": 65.0,
+      "status": "WARN",
+      "tools_used": [
+        "semgrep",
+        "sonarqube-scanner"
+      ],
+      "issues_count": 0,
+      "details": {
+        "analysis_method": "basic_heuristic",
+        "base_score": 65.0,
+        "adaptive_score_applied": true,
+        "original_score": 65.0
+      },
+      "recommendations": [
+        "继续保持当前的良好实践"
+      ],
+      "ai_analysis": null
+    },
+    {
+      "dimension_id": 9,
+      "dimension_name": "协作流程与代码规范",
+      "score": 65.0,
+      "status": "WARN",
+      "tools_used": [],
+      "issues_count": 0,
+      "details": {
+        "analysis_method": "basic_heuristic",
+        "base_score": 65.0,
+        "adaptive_score_applied": true,
+        "original_score": 65.0
+      },
+      "recommendations": [
+        "继续保持当前的良好实践"
+      ],
+      "ai_analysis": null
+    },
+    {
+      "dimension_id": 10,
+      "dimension_name": "开源协议与法律合规",
+      "score": 30.0,
+      "status": "FAIL",
+      "tools_used": [],
+      "issues_count": 0,
+      "details": {
+        "analysis_method": "basic_heuristic",
+        "base_score": 30.0,
+        "adaptive_score_applied": true,
+        "original_score": 30.0
+      },
+      "recommendations": [
+        "继续保持当前的良好实践"
+      ],
+      "ai_analysis": null
+    },
+    {
+      "dimension_id": 11,
+      "dimension_name": "社区治理与贡献机制",
+      "score": 65.0,
+      "status": "WARN",
+      "tools_used": [],
+      "issues_count": 0,
+      "details": {
+        "analysis_method": "basic_heuristic",
+        "base_score": 65.0,
+        "adaptive_score_applied": true,
+        "original_score": 65.0
+      },
+      "recommendations": [
+        "继续保持当前的良好实践"
+      ],
+      "ai_analysis": null
+    },
+    {
+      "dimension_id": 12,
+      "dimension_name": "舆情与风险监控",
+      "score": 65.0,
+      "status": "WARN",
+      "tools_used": [
+        "bandit",
+        "semgrep"
+      ],
+      "issues_count": 0,
+      "details": {
+        "analysis_method": "basic_heuristic",
+        "base_score": 65.0,
+        "adaptive_score_applied": true,
+        "original_score": 65.0
+      },
+      "recommendations": [
+        "继续保持当前的良好实践"
+      ],
+      "ai_analysis": null
+    },
+    {
+      "dimension_id": 13,
+      "dimension_name": "数据与算法合规审核",
+      "score": 65.0,
+      "status": "WARN",
+      "tools_used": [
+        "bandit",
+        "semgrep"
+      ],
+      "issues_count": 0,
+      "details": {
+        "analysis_method": "basic_heuristic",
+        "base_score": 65.0,
+        "adaptive_score_applied": true,
+        "original_score": 65.0
+      },
+      "recommendations": [
+        "继续保持当前的良好实践"
+      ],
+      "ai_analysis": null
+    },
+    {
+      "dimension_id": 14,
+      "dimension_name": "IP（知识产权）",
+      "score": 65.0,
+      "status": "WARN",
+      "tools_used": [],
+      "issues_count": 0,
+      "details": {
+        "analysis_method": "basic_heuristic",
+        "base_score": 65.0,
+        "adaptive_score_applied": true,
+        "original_score": 65.0
+      },
+      "recommendations": [
+        "继续保持当前的良好实践"
+      ],
+      "ai_analysis": null
+    }
+  ],
+  "tool_results": {
+    "pylint": {
+      "success": false,
+      "execution_time": 0.061255455017089844,
+      "issues_count": 0
+    },
+    "semgrep": {
+      "success": false,
+      "execution_time": 0.10591626167297363,
+      "issues_count": 0
+    },
+    "sonarqube-scanner": {
+      "success": false,
+      "execution_time": 0.10582518577575684,
+      "issues_count": 0
+    },
+    "bandit": {
+      "success": false,
+      "execution_time": 0.05970430374145508,
+      "issues_count": 0
+    },
+    "pytest": {
+      "success": false,
+      "execution_time": 0.059204816818237305,
+      "issues_count": 0
+    },
+    "coverage": {
+      "success": false,
+      "execution_time": 0.057215213775634766,
+      "issues_count": 0
+    },
+    "python_plugin_pylint": {
+      "success": false,
+      "execution_time": 2.86102294921875e-06,
+      "issues_count": 0
+    },
+    "python_plugin_flake8": {
+      "success": false,
+      "execution_time": 1.9073486328125e-06,
+      "issues_count": 0
+    },
+    "python_plugin_mypy": {
+      "success": false,
+      "execution_time": 7.152557373046875e-07,
+      "issues_count": 0
+    },
+    "python_plugin_bandit": {
+      "success": false,
+      "execution_time": 9.5367431640625e-07,
+      "issues_count": 0
+    },
+    "python_plugin_safety": {
+      "success": false,
+      "execution_time": 9.5367431640625e-07,
+      "issues_count": 0
+    },
+    "python_plugin_black": {
+      "success": false,
+      "execution_time": 9.5367431640625e-07,
+      "issues_count": 0
+    },
+    "python_plugin_isort": {
+      "success": false,
+      "execution_time": 9.5367431640625e-07,
+      "issues_count": 0
+    },
+    "python_plugin_pytest": {
+      "success": false,
+      "execution_time": 7.152557373046875e-07,
+      "issues_count": 0
+    },
+    "python_plugin_coverage": {
+      "success": false,
+      "execution_time": 7.152557373046875e-07,
+      "issues_count": 0
+    },
+    "python_plugin_syft": {
+      "success": false,
+      "execution_time": 4.76837158203125e-07,
+      "issues_count": 0
+    },
+    "python_plugin_semgrep": {
+      "success": false,
+      "execution_time": 4.76837158203125e-07,
+      "issues_count": 0
+    },
+    "python_plugin_sonarqube-scanner": {
+      "success": false,
+      "execution_time": 4.76837158203125e-07,
+      "issues_count": 0
+    },
+    "python_plugin_gitleaks": {
+      "success": false,
+      "execution_time": 2.384185791015625e-07,
+      "issues_count": 0
+    },
+    "python_plugin_trivy": {
+      "success": false,
+      "execution_time": 4.76837158203125e-07,
+      "issues_count": 0
+    }
+  },
+  "execution_stats": {
+    "total_tools": 20,
+    "successful_tools": 0,
+    "failed_tools": 20,
+    "total_time": 0.44913411140441895
+  },
+  "report_version": "OSS Audit 2.0 智能增强版",
+  "features_used": [
+    "adaptive_scoring",
+    "intelligent_recommendations",
+    "optimization_actions"
+  ]
+}

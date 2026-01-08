@@ -1,0 +1,391 @@
+
+        <!DOCTYPE html>
+        <html lang="zh-CN">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>evaluator - OSS审计报告</title>
+            <style>
+                body { 
+                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; 
+                    margin: 0; 
+                    padding: 20px; 
+                    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+                    min-height: 100vh; 
+                    color: #212529;
+                    line-height: 1.6;
+                }
+                .container { 
+                    max-width: 1200px; 
+                    margin: 0 auto; 
+                    background: white; 
+                    border-radius: 16px; 
+                    box-shadow: 0 20px 40px rgba(0,0,0,0.1), 0 4px 8px rgba(0,0,0,0.05); 
+                    overflow: hidden;
+                    border: 1px solid rgba(255,255,255,0.8);
+                }
+                .header { 
+                    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%); 
+                    color: white; 
+                    padding: 40px 30px; 
+                    position: relative;
+                }
+                .header::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: linear-gradient(135deg, rgba(39,174,96,0.1) 0%, rgba(46,204,113,0.1) 100%);
+                }
+                .header h1 { position: relative; z-index: 1; margin: 0 0 10px 0; }
+                .header p { position: relative; z-index: 1; opacity: 0.9; margin: 5px 0; }
+                .content { padding: 40px; }
+                .summary-grid { 
+                    display: grid; 
+                    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
+                    gap: 24px; 
+                    margin: 30px 0; 
+                }
+                .summary-card { 
+                    background: linear-gradient(135deg, #fff 0%, #fcfcfc 100%); 
+                    padding: 28px; 
+                    border-radius: 16px; 
+                    text-align: center; 
+                    border: 1px solid rgba(233,236,239,0.8);
+                    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                    position: relative;
+                    overflow: hidden;
+                }
+                .summary-card::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    height: 3px;
+                    background: linear-gradient(90deg, #27ae60 0%, #2ecc71 100%);
+                    opacity: 0;
+                    transition: opacity 0.3s ease;
+                }
+                .summary-card:hover {
+                    transform: translateY(-4px) scale(1.02);
+                    box-shadow: 0 12px 24px rgba(0,0,0,0.12), 0 4px 8px rgba(0,0,0,0.06);
+                    border-color: rgba(39,174,96,0.3);
+                }
+                .summary-card:hover::before {
+                    opacity: 1;
+                }
+                .summary-card h3 { 
+                    margin: 0 0 15px 0; 
+                    color: #2c3e50; 
+                    font-size: 1.1em;
+                    font-weight: 600;
+                }
+                .summary-card .value { 
+                    font-size: 2.2em; 
+                    font-weight: 700; 
+                    color: #27ae60;
+                    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                }
+                table { 
+                    width: 100%; 
+                    border-collapse: collapse; 
+                    margin: 25px 0; 
+                    border-radius: 12px;
+                    overflow: hidden;
+                    box-shadow: 0 8px 16px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+                    border: 1px solid rgba(233,236,239,0.6);
+                }
+                th, td { 
+                    padding: 18px 16px; 
+                    text-align: left; 
+                    border-bottom: 1px solid rgba(233,236,239,0.6); 
+                }
+                th { 
+                    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%); 
+                    color: white;
+                    font-weight: 600; 
+                    text-transform: uppercase;
+                    font-size: 0.85em;
+                    letter-spacing: 0.8px;
+                    position: relative;
+                }
+                th::after {
+                    content: '';
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    height: 2px;
+                    background: linear-gradient(90deg, #27ae60, #2ecc71);
+                }
+                tr:hover { 
+                    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+                    transition: background 0.2s ease;
+                }
+                td a {
+                    transition: color 0.2s ease;
+                }
+                td a:hover {
+                    color: #1e8449;
+                    text-decoration: none;
+                }
+                .badge { 
+                    padding: 6px 12px; 
+                    border-radius: 20px; 
+                    color: white; 
+                    font-size: 0.875em; 
+                    font-weight: 600;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                }
+                .section { margin: 40px 0; }
+                .section h2 { 
+                    color: #2c3e50; 
+                    border-bottom: 3px solid #27ae60; 
+                    padding-bottom: 12px; 
+                    font-size: 1.8em;
+                    font-weight: 700;
+                    margin-bottom: 25px;
+                }
+                .status-excellent { background: #27ae60; }
+                .status-good { background: #f39c12; }
+                .status-fair { background: #e67e22; }
+                .status-poor { background: #e74c3c; }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <div class="header">
+                    <h1>evaluator - OSS审计报告</h1>
+                    <p>生成时间: 2026-01-08 15:24:13</p>
+                    <p>项目路径: /home/carter/eval/evaluator</p>
+                </div>
+                
+                <div class="content">
+                    <div class="section">
+                        <h2>总体评估</h2>
+                        <div class="summary-grid">
+                            <div class="summary-card">
+                                <h3>总体得分</h3>
+                                <div class="value" style="color: #dc3545">57.4</div>
+                            </div>
+                            <div class="summary-card">
+                                <h3>评估状态</h3>
+                                <div class="value" style="color: #dc3545">NEEDS_IMPROVEMENT</div>
+                            </div>
+                            <div class="summary-card">
+                                <h3>通过维度</h3>
+                                <div class="value">0/14</div>
+                            </div>
+                            <div class="summary-card">
+                                <h3>主要语言</h3>
+                                <div class="value" style="font-size: 1.5em">python</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="section">
+                        <h2>项目信息</h2>
+                        <div class="summary-grid">
+                            <div class="summary-card">
+                                <h3>项目结构</h3>
+                                <div class="value" style="font-size: 1.2em">single_project</div>
+                            </div>
+                            <div class="summary-card">
+                                <h3>项目类型</h3>
+                                <div class="value" style="font-size: 1.2em">data_science</div>
+                            </div>
+                            <div class="summary-card">
+                                <h3>代码规模</h3>
+                                <div class="value">5,178 行</div>
+                            </div>
+                            <div class="summary-card">
+                                <h3>项目大小</h3>
+                                <div class="value" style="font-size: 1.2em">medium</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="section">
+                        <h2>🧠 智能分析特性</h2>
+                        <div class="summary-grid">
+                            <div class="summary-card">
+                                <h3>自适应评分</h3>
+                                <div class="value" style="font-size: 1.2em">信心度 0.50</div>
+                            </div>
+                            <div class="summary-card">
+                                <h3>智能推荐</h3>
+                                <div class="value">2 条建议</div>
+                                <div style="margin-top: 10px;">
+                                    <a href="evaluator_recommendations.html" 
+                                       style="color: #007bff; text-decoration: none; font-size: 0.9em; border: 1px solid #007bff; padding: 5px 10px; border-radius: 4px; display: inline-block;">
+                                        查看详细推荐 →
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="summary-card">
+                                <h3>改进路线图</h3>
+                                <div class="value">2 个阶段</div>
+                            </div>
+                            <div class="summary-card">
+                                <h3>预估ROI</h3>
+                                <div class="value">7.2%</div>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <div class="section">
+                        <h2>维度评估详情</h2>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>维度</th>
+                                    <th>名称</th>
+                                    <th>状态</th>
+                                    <th>得分</th>
+                                    <th>问题数</th>
+                                    <th>使用工具</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+            <tr>
+                <td>1</td>
+                <td><a href="dimensions/dimension_1_代码结构与可维护性.html" style="color: #27ae60; text-decoration: none;">代码结构与可维护性</a></td>
+                <td><span class="badge" style="background-color: #ffc107">WARN</span></td>
+                <td><strong>60.0</strong></td>
+                <td>0</td>
+                <td><a href="tools/pylint_report.html" style="color: #27ae60; text-decoration: none;" title="执行时间: 0.06s, 退出码: -1">pylint ❌</a>, <a href="tools/semgrep_report.html" style="color: #27ae60; text-decoration: none;" title="执行时间: 0.11s, 退出码: -1">semgrep ❌</a></td>
+            </tr>
+            
+            <tr>
+                <td>2</td>
+                <td><a href="dimensions/dimension_2_测试覆盖与质量保障.html" style="color: #27ae60; text-decoration: none;">测试覆盖与质量保障</a></td>
+                <td><span class="badge" style="background-color: #dc3545">FAIL</span></td>
+                <td><strong>50.0</strong></td>
+                <td>0</td>
+                <td><a href="tools/pytest_report.html" style="color: #27ae60; text-decoration: none;" title="执行时间: 0.06s, 退出码: -1">pytest ❌</a>, <a href="tools/coverage_report.html" style="color: #27ae60; text-decoration: none;" title="执行时间: 0.06s, 退出码: -1">coverage ❌</a></td>
+            </tr>
+            
+            <tr>
+                <td>3</td>
+                <td><a href="dimensions/dimension_3_构建与工程可重复性.html" style="color: #27ae60; text-decoration: none;">构建与工程可重复性</a></td>
+                <td><span class="badge" style="background-color: #ffc107">WARN</span></td>
+                <td><strong>60.0</strong></td>
+                <td>0</td>
+                <td>N/A</td>
+            </tr>
+            
+            <tr>
+                <td>4</td>
+                <td><a href="dimensions/dimension_4_依赖与许可证合规.html" style="color: #27ae60; text-decoration: none;">依赖与许可证合规</a></td>
+                <td><span class="badge" style="background-color: #ffc107">WARN</span></td>
+                <td><strong>70.0</strong></td>
+                <td>0</td>
+                <td>N/A</td>
+            </tr>
+            
+            <tr>
+                <td>5</td>
+                <td><a href="dimensions/dimension_5_安全性与敏感信息防护.html" style="color: #27ae60; text-decoration: none;">安全性与敏感信息防护</a></td>
+                <td><span class="badge" style="background-color: #ffc107">WARN</span></td>
+                <td><strong>75.0</strong></td>
+                <td>0</td>
+                <td><a href="tools/bandit_report.html" style="color: #27ae60; text-decoration: none;" title="执行时间: 0.06s, 退出码: -1">bandit ❌</a>, <a href="tools/semgrep_report.html" style="color: #27ae60; text-decoration: none;" title="执行时间: 0.11s, 退出码: -1">semgrep ❌</a></td>
+            </tr>
+            
+            <tr>
+                <td>6</td>
+                <td><a href="dimensions/dimension_6_CI_CD 自动化保障.html" style="color: #27ae60; text-decoration: none;">CI/CD 自动化保障</a></td>
+                <td><span class="badge" style="background-color: #dc3545">FAIL</span></td>
+                <td><strong>45.0</strong></td>
+                <td>0</td>
+                <td>N/A</td>
+            </tr>
+            
+            <tr>
+                <td>7</td>
+                <td><a href="dimensions/dimension_7_使用文档与复现性.html" style="color: #27ae60; text-decoration: none;">使用文档与复现性</a></td>
+                <td><span class="badge" style="background-color: #dc3545">FAIL</span></td>
+                <td><strong>40.0</strong></td>
+                <td>0</td>
+                <td>N/A</td>
+            </tr>
+            
+            <tr>
+                <td>8</td>
+                <td><a href="dimensions/dimension_8_接口与平台兼容性.html" style="color: #27ae60; text-decoration: none;">接口与平台兼容性</a></td>
+                <td><span class="badge" style="background-color: #ffc107">WARN</span></td>
+                <td><strong>65.0</strong></td>
+                <td>0</td>
+                <td><a href="tools/semgrep_report.html" style="color: #27ae60; text-decoration: none;" title="执行时间: 0.11s, 退出码: -1">semgrep ❌</a>, <a href="tools/sonarqube-scanner_report.html" style="color: #27ae60; text-decoration: none;" title="执行时间: 0.11s, 退出码: -1">sonarqube-scanner ❌</a></td>
+            </tr>
+            
+            <tr>
+                <td>9</td>
+                <td><a href="dimensions/dimension_9_协作流程与代码规范.html" style="color: #27ae60; text-decoration: none;">协作流程与代码规范</a></td>
+                <td><span class="badge" style="background-color: #ffc107">WARN</span></td>
+                <td><strong>65.0</strong></td>
+                <td>0</td>
+                <td>N/A</td>
+            </tr>
+            
+            <tr>
+                <td>10</td>
+                <td><a href="dimensions/dimension_10_开源协议与法律合规.html" style="color: #27ae60; text-decoration: none;">开源协议与法律合规</a></td>
+                <td><span class="badge" style="background-color: #dc3545">FAIL</span></td>
+                <td><strong>30.0</strong></td>
+                <td>0</td>
+                <td>N/A</td>
+            </tr>
+            
+            <tr>
+                <td>11</td>
+                <td><a href="dimensions/dimension_11_社区治理与贡献机制.html" style="color: #27ae60; text-decoration: none;">社区治理与贡献机制</a></td>
+                <td><span class="badge" style="background-color: #ffc107">WARN</span></td>
+                <td><strong>65.0</strong></td>
+                <td>0</td>
+                <td>N/A</td>
+            </tr>
+            
+            <tr>
+                <td>12</td>
+                <td><a href="dimensions/dimension_12_舆情与风险监控.html" style="color: #27ae60; text-decoration: none;">舆情与风险监控</a></td>
+                <td><span class="badge" style="background-color: #ffc107">WARN</span></td>
+                <td><strong>65.0</strong></td>
+                <td>0</td>
+                <td><a href="tools/bandit_report.html" style="color: #27ae60; text-decoration: none;" title="执行时间: 0.06s, 退出码: -1">bandit ❌</a>, <a href="tools/semgrep_report.html" style="color: #27ae60; text-decoration: none;" title="执行时间: 0.11s, 退出码: -1">semgrep ❌</a></td>
+            </tr>
+            
+            <tr>
+                <td>13</td>
+                <td><a href="dimensions/dimension_13_数据与算法合规审核.html" style="color: #27ae60; text-decoration: none;">数据与算法合规审核</a></td>
+                <td><span class="badge" style="background-color: #ffc107">WARN</span></td>
+                <td><strong>65.0</strong></td>
+                <td>0</td>
+                <td><a href="tools/bandit_report.html" style="color: #27ae60; text-decoration: none;" title="执行时间: 0.06s, 退出码: -1">bandit ❌</a>, <a href="tools/semgrep_report.html" style="color: #27ae60; text-decoration: none;" title="执行时间: 0.11s, 退出码: -1">semgrep ❌</a></td>
+            </tr>
+            
+            <tr>
+                <td>14</td>
+                <td><a href="dimensions/dimension_14_IP（知识产权）.html" style="color: #27ae60; text-decoration: none;">IP（知识产权）</a></td>
+                <td><span class="badge" style="background-color: #ffc107">WARN</span></td>
+                <td><strong>65.0</strong></td>
+                <td>0</td>
+                <td>N/A</td>
+            </tr>
+            
+                            </tbody>
+                        </table>
+                    </div>
+                    
+
+                </div>
+            </div>
+        </body>
+        </html>
+        

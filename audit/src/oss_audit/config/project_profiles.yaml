@@ -1,0 +1,280 @@
+# OSS Audit 2.0 项目类型配置模板
+# 为不同类型的项目提供预设的评估策略
+
+version: "2.0"
+description: "项目类型配置模板，为不同类型项目提供差异化评估策略"
+
+# Web应用项目配置
+web_application:
+  name: "Web Application"
+  description: "Web应用项目配置，重视安全性、性能和可扩展性"
+  
+  # 维度权重配置
+  dimensions:
+    security: 0.30           # Web应用安全最重要
+    quality: 0.25            # 代码质量
+    performance: 0.20        # 性能也很重要
+    testing: 0.15            # 测试覆盖
+    documentation: 0.10      # 文档
+  
+  # 推荐工具
+  recommended_tools:
+    python: 
+      - "bandit"             # 安全检查优先级最高
+      - "safety"             # 依赖安全检查
+      - "pylint"             # 代码质量
+      - "pytest"             # 测试框架
+      - "coverage"           # 测试覆盖率
+    javascript:
+      - "eslint"             # 代码质量
+      - "npm-audit"          # 依赖安全检查
+      - "jest"               # 测试框架
+    typescript:
+      - "tsc"                # 类型检查
+      - "eslint"             # 代码质量
+  
+  # 特殊检查项
+  special_checks:
+    - "sql_injection_check"        # SQL注入检查
+    - "xss_vulnerability_check"    # XSS漏洞检查
+    - "https_usage_check"          # HTTPS使用检查
+    - "cors_configuration_check"   # CORS配置检查
+    - "authentication_check"       # 认证机制检查
+  
+  # 评分标准调整
+  scoring_adjustments:
+    security_penalty_multiplier: 2.0    # 安全问题惩罚加倍
+    performance_weight: 1.5              # 性能权重提升
+    min_test_coverage: 80                # 最低测试覆盖率80%
+
+# 库项目配置
+library:
+  name: "Library/Package"
+  description: "库/包项目配置，重视API设计、文档和兼容性"
+  
+  dimensions:
+    quality: 0.30            # 代码质量最重要
+    documentation: 0.25      # 文档质量重要
+    testing: 0.20            # 测试覆盖
+    api_design: 0.15         # API设计
+    compatibility: 0.10      # 兼容性
+  
+  recommended_tools:
+    python:
+      - "pylint"             # 代码质量
+      - "mypy"               # 类型检查
+      - "pytest"             # 测试
+      - "coverage"           # 覆盖率
+      - "black"              # 代码格式
+      - "isort"              # 导入排序
+    javascript:
+      - "eslint"
+      - "jest"
+      - "prettier"
+    typescript:
+      - "tsc"
+      - "eslint"
+      - "jest"
+  
+  special_checks:
+    - "api_documentation_check"    # API文档检查
+    - "version_compatibility_check"# 版本兼容性检查
+    - "breaking_changes_check"     # 破坏性变更检查
+    - "public_api_coverage_check"  # 公共API测试覆盖检查
+  
+  scoring_adjustments:
+    documentation_weight: 2.0      # 文档权重加倍
+    api_design_weight: 1.8         # API设计权重提升
+    min_test_coverage: 90          # 库项目要求更高的测试覆盖率
+
+# CLI工具项目配置
+cli_tool:
+  name: "CLI Tool"
+  description: "命令行工具项目配置，重视易用性、错误处理和文档"
+  
+  dimensions:
+    usability: 0.30          # 易用性最重要
+    quality: 0.25            # 代码质量
+    documentation: 0.20      # 文档（使用说明）
+    testing: 0.15            # 测试
+    error_handling: 0.10     # 错误处理
+  
+  recommended_tools:
+    python:
+      - "pylint"
+      - "pytest"
+      - "click"              # CLI框架检查
+    go:
+      - "golint"
+      - "go-vet"
+      - "go-test"
+    rust:
+      - "clippy"
+      - "cargo-test"
+  
+  special_checks:
+    - "help_text_check"            # 帮助文本检查
+    - "command_structure_check"    # 命令结构检查
+    - "error_message_quality_check"# 错误消息质量检查
+    - "cross_platform_check"       # 跨平台兼容性检查
+  
+  scoring_adjustments:
+    usability_weight: 2.0          # 易用性权重加倍
+    documentation_focus: "cli"     # 专注CLI文档
+
+# 数据科学项目配置  
+data_science:
+  name: "Data Science Project"
+  description: "数据科学项目配置，重视可复现性、数据处理和模型质量"
+  
+  dimensions:
+    reproducibility: 0.30    # 可复现性最重要
+    data_quality: 0.25       # 数据质量
+    model_quality: 0.20      # 模型质量
+    documentation: 0.15      # 文档（方法论说明）
+    code_quality: 0.10       # 代码质量
+  
+  recommended_tools:
+    python:
+      - "pylint"
+      - "jupyter"            # Jupyter notebook检查
+      - "pandas-vet"         # Pandas使用检查
+      - "pytest"
+    r:
+      - "lintr"              # R语言检查
+  
+  special_checks:
+    - "notebook_quality_check"     # Notebook质量检查
+    - "data_validation_check"      # 数据验证检查
+    - "model_versioning_check"     # 模型版本管理检查
+    - "environment_reproducibility_check" # 环境可复现性检查
+    - "data_privacy_check"         # 数据隐私检查
+  
+  scoring_adjustments:
+    reproducibility_weight: 2.5   # 可复现性权重最高
+    notebook_quality_weight: 1.5  # Notebook质量权重
+    data_quality_weight: 2.0      # 数据质量权重
+
+# 移动应用项目配置
+mobile_app:
+  name: "Mobile Application"
+  description: "移动应用项目配置，重视性能、用户体验和平台适配"
+  
+  dimensions:
+    performance: 0.30        # 移动端性能很重要
+    user_experience: 0.25    # 用户体验
+    platform_compatibility: 0.20 # 平台兼容性
+    security: 0.15           # 安全性
+    quality: 0.10            # 代码质量
+  
+  recommended_tools:
+    swift:
+      - "swiftlint"          # Swift代码检查
+    kotlin:
+      - "ktlint"             # Kotlin代码检查
+    javascript:
+      - "eslint"             # React Native
+    dart:
+      - "dartanalyzer"       # Flutter
+  
+  special_checks:
+    - "app_size_check"             # 应用大小检查
+    - "battery_usage_check"        # 电池使用检查
+    - "memory_usage_check"         # 内存使用检查
+    - "platform_api_usage_check"   # 平台API使用检查
+    - "accessibility_check"        # 可访问性检查
+  
+  scoring_adjustments:
+    performance_weight: 2.5        # 性能权重最高
+    platform_compatibility_weight: 2.0
+
+# 桌面应用项目配置
+desktop_app:
+  name: "Desktop Application" 
+  description: "桌面应用项目配置，重视跨平台兼容性和用户体验"
+  
+  dimensions:
+    compatibility: 0.30      # 跨平台兼容性
+    user_experience: 0.25    # 用户体验
+    performance: 0.20        # 性能
+    quality: 0.15            # 代码质量
+    security: 0.10           # 安全性
+  
+  recommended_tools:
+    cpp:
+      - "cppcheck"
+      - "clang-tidy"
+    csharp:
+      - "dotnet-analyzer"
+    python:
+      - "pylint"             # GUI应用
+    javascript:
+      - "eslint"             # Electron应用
+  
+  special_checks:
+    - "cross_platform_check"       # 跨平台检查
+    - "ui_responsiveness_check"     # UI响应性检查
+    - "resource_usage_check"        # 资源使用检查
+    - "installer_quality_check"     # 安装程序质量检查
+  
+  scoring_adjustments:
+    compatibility_weight: 2.5      # 兼容性权重最高
+    ui_quality_weight: 2.0         # UI质量权重
+
+# 游戏项目配置
+game:
+  name: "Game Project"
+  description: "游戏项目配置，重视性能、图形质量和用户体验"
+  
+  dimensions:
+    performance: 0.35        # 游戏性能最重要
+    graphics_quality: 0.25   # 图形质量
+    user_experience: 0.20    # 用户体验
+    code_quality: 0.15       # 代码质量
+    asset_management: 0.05   # 资源管理
+  
+  recommended_tools:
+    cpp:
+      - "cppcheck"
+      - "clang-tidy"
+    csharp:
+      - "unity-analyzer"     # Unity专用
+    python:
+      - "pylint"             # Pygame等
+  
+  special_checks:
+    - "performance_profiling_check"  # 性能分析检查
+    - "memory_leak_check"            # 内存泄漏检查
+    - "asset_optimization_check"     # 资源优化检查
+    - "frame_rate_check"             # 帧率检查
+    - "platform_compatibility_check" # 平台兼容性
+  
+  scoring_adjustments:
+    performance_weight: 3.0          # 性能权重最高
+    optimization_focus: true         # 专注优化检查
+
+# 默认/未知项目配置
+unknown:
+  name: "Unknown/Generic Project"
+  description: "通用项目配置，平衡各个维度"
+  
+  dimensions:
+    quality: 0.25            # 代码质量
+    testing: 0.20            # 测试
+    security: 0.20           # 安全性
+    documentation: 0.20      # 文档
+    maintainability: 0.15    # 可维护性
+  
+  recommended_tools:
+    # 通用工具，根据检测到的语言动态选择
+    universal:
+      - "semgrep"            # 通用安全检查
+      - "gitleaks"           # 敏感信息检查
+  
+  special_checks:
+    - "basic_structure_check"        # 基本结构检查
+    - "license_check"                # 许可证检查
+    - "readme_quality_check"         # README质量检查
+  
+  scoring_adjustments:
+    balanced_scoring: true           # 平衡评分
