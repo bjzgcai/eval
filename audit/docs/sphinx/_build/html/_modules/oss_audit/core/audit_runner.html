@@ -1,0 +1,1013 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>oss_audit.core.audit_runner &mdash; OSS Audit 2.0 API文档</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=a3f70f27" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=b15d7ad8"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/translations.js?v=beaddf03"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../../genindex.html" />
+    <link rel="search" title="搜索" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            OSS Audit 2.0
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">快速开始:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">安装指南</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API参考:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/core.html">核心模块 (oss_audit.core)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/agents.html">智能代理系统 (oss_audit.core.agents)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">核心模块</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.core.audit_runner.html">oss_audit.core.audit_runner</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.core.project_detector.html">oss_audit.core.project_detector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.core.tool_executor.html">oss_audit.core.tool_executor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.core.report_generator.html">oss_audit.core.report_generator</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">智能代理</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.core.decision_agent.html">oss_audit.core.decision_agent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.core.adaptive_agent.html">oss_audit.core.adaptive_agent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.core.recommendation_agent.html">oss_audit.core.recommendation_agent</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">工具和插件</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.utils.ai_analyzer.html">oss_audit.utils.ai_analyzer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.core.tool_registry.html">oss_audit.core.tool_registry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.plugins.html">oss_audit.plugins</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">OSS Audit 2.0</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">模块代码</a></li>
+      <li class="breadcrumb-item active">oss_audit.core.audit_runner</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>oss_audit.core.audit_runner 源代码</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Audit Runner - 主审计运行器</span>
+<span class="sd">整合所有核心组件，提供统一的审计入口</span>
+<span class="sd">整合所有核心组件，提供统一的审计入口</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pathlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">yaml</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.project_detector</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProjectDetector</span><span class="p">,</span> <span class="n">ProjectInfo</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.tool_registry</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_tool_registry</span><span class="p">,</span> <span class="n">ToolRegistry</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.tool_executor</span><span class="w"> </span><span class="kn">import</span> <span class="n">ToolExecutor</span><span class="p">,</span> <span class="n">ExecutionPlan</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.report_generator</span><span class="w"> </span><span class="kn">import</span> <span class="n">ReportGenerator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.decision_agent</span><span class="w"> </span><span class="kn">import</span> <span class="n">DecisionAgent</span><span class="p">,</span> <span class="n">create_decision_agent</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.adaptive_agent</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveAgent</span><span class="p">,</span> <span class="n">create_adaptive_agent</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.recommendation_agent</span><span class="w"> </span><span class="kn">import</span> <span class="n">RecommendationAgent</span><span class="p">,</span> <span class="n">create_recommendation_agent</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..plugins</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_plugin_registry</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="AuditRunner">
+<a class="viewcode-back" href="../../../api/core.html#oss_audit.core.audit_runner.AuditRunner">[文档]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AuditRunner</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;主审计运行器 - 整合项目检测、工具执行和报告生成&quot;&quot;&quot;</span>
+    
+<div class="viewcode-block" id="AuditRunner.__init__">
+<a class="viewcode-back" href="../../../api/core.html#oss_audit.core.audit_runner.AuditRunner.__init__">[文档]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
+                 <span class="n">tools_registry_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">language_config_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        初始化审计运行器</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            tools_registry_path: 工具注册表路径</span>
+<span class="sd">            language_config_path: 语言检测配置路径</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;初始化OSS Audit 2.0 审计运行器&quot;</span><span class="p">)</span>
+        
+        <span class="c1"># 加载配置</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">default_config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_default_config</span><span class="p">()</span>
+        
+        <span class="c1"># 初始化核心组件</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">project_detector</span> <span class="o">=</span> <span class="n">ProjectDetector</span><span class="p">(</span><span class="n">language_config_path</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tool_executor</span> <span class="o">=</span> <span class="n">ToolExecutor</span><span class="p">(</span><span class="n">tools_registry_path</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">report_generator</span> <span class="o">=</span> <span class="n">ReportGenerator</span><span class="p">()</span>
+        <span class="c1"># 智能代理系统</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">decision_agent</span> <span class="o">=</span> <span class="n">create_decision_agent</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">adaptive_agent</span> <span class="o">=</span> <span class="n">create_adaptive_agent</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">recommendation_agent</span> <span class="o">=</span> <span class="n">create_recommendation_agent</span><span class="p">()</span>
+        
+        <span class="c1"># 初始化插件系统</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plugin_registry</span> <span class="o">=</span> <span class="n">get_plugin_registry</span><span class="p">()</span>
+        
+        <span class="c1"># 运行时状态</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_project_info</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ProjectInfo</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">project_config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">execution_stats</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;start_time&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s1">&#39;end_time&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s1">&#39;total_duration&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s1">&#39;phases_completed&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s1">&#39;tools_executed&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s1">&#39;tools_successful&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s1">&#39;tools_failed&#39;</span><span class="p">:</span> <span class="mi">0</span>
+        <span class="p">}</span></div>
+
+    
+<div class="viewcode-block" id="AuditRunner.audit_project">
+<a class="viewcode-back" href="../../../api/core.html#oss_audit.core.audit_runner.AuditRunner.audit_project">[文档]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">audit_project</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> 
+                     <span class="n">output_dir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                     <span class="n">config_overrides</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        对项目进行完整的审计评估</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            project_path: 项目路径</span>
+<span class="sd">            output_dir: 输出目录（可选）</span>
+<span class="sd">            config_overrides: 配置覆盖（可选）</span>
+<span class="sd">            </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            主报告文件路径</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;开始审计项目: </span><span class="si">{</span><span class="n">project_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="c1"># 记录开始时间</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">execution_stats</span><span class="p">[</span><span class="s1">&#39;start_time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># 0. 配置加载阶段</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;阶段0: 配置加载与合并&quot;</span><span class="p">)</span>
+            <span class="n">project_config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_project_config</span><span class="p">(</span><span class="n">project_path</span><span class="p">)</span>
+            
+            <span class="c1"># 1. 项目检测阶段（提前执行以获取项目信息用于智能配置）</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;阶段1: 项目信息检测&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">current_project_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_detect_project_info</span><span class="p">(</span><span class="n">project_path</span><span class="p">)</span>
+            
+            <span class="c1"># 根据项目信息生成智能配置</span>
+            <span class="n">smart_config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate_smart_config</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_project_info</span><span class="p">)</span>
+            <span class="n">merged_config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_merge_configs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">default_config</span><span class="p">,</span> <span class="n">smart_config</span><span class="p">,</span> <span class="n">project_config</span><span class="p">,</span> <span class="n">config_overrides</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">project_config</span> <span class="o">=</span> <span class="n">merged_config</span>
+            
+            <span class="n">project_name</span> <span class="o">=</span> <span class="n">merged_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;project&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_project_info</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">project_type</span> <span class="o">=</span> <span class="n">merged_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;project&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_project_info</span><span class="o">.</span><span class="n">project_type</span><span class="o">.</span><span class="n">value</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_project_info</span><span class="o">.</span><span class="n">project_type</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_project_info</span><span class="o">.</span><span class="n">project_type</span><span class="p">))</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✅ 配置完成 - 项目: </span><span class="si">{</span><span class="n">project_name</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">project_type</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">project_config</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;🔧 应用了项目配置文件自定义设置&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;🤖 智能配置 - 根据项目特征自动优化&quot;</span><span class="p">)</span>
+            
+            <span class="c1"># 2. 工具发现阶段  </span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;阶段2: 工具发现与可用性检查&quot;</span><span class="p">)</span>
+            <span class="n">available_tools</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_discover_tools</span><span class="p">()</span>
+            
+            <span class="c1"># 3. 智能工具选择阶段（DecisionAgent）</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;阶段3: 智能工具选择&quot;</span><span class="p">)</span>
+            <span class="n">selected_tools</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_intelligent_tool_selection</span><span class="p">(</span><span class="n">available_tools</span><span class="p">)</span>
+            
+            <span class="c1"># 4. 执行计划制定</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;阶段4: 制定执行计划&quot;</span><span class="p">)</span>
+            <span class="n">execution_plan</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_execution_plan</span><span class="p">(</span><span class="n">selected_tools</span><span class="p">)</span>
+            
+            <span class="c1"># 5. 工具执行阶段</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;阶段5: 执行工具分析&quot;</span><span class="p">)</span>
+            <span class="n">tool_results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_execute_tools</span><span class="p">(</span><span class="n">execution_plan</span><span class="p">,</span> <span class="n">project_path</span><span class="p">)</span>
+            
+            <span class="c1"># 6. 报告生成阶段</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;阶段6: 生成审计报告&quot;</span><span class="p">)</span>
+            <span class="n">report_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate_reports</span><span class="p">(</span><span class="n">tool_results</span><span class="p">,</span> <span class="n">output_dir</span> <span class="ow">or</span> <span class="n">project_path</span><span class="p">)</span>
+            
+            <span class="c1"># 记录结束时间</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">execution_stats</span><span class="p">[</span><span class="s1">&#39;end_time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">execution_stats</span><span class="p">[</span><span class="s1">&#39;total_duration&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">execution_stats</span><span class="p">[</span><span class="s1">&#39;end_time&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">execution_stats</span><span class="p">[</span><span class="s1">&#39;start_time&#39;</span><span class="p">]</span>
+            <span class="p">)</span>
+            
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;审计完成！总耗时: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">execution_stats</span><span class="p">[</span><span class="s1">&#39;total_duration&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">s&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;主报告路径: </span><span class="si">{</span><span class="n">report_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            
+            <span class="k">return</span> <span class="n">report_path</span>
+            
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;审计过程中发生错误: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">raise</span>
+        
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_cleanup</span><span class="p">()</span></div>
+
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_detect_project_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ProjectInfo</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;检测项目信息&quot;&quot;&quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;检测项目基本信息...&quot;</span><span class="p">)</span>
+        
+        <span class="n">project_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">project_detector</span><span class="o">.</span><span class="n">detect_project_info</span><span class="p">(</span><span class="n">project_path</span><span class="p">)</span>
+        
+        <span class="c1"># 记录检测结果</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;项目名称: </span><span class="si">{</span><span class="n">project_info</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;主要语言: </span><span class="si">{</span><span class="n">project_info</span><span class="o">.</span><span class="n">get_primary_language</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;项目结构: </span><span class="si">{</span><span class="n">project_info</span><span class="o">.</span><span class="n">structure_type</span><span class="o">.</span><span class="n">value</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nb">hasattr</span><span class="p">(</span><span class="n">project_info</span><span class="o">.</span><span class="n">structure_type</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;value&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="nb">str</span><span class="p">(</span><span class="n">project_info</span><span class="o">.</span><span class="n">structure_type</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;项目类型: </span><span class="si">{</span><span class="n">project_info</span><span class="o">.</span><span class="n">project_type</span><span class="o">.</span><span class="n">value</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nb">hasattr</span><span class="p">(</span><span class="n">project_info</span><span class="o">.</span><span class="n">project_type</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;value&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="nb">str</span><span class="p">(</span><span class="n">project_info</span><span class="o">.</span><span class="n">project_type</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;代码规模: </span><span class="si">{</span><span class="n">project_info</span><span class="o">.</span><span class="n">size_metrics</span><span class="o">.</span><span class="n">get_size_category</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;检测置信度: </span><span class="si">{</span><span class="n">project_info</span><span class="o">.</span><span class="n">confidence</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">project_info</span><span class="o">.</span><span class="n">confidence</span> <span class="o">&lt;</span> <span class="mf">0.5</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;项目检测置信度较低: </span><span class="si">{</span><span class="n">project_info</span><span class="o">.</span><span class="n">confidence</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">project_info</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_discover_tools</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;发现可用工具&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_project_info</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;项目信息未初始化&quot;</span><span class="p">)</span>
+        
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;发现项目适用的工具...&quot;</span><span class="p">)</span>
+        
+        <span class="c1"># 发现可用工具</span>
+        <span class="n">available_tools</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tool_executor</span><span class="o">.</span><span class="n">discover_available_tools</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_project_info</span><span class="p">)</span>
+        
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;发现 </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">available_tools</span><span class="p">)</span><span class="si">}</span><span class="s2"> 个可用工具&quot;</span><span class="p">)</span>
+        
+        <span class="c1"># 按类别统计工具</span>
+        <span class="n">tool_categories</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">tool</span> <span class="ow">in</span> <span class="n">available_tools</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">category</span> <span class="ow">in</span> <span class="n">tool</span><span class="o">.</span><span class="n">categories</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">category</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tool_categories</span><span class="p">:</span>
+                    <span class="n">tool_categories</span><span class="p">[</span><span class="n">category</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">tool_categories</span><span class="p">[</span><span class="n">category</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tool</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        
+        <span class="k">for</span> <span class="n">category</span><span class="p">,</span> <span class="n">tools</span> <span class="ow">in</span> <span class="n">tool_categories</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">category</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tools</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">available_tools</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_intelligent_tool_selection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">available_tools</span><span class="p">:</span> <span class="n">List</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;智能工具选择（使用DecisionAgent）&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_project_info</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;项目信息未初始化&quot;</span><span class="p">)</span>
+        
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;使用DecisionAgent进行智能工具选择...&quot;</span><span class="p">)</span>
+        
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># 使用DecisionAgent进行智能工具选择</span>
+            <span class="n">selected_tools</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">decision_agent</span><span class="o">.</span><span class="n">make_tool_selection_decision</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">current_project_info</span><span class="p">,</span> <span class="n">available_tools</span><span class="p">)</span>
+            
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;智能选择结果: 从</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">available_tools</span><span class="p">)</span><span class="si">}</span><span class="s2">个可用工具中选择了</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">selected_tools</span><span class="p">)</span><span class="si">}</span><span class="s2">个&quot;</span><span class="p">)</span>
+            
+            <span class="c1"># 按类别统计选中的工具</span>
+            <span class="n">tool_categories</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">tool</span> <span class="ow">in</span> <span class="n">selected_tools</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">category</span> <span class="ow">in</span> <span class="n">tool</span><span class="o">.</span><span class="n">categories</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">category</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tool_categories</span><span class="p">:</span>
+                        <span class="n">tool_categories</span><span class="p">[</span><span class="n">category</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="n">tool_categories</span><span class="p">[</span><span class="n">category</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tool</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            
+            <span class="k">for</span> <span class="n">category</span><span class="p">,</span> <span class="n">tools</span> <span class="ow">in</span> <span class="n">tool_categories</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">category</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tools</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            
+            <span class="c1"># 计算预估执行时间</span>
+            <span class="n">estimated_time</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">estimated_time</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">selected_tools</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;预估执行时间: </span><span class="si">{</span><span class="n">estimated_time</span><span class="o">//</span><span class="mi">60</span><span class="si">}</span><span class="s2">分</span><span class="si">{</span><span class="n">estimated_time</span><span class="o">%</span><span class="mi">60</span><span class="si">}</span><span class="s2">秒&quot;</span><span class="p">)</span>
+            
+            <span class="k">return</span> <span class="n">selected_tools</span>
+            
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;DecisionAgent工具选择失败: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="c1"># 降级策略：返回前10个可用工具</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;使用降级策略：选择前10个可用工具&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">available_tools</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_create_execution_plan</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">selected_tools</span><span class="p">:</span> <span class="n">List</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ExecutionPlan</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;创建执行计划（使用DecisionAgent）&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_project_info</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;项目信息未初始化&quot;</span><span class="p">)</span>
+        
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;使用DecisionAgent制定智能执行计划...&quot;</span><span class="p">)</span>
+        
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># 使用DecisionAgent创建执行计划</span>
+            <span class="n">decision_execution_plan</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">decision_agent</span><span class="o">.</span><span class="n">create_execution_plan</span><span class="p">(</span>
+                <span class="n">selected_tools</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_project_info</span><span class="p">)</span>
+            
+            <span class="c1"># 转换为传统执行计划格式以保持兼容性</span>
+            <span class="n">execution_plan</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convert_to_legacy_execution_plan</span><span class="p">(</span><span class="n">decision_execution_plan</span><span class="p">)</span>
+            
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;DecisionAgent执行计划制定失败: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="c1"># 降级策略：使用传统执行计划</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;使用降级策略：传统执行计划&quot;</span><span class="p">)</span>
+            <span class="n">execution_plan</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tool_executor</span><span class="o">.</span><span class="n">create_execution_plan</span><span class="p">(</span>
+                <span class="n">selected_tools</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_project_info</span><span class="p">)</span>
+        
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;执行计划包含 </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">execution_plan</span><span class="o">.</span><span class="n">phases</span><span class="p">)</span><span class="si">}</span><span class="s2"> 个阶段&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;预估总耗时: </span><span class="si">{</span><span class="n">execution_plan</span><span class="o">.</span><span class="n">get_total_estimated_time</span><span class="p">()</span><span class="o">//</span><span class="mi">60</span><span class="si">}</span><span class="s2"> 分钟&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;最大并行工具数: </span><span class="si">{</span><span class="nb">getattr</span><span class="p">(</span><span class="n">execution_plan</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;max_parallel_tools&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="c1"># 打印各阶段信息</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">phase</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">execution_plan</span><span class="o">.</span><span class="n">phases</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">phase_mode</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">phase</span><span class="p">,</span> <span class="s1">&#39;mode&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">phase_mode</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">):</span>
+                <span class="n">mode_str</span> <span class="o">=</span> <span class="n">phase_mode</span><span class="o">.</span><span class="n">value</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">mode_str</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">phase_mode</span><span class="p">)</span> <span class="k">if</span> <span class="n">phase_mode</span> <span class="k">else</span> <span class="s1">&#39;unknown&#39;</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  阶段</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">phase</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">phase</span><span class="o">.</span><span class="n">tools</span><span class="p">)</span><span class="si">}</span><span class="s2"> 个工具, </span><span class="si">{</span><span class="n">mode_str</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">execution_plan</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_convert_to_legacy_execution_plan</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">decision_plan</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ExecutionPlan</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;转换DecisionAgent的执行计划为传统格式&quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.tool_executor</span><span class="w"> </span><span class="kn">import</span> <span class="n">ExecutionPhase</span> <span class="k">as</span> <span class="n">LegacyPhase</span><span class="p">,</span> <span class="n">ExecutionMode</span> <span class="k">as</span> <span class="n">LegacyMode</span>
+        
+        <span class="n">legacy_phases</span> <span class="o">=</span> <span class="p">[]</span>
+        
+        <span class="k">for</span> <span class="n">phase</span> <span class="ow">in</span> <span class="n">decision_plan</span><span class="o">.</span><span class="n">phases</span><span class="p">:</span>
+            <span class="c1"># 转换执行模式</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">phase</span><span class="p">,</span> <span class="s1">&#39;mode&#39;</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">phase</span><span class="o">.</span><span class="n">mode</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s1">&#39;parallel&#39;</span><span class="p">:</span>
+                    <span class="n">legacy_mode</span> <span class="o">=</span> <span class="n">LegacyMode</span><span class="o">.</span><span class="n">PARALLEL</span>
+                <span class="k">elif</span> <span class="n">phase</span><span class="o">.</span><span class="n">mode</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s1">&#39;sequential&#39;</span><span class="p">:</span>
+                    <span class="n">legacy_mode</span> <span class="o">=</span> <span class="n">LegacyMode</span><span class="o">.</span><span class="n">SEQUENTIAL</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">legacy_mode</span> <span class="o">=</span> <span class="n">LegacyMode</span><span class="o">.</span><span class="n">HYBRID</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">legacy_mode</span> <span class="o">=</span> <span class="n">LegacyMode</span><span class="o">.</span><span class="n">PARALLEL</span>
+            
+            <span class="n">legacy_phase</span> <span class="o">=</span> <span class="n">LegacyPhase</span><span class="p">(</span>
+                <span class="n">name</span><span class="o">=</span><span class="n">phase</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="n">tools</span><span class="o">=</span><span class="n">phase</span><span class="o">.</span><span class="n">tools</span><span class="p">,</span>
+                <span class="n">mode</span><span class="o">=</span><span class="n">legacy_mode</span><span class="p">,</span>
+                <span class="n">timeout</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span><span class="n">phase</span><span class="p">,</span> <span class="s1">&#39;timeout&#39;</span><span class="p">,</span> <span class="mi">300</span><span class="p">),</span>
+                <span class="n">dependencies</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span><span class="n">phase</span><span class="p">,</span> <span class="s1">&#39;dependencies&#39;</span><span class="p">,</span> <span class="p">[]),</span>
+                <span class="n">allow_failure</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span><span class="n">phase</span><span class="p">,</span> <span class="s1">&#39;allow_failure&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">legacy_phases</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">legacy_phase</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">ExecutionPlan</span><span class="p">(</span>
+            <span class="n">phases</span><span class="o">=</span><span class="n">legacy_phases</span><span class="p">,</span>
+            <span class="n">total_estimated_time</span><span class="o">=</span><span class="n">decision_plan</span><span class="o">.</span><span class="n">total_estimated_time</span><span class="p">,</span>
+            <span class="n">max_parallel_tools</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span><span class="n">decision_plan</span><span class="p">,</span> <span class="s1">&#39;max_parallel_tools&#39;</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+            <span class="n">early_termination_conditions</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span><span class="n">decision_plan</span><span class="p">,</span> <span class="s1">&#39;early_termination_conditions&#39;</span><span class="p">,</span> <span class="p">[]),</span>
+            <span class="n">fallback_strategy</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span><span class="n">decision_plan</span><span class="p">,</span> <span class="s1">&#39;fallback_strategy&#39;</span><span class="p">,</span> <span class="s1">&#39;continue&#39;</span><span class="p">)</span>
+        <span class="p">)</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_execute_tools</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">execution_plan</span><span class="p">:</span> <span class="n">ExecutionPlan</span><span class="p">,</span> <span class="n">project_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;执行工具分析（混合模式：传统工具执行器 + 插件系统）&quot;&quot;&quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;开始执行工具分析...&quot;</span><span class="p">)</span>
+        
+        <span class="c1"># 传统工具执行（保持向后兼容）</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;执行传统工具分析&quot;</span><span class="p">)</span>
+        <span class="n">tool_results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tool_executor</span><span class="o">.</span><span class="n">execute_tools</span><span class="p">(</span><span class="n">execution_plan</span><span class="p">,</span> <span class="n">project_path</span><span class="p">)</span>
+        
+        <span class="c1"># 插件系统执行（智能分析）</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;执行插件系统智能分析&quot;</span><span class="p">)</span>
+        <span class="n">plugin_results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_execute_plugins</span><span class="p">(</span><span class="n">project_path</span><span class="p">)</span>
+        
+        <span class="c1"># 合并结果</span>
+        <span class="n">combined_results</span> <span class="o">=</span> <span class="n">tool_results</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        
+        <span class="c1"># 将插件结果转换为工具结果格式以保持兼容性</span>
+        <span class="k">for</span> <span class="n">plugin_name</span><span class="p">,</span> <span class="n">plugin_result</span> <span class="ow">in</span> <span class="n">plugin_results</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="c1"># 为每个插件的工具结果添加到总结果中</span>
+            <span class="k">for</span> <span class="n">tool_name</span><span class="p">,</span> <span class="n">tool_result</span> <span class="ow">in</span> <span class="n">plugin_result</span><span class="o">.</span><span class="n">tool_results</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="c1"># 使用插件前缀避免命名冲突</span>
+                <span class="n">combined_tool_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">plugin_name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">tool_name</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="n">combined_results</span><span class="p">[</span><span class="n">combined_tool_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">tool_result</span>
+        
+        <span class="c1"># 更新统计信息</span>
+        <span class="n">executor_stats</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tool_executor</span><span class="o">.</span><span class="n">get_execution_stats</span><span class="p">()</span>
+        <span class="n">plugin_stats</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_plugin_stats</span><span class="p">(</span><span class="n">plugin_results</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">execution_stats</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+            <span class="s1">&#39;phases_completed&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">execution_plan</span><span class="o">.</span><span class="n">phases</span><span class="p">),</span>
+            <span class="s1">&#39;tools_executed&#39;</span><span class="p">:</span> <span class="n">executor_stats</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;total_tools&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">plugin_stats</span><span class="p">[</span><span class="s1">&#39;total_tools&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;tools_successful&#39;</span><span class="p">:</span> <span class="n">executor_stats</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;successful_tools&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">plugin_stats</span><span class="p">[</span><span class="s1">&#39;successful_tools&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;tools_failed&#39;</span><span class="p">:</span> <span class="n">executor_stats</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;failed_tools&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">plugin_stats</span><span class="p">[</span><span class="s1">&#39;failed_tools&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;plugins_executed&#39;</span><span class="p">:</span> <span class="n">plugin_stats</span><span class="p">[</span><span class="s1">&#39;plugins_executed&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;plugins_successful&#39;</span><span class="p">:</span> <span class="n">plugin_stats</span><span class="p">[</span><span class="s1">&#39;plugins_successful&#39;</span><span class="p">]</span>
+        <span class="p">})</span>
+        
+        <span class="c1"># 工具执行完成，准备生成报告</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;所有工具执行完成，开始生成报告&quot;</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">combined_results</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_execute_plugins</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;执行插件分析&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_project_info</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;项目信息未初始化&quot;</span><span class="p">)</span>
+        
+        <span class="c1"># 获取适用的插件</span>
+        <span class="n">plugins</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plugin_registry</span><span class="o">.</span><span class="n">get_plugins_for_project</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_project_info</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">plugins</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;未找到适用的语言插件&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">{}</span>
+        
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;发现 </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">plugins</span><span class="p">)</span><span class="si">}</span><span class="s2"> 个适用的语言插件: </span><span class="si">{</span><span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">plugins</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="c1"># 获取可用工具</span>
+        <span class="n">available_tools</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tool_executor</span><span class="o">.</span><span class="n">discover_available_tools</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_project_info</span><span class="p">)</span>
+        
+        <span class="c1"># 安全执行插件</span>
+        <span class="n">plugin_results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plugin_registry</span><span class="o">.</span><span class="n">execute_plugins_safely</span><span class="p">(</span>
+            <span class="n">plugins</span><span class="p">,</span> <span class="n">project_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_project_info</span><span class="p">,</span> <span class="n">available_tools</span>
+        <span class="p">)</span>
+        
+        <span class="c1"># 记录插件执行结果</span>
+        <span class="k">for</span> <span class="n">plugin_name</span><span class="p">,</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">plugin_results</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">success</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✅ 插件 </span><span class="si">{</span><span class="n">plugin_name</span><span class="si">}</span><span class="s2"> 执行成功 (质量分数: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">quality_score</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;❌ 插件 </span><span class="si">{</span><span class="n">plugin_name</span><span class="si">}</span><span class="s2"> 执行失败: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">errors</span><span class="p">)</span><span class="si">}</span><span class="s2"> 个错误&quot;</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">plugin_results</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_plugin_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin_results</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;获取插件执行统计信息&quot;&quot;&quot;</span>
+        <span class="n">stats</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;plugins_executed&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">plugin_results</span><span class="p">),</span>
+            <span class="s1">&#39;plugins_successful&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s1">&#39;total_tools&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s1">&#39;successful_tools&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s1">&#39;failed_tools&#39;</span><span class="p">:</span> <span class="mi">0</span>
+        <span class="p">}</span>
+        
+        <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">plugin_results</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">success</span><span class="p">:</span>
+                <span class="n">stats</span><span class="p">[</span><span class="s1">&#39;plugins_successful&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+            
+            <span class="n">stats</span><span class="p">[</span><span class="s1">&#39;total_tools&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">tool_results</span><span class="p">)</span>
+            <span class="n">stats</span><span class="p">[</span><span class="s1">&#39;successful_tools&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">([</span><span class="n">tr</span> <span class="k">for</span> <span class="n">tr</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">tool_results</span><span class="o">.</span><span class="n">values</span><span class="p">()</span> <span class="k">if</span> <span class="n">tr</span><span class="o">.</span><span class="n">success</span><span class="p">])</span>
+            <span class="n">stats</span><span class="p">[</span><span class="s1">&#39;failed_tools&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">([</span><span class="n">tr</span> <span class="k">for</span> <span class="n">tr</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">tool_results</span><span class="o">.</span><span class="n">values</span><span class="p">()</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">tr</span><span class="o">.</span><span class="n">success</span><span class="p">])</span>
+        
+        <span class="k">return</span> <span class="n">stats</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_generate_reports</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tool_results</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;生成智能增强审计报告&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_project_info</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;项目信息未初始化&quot;</span><span class="p">)</span>
+        
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;阶段7: 智能分析与报告生成...&quot;</span><span class="p">)</span>
+        
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># 自适应评分优化</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;7.1: AdaptiveAgent 自适应评分优化&quot;</span><span class="p">)</span>
+            <span class="n">adaptive_scoring_model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">adaptive_agent</span><span class="o">.</span><span class="n">adapt_scoring_model</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">current_project_info</span><span class="p">,</span> <span class="n">tool_results</span><span class="p">)</span>
+            
+            <span class="n">optimization_actions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">adaptive_agent</span><span class="o">.</span><span class="n">optimize_analysis_process</span><span class="p">(</span>
+                <span class="n">tool_results</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_project_info</span><span class="p">)</span>
+            
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;自适应评分完成, 信心度: </span><span class="si">{</span><span class="n">adaptive_scoring_model</span><span class="o">.</span><span class="n">confidence_level</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            
+            <span class="c1"># 智能推荐生成</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;7.2: RecommendationAgent 生成智能推荐&quot;</span><span class="p">)</span>
+            
+            <span class="c1"># 准备分析结果</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">.recommendation_agent</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnalysisResults</span><span class="p">,</span> <span class="n">Issue</span><span class="p">,</span> <span class="n">IssueSeverity</span><span class="p">,</span> <span class="n">ImpactLevel</span>
+            
+            <span class="n">all_issues</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extract_issues_from_results</span><span class="p">(</span><span class="n">tool_results</span><span class="p">)</span>
+            <span class="n">analysis_results</span> <span class="o">=</span> <span class="n">AnalysisResults</span><span class="p">(</span>
+                <span class="n">all_issues</span><span class="o">=</span><span class="n">all_issues</span><span class="p">,</span>
+                <span class="n">tool_results</span><span class="o">=</span><span class="n">tool_results</span><span class="p">,</span>
+                <span class="n">overall_score</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_calculate_overall_score</span><span class="p">(</span><span class="n">tool_results</span><span class="p">),</span>
+                <span class="n">dimension_scores</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_calculate_dimension_scores</span><span class="p">(</span><span class="n">tool_results</span><span class="p">)</span>
+            <span class="p">)</span>
+            
+            <span class="n">intelligent_recommendations</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">recommendation_agent</span><span class="o">.</span><span class="n">generate_intelligent_recommendations</span><span class="p">(</span>
+                <span class="n">analysis_results</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_project_info</span><span class="p">,</span> <span class="n">adaptive_scoring_model</span><span class="p">)</span>
+            
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;智能推荐生成完成: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">intelligent_recommendations</span><span class="o">.</span><span class="n">recommendations</span><span class="p">)</span><span class="si">}</span><span class="s2">个建议, &quot;</span>
+                       <span class="sa">f</span><span class="s2">&quot;路线图</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">intelligent_recommendations</span><span class="o">.</span><span class="n">roadmap</span><span class="o">.</span><span class="n">phases</span><span class="p">)</span><span class="si">}</span><span class="s2">个阶段&quot;</span><span class="p">)</span>
+            
+            <span class="c1"># 准备输出目录</span>
+            <span class="n">output_path</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">output_dir</span><span class="p">)</span> <span class="k">if</span> <span class="n">output_dir</span> <span class="k">else</span> <span class="kc">None</span>
+            <span class="n">project_path</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_project_info</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+            
+            <span class="k">if</span> <span class="n">output_path</span> <span class="ow">and</span> <span class="n">output_path</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="ow">and</span> <span class="n">output_path</span><span class="o">.</span><span class="n">samefile</span><span class="p">(</span><span class="n">project_path</span><span class="p">):</span>
+                <span class="c1"># 输出目录就是项目目录，使用当前工作目录的reports</span>
+                <span class="n">reports_dir</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span> <span class="o">/</span> <span class="s2">&quot;reports&quot;</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_project_info</span><span class="o">.</span><span class="n">name</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># 使用指定的输出目录</span>
+                <span class="n">reports_dir</span> <span class="o">=</span> <span class="n">output_path</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_project_info</span><span class="o">.</span><span class="n">name</span> <span class="k">if</span> <span class="n">output_path</span> <span class="k">else</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span> <span class="o">/</span> <span class="s2">&quot;reports&quot;</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_project_info</span><span class="o">.</span><span class="n">name</span>
+            
+            <span class="n">reports_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            
+            <span class="c1"># 智能增强版报告生成 - 集成智能推荐和自适应评分</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;7.3: 生成智能增强版审计报告&quot;</span><span class="p">)</span>
+            <span class="n">report_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">report_generator</span><span class="o">.</span><span class="n">generate_adaptive_audit_report</span><span class="p">(</span>
+                <span class="n">project_info</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">current_project_info</span><span class="p">,</span>
+                <span class="n">tool_results</span><span class="o">=</span><span class="n">tool_results</span><span class="p">,</span>
+                <span class="n">execution_stats</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">execution_stats</span><span class="p">,</span>
+                <span class="n">adaptive_scoring_model</span><span class="o">=</span><span class="n">adaptive_scoring_model</span><span class="p">,</span>
+                <span class="n">intelligent_recommendations</span><span class="o">=</span><span class="n">intelligent_recommendations</span><span class="p">,</span>
+                <span class="n">optimization_actions</span><span class="o">=</span><span class="n">optimization_actions</span><span class="p">,</span>
+                <span class="n">output_dir</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">reports_dir</span><span class="p">)</span>
+            <span class="p">)</span>
+            
+            <span class="k">return</span> <span class="n">report_path</span>
+            
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;报告生成时发生错误: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="kn">import</span><span class="w"> </span><span class="nn">traceback</span>
+            <span class="n">traceback</span><span class="o">.</span><span class="n">print_exc</span><span class="p">()</span>
+            <span class="k">raise</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_cleanup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;清理资源&quot;&quot;&quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;清理审计运行器资源...&quot;</span><span class="p">)</span>
+        <span class="c1"># 这里可以添加资源清理逻辑</span>
+        <span class="k">pass</span>
+    
+<div class="viewcode-block" id="AuditRunner.get_supported_languages">
+<a class="viewcode-back" href="../../../api/core.html#oss_audit.core.audit_runner.AuditRunner.get_supported_languages">[文档]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_supported_languages</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;获取支持的编程语言列表&quot;&quot;&quot;</span>
+        <span class="n">registry</span> <span class="o">=</span> <span class="n">get_tool_registry</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">registry</span><span class="o">.</span><span class="n">get_supported_languages</span><span class="p">()</span></div>
+
+    
+<div class="viewcode-block" id="AuditRunner.get_tool_categories">
+<a class="viewcode-back" href="../../../api/core.html#oss_audit.core.audit_runner.AuditRunner.get_tool_categories">[文档]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_tool_categories</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;获取工具分类列表&quot;&quot;&quot;</span>
+        <span class="n">registry</span> <span class="o">=</span> <span class="n">get_tool_registry</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">registry</span><span class="o">.</span><span class="n">get_tool_categories</span><span class="p">()</span></div>
+
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_load_default_config</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;加载默认配置&quot;&quot;&quot;</span>
+        <span class="n">default_config</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;project&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;unknown&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span>
+            <span class="p">},</span>
+            <span class="s1">&#39;tools&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;disabled&#39;</span><span class="p">:</span> <span class="p">[],</span>
+                <span class="s1">&#39;enabled&#39;</span><span class="p">:</span> <span class="p">[],</span>
+                <span class="s1">&#39;configs&#39;</span><span class="p">:</span> <span class="p">{}</span>
+            <span class="p">},</span>
+            <span class="s1">&#39;dimensions&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;security&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;weight&#39;</span><span class="p">:</span> <span class="mf">0.25</span><span class="p">,</span> <span class="s1">&#39;enabled&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
+                <span class="s1">&#39;quality&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;weight&#39;</span><span class="p">:</span> <span class="mf">0.25</span><span class="p">,</span> <span class="s1">&#39;enabled&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
+                <span class="s1">&#39;testing&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;weight&#39;</span><span class="p">:</span> <span class="mf">0.20</span><span class="p">,</span> <span class="s1">&#39;enabled&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
+                <span class="s1">&#39;documentation&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;weight&#39;</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span> <span class="s1">&#39;enabled&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
+                <span class="s1">&#39;performance&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;weight&#39;</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span> <span class="s1">&#39;enabled&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+            <span class="p">},</span>
+            <span class="s1">&#39;exclude&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;paths&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;node_modules/&#39;</span><span class="p">,</span> <span class="s1">&#39;venv/&#39;</span><span class="p">,</span> <span class="s1">&#39;.git/&#39;</span><span class="p">,</span> <span class="s1">&#39;__pycache__/&#39;</span><span class="p">],</span>
+                <span class="s1">&#39;files&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;*.min.js&#39;</span><span class="p">,</span> <span class="s1">&#39;*.pyc&#39;</span><span class="p">,</span> <span class="s1">&#39;*.log&#39;</span><span class="p">]</span>
+            <span class="p">},</span>
+            <span class="s1">&#39;reports&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;formats&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;html&#39;</span><span class="p">,</span> <span class="s1">&#39;json&#39;</span><span class="p">],</span>
+                <span class="s1">&#39;output_dir&#39;</span><span class="p">:</span> <span class="s1">&#39;reports/&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;detail_level&#39;</span><span class="p">:</span> <span class="s1">&#39;full&#39;</span>
+            <span class="p">},</span>
+            <span class="s1">&#39;advanced&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;parallelism&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;max_workers&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">},</span>
+                <span class="s1">&#39;timeout_multiplier&#39;</span><span class="p">:</span> <span class="mf">1.0</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">default_config</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_load_project_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;加载项目特定配置（可选）&quot;&quot;&quot;</span>
+        <span class="n">config_files</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;.oss-audit.yaml&#39;</span><span class="p">,</span> <span class="s1">&#39;.oss-audit.yml&#39;</span><span class="p">,</span> <span class="s1">&#39;oss-audit.yaml&#39;</span><span class="p">]</span>
+        <span class="n">project_path_obj</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">project_path</span><span class="p">)</span>
+        
+        <span class="k">for</span> <span class="n">config_file</span> <span class="ow">in</span> <span class="n">config_files</span><span class="p">:</span>
+            <span class="n">config_path</span> <span class="o">=</span> <span class="n">project_path_obj</span> <span class="o">/</span> <span class="n">config_file</span>
+            <span class="k">if</span> <span class="n">config_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">config_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                        <span class="n">project_config</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✅ 发现项目配置文件: </span><span class="si">{</span><span class="n">config_path</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="n">project_config</span> <span class="ow">or</span> <span class="p">{}</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;⚠️ 项目配置文件解析失败 </span><span class="si">{</span><span class="n">config_path</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;ℹ️ 零配置模式 - 使用智能默认设置&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{}</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_generate_smart_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_info</span><span class="p">:</span> <span class="n">ProjectInfo</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;根据项目信息生成智能配置&quot;&quot;&quot;</span>
+        <span class="n">smart_config</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;project&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">project_info</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="n">project_info</span><span class="o">.</span><span class="n">project_type</span><span class="o">.</span><span class="n">value</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">project_info</span><span class="o">.</span><span class="n">project_type</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">project_info</span><span class="o">.</span><span class="n">project_type</span><span class="p">),</span>
+                <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;自动检测的</span><span class="si">{</span><span class="n">project_info</span><span class="o">.</span><span class="n">project_type</span><span class="o">.</span><span class="n">value</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nb">hasattr</span><span class="p">(</span><span class="n">project_info</span><span class="o">.</span><span class="n">project_type</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;value&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="nb">str</span><span class="p">(</span><span class="n">project_info</span><span class="o">.</span><span class="n">project_type</span><span class="p">)</span><span class="si">}</span><span class="s2">项目&quot;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        
+        <span class="c1"># 根据项目类型调整维度权重</span>
+        <span class="n">project_type_str</span> <span class="o">=</span> <span class="n">project_info</span><span class="o">.</span><span class="n">project_type</span><span class="o">.</span><span class="n">value</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">project_info</span><span class="o">.</span><span class="n">project_type</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">project_info</span><span class="o">.</span><span class="n">project_type</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">project_type_str</span> <span class="o">==</span> <span class="s1">&#39;web_application&#39;</span><span class="p">:</span>
+            <span class="n">smart_config</span><span class="p">[</span><span class="s1">&#39;dimensions&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;security&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;weight&#39;</span><span class="p">:</span> <span class="mf">0.30</span><span class="p">,</span> <span class="s1">&#39;enabled&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
+                <span class="s1">&#39;quality&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;weight&#39;</span><span class="p">:</span> <span class="mf">0.25</span><span class="p">,</span> <span class="s1">&#39;enabled&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
+                <span class="s1">&#39;performance&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;weight&#39;</span><span class="p">:</span> <span class="mf">0.20</span><span class="p">,</span> <span class="s1">&#39;enabled&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
+                <span class="s1">&#39;testing&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;weight&#39;</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span> <span class="s1">&#39;enabled&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
+                <span class="s1">&#39;documentation&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;weight&#39;</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">,</span> <span class="s1">&#39;enabled&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+            <span class="p">}</span>
+        <span class="k">elif</span> <span class="n">project_type_str</span> <span class="o">==</span> <span class="s1">&#39;library&#39;</span><span class="p">:</span>
+            <span class="n">smart_config</span><span class="p">[</span><span class="s1">&#39;dimensions&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;quality&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;weight&#39;</span><span class="p">:</span> <span class="mf">0.30</span><span class="p">,</span> <span class="s1">&#39;enabled&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
+                <span class="s1">&#39;documentation&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;weight&#39;</span><span class="p">:</span> <span class="mf">0.25</span><span class="p">,</span> <span class="s1">&#39;enabled&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
+                <span class="s1">&#39;testing&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;weight&#39;</span><span class="p">:</span> <span class="mf">0.20</span><span class="p">,</span> <span class="s1">&#39;enabled&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
+                <span class="s1">&#39;security&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;weight&#39;</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span> <span class="s1">&#39;enabled&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
+                <span class="s1">&#39;performance&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;weight&#39;</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">,</span> <span class="s1">&#39;enabled&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+            <span class="p">}</span>
+        <span class="k">elif</span> <span class="n">project_type_str</span> <span class="o">==</span> <span class="s1">&#39;cli_tool&#39;</span><span class="p">:</span>
+            <span class="n">smart_config</span><span class="p">[</span><span class="s1">&#39;dimensions&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;quality&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;weight&#39;</span><span class="p">:</span> <span class="mf">0.25</span><span class="p">,</span> <span class="s1">&#39;enabled&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
+                <span class="s1">&#39;documentation&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;weight&#39;</span><span class="p">:</span> <span class="mf">0.20</span><span class="p">,</span> <span class="s1">&#39;enabled&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
+                <span class="s1">&#39;testing&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;weight&#39;</span><span class="p">:</span> <span class="mf">0.20</span><span class="p">,</span> <span class="s1">&#39;enabled&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
+                <span class="s1">&#39;performance&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;weight&#39;</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span> <span class="s1">&#39;enabled&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
+                <span class="s1">&#39;security&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;weight&#39;</span><span class="p">:</span> <span class="mf">0.20</span><span class="p">,</span> <span class="s1">&#39;enabled&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+            <span class="p">}</span>
+        
+        <span class="c1"># 根据项目规模调整并行度</span>
+        <span class="n">code_lines</span> <span class="o">=</span> <span class="n">project_info</span><span class="o">.</span><span class="n">size_metrics</span><span class="o">.</span><span class="n">code_lines</span>
+        <span class="k">if</span> <span class="n">code_lines</span> <span class="o">&gt;</span> <span class="mi">10000</span><span class="p">:</span>
+            <span class="n">smart_config</span><span class="p">[</span><span class="s1">&#39;advanced&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;parallelism&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;max_workers&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">}}</span>
+        <span class="k">elif</span> <span class="n">code_lines</span> <span class="o">&gt;</span> <span class="mi">5000</span><span class="p">:</span>
+            <span class="n">smart_config</span><span class="p">[</span><span class="s1">&#39;advanced&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;parallelism&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;max_workers&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">smart_config</span><span class="p">[</span><span class="s1">&#39;advanced&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;parallelism&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;max_workers&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}}</span>
+        
+        <span class="c1"># 根据主要语言调整工具选择</span>
+        <span class="n">primary_language</span> <span class="o">=</span> <span class="n">project_info</span><span class="o">.</span><span class="n">get_primary_language</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">primary_language</span><span class="p">:</span>
+            <span class="n">smart_config</span><span class="p">[</span><span class="s1">&#39;tools&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;enabled&#39;</span><span class="p">:</span> <span class="p">[]}</span>
+            <span class="k">if</span> <span class="n">primary_language</span> <span class="o">==</span> <span class="s1">&#39;python&#39;</span><span class="p">:</span>
+                <span class="n">smart_config</span><span class="p">[</span><span class="s1">&#39;tools&#39;</span><span class="p">][</span><span class="s1">&#39;enabled&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;pylint&#39;</span><span class="p">,</span> <span class="s1">&#39;mypy&#39;</span><span class="p">,</span> <span class="s1">&#39;bandit&#39;</span><span class="p">,</span> <span class="s1">&#39;pytest&#39;</span><span class="p">,</span> <span class="s1">&#39;coverage&#39;</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">primary_language</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;javascript&#39;</span><span class="p">,</span> <span class="s1">&#39;typescript&#39;</span><span class="p">]:</span>
+                <span class="n">smart_config</span><span class="p">[</span><span class="s1">&#39;tools&#39;</span><span class="p">][</span><span class="s1">&#39;enabled&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;eslint&#39;</span><span class="p">,</span> <span class="s1">&#39;prettier&#39;</span><span class="p">,</span> <span class="s1">&#39;jest&#39;</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">primary_language</span> <span class="o">==</span> <span class="s1">&#39;java&#39;</span><span class="p">:</span>
+                <span class="n">smart_config</span><span class="p">[</span><span class="s1">&#39;tools&#39;</span><span class="p">][</span><span class="s1">&#39;enabled&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;checkstyle&#39;</span><span class="p">,</span> <span class="s1">&#39;spotbugs&#39;</span><span class="p">,</span> <span class="s1">&#39;junit&#39;</span><span class="p">]</span>
+        
+        <span class="k">return</span> <span class="n">smart_config</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_merge_configs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default_config</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> 
+                      <span class="n">smart_config</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+                      <span class="n">project_config</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> 
+                      <span class="n">overrides</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;合并配置（项目配置覆盖默认配置，覆盖参数优先级最高）&quot;&quot;&quot;</span>
+        <span class="n">merged_config</span> <span class="o">=</span> <span class="n">default_config</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        
+        <span class="c1"># 递归合并字典</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">deep_merge</span><span class="p">(</span><span class="n">target</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">source</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">target</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">target</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                    <span class="n">deep_merge</span><span class="p">(</span><span class="n">target</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">value</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">target</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+        
+        <span class="c1"># 合并智能配置</span>
+        <span class="k">if</span> <span class="n">smart_config</span><span class="p">:</span>
+            <span class="n">deep_merge</span><span class="p">(</span><span class="n">merged_config</span><span class="p">,</span> <span class="n">smart_config</span><span class="p">)</span>
+        
+        <span class="c1"># 合并项目配置</span>
+        <span class="k">if</span> <span class="n">project_config</span><span class="p">:</span>
+            <span class="n">deep_merge</span><span class="p">(</span><span class="n">merged_config</span><span class="p">,</span> <span class="n">project_config</span><span class="p">)</span>
+        
+        <span class="c1"># 合并覆盖配置</span>
+        <span class="k">if</span> <span class="n">overrides</span><span class="p">:</span>
+            <span class="n">deep_merge</span><span class="p">(</span><span class="n">merged_config</span><span class="p">,</span> <span class="n">overrides</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">merged_config</span>
+    
+    <span class="c1"># ========== 智能分析辅助方法 ==========</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_extract_issues_from_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tool_results</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;从工具结果中提取问题列表&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">.recommendation_agent</span><span class="w"> </span><span class="kn">import</span> <span class="n">Issue</span><span class="p">,</span> <span class="n">IssueSeverity</span><span class="p">,</span> <span class="n">ImpactLevel</span>
+            
+            <span class="n">all_issues</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">issue_id</span> <span class="o">=</span> <span class="mi">1</span>
+            
+            <span class="k">for</span> <span class="n">tool_name</span><span class="p">,</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">tool_results</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;success&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="ow">and</span> <span class="s1">&#39;issues&#39;</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">issue_data</span> <span class="ow">in</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;issues&#39;</span><span class="p">]:</span>
+                        <span class="k">try</span><span class="p">:</span>
+                            <span class="c1"># 解析严重程度</span>
+                            <span class="n">severity_str</span> <span class="o">=</span> <span class="n">issue_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;severity&#39;</span><span class="p">,</span> <span class="s1">&#39;medium&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                            <span class="n">severity_map</span> <span class="o">=</span> <span class="p">{</span>
+                                <span class="s1">&#39;critical&#39;</span><span class="p">:</span> <span class="n">IssueSeverity</span><span class="o">.</span><span class="n">CRITICAL</span><span class="p">,</span>
+                                <span class="s1">&#39;high&#39;</span><span class="p">:</span> <span class="n">IssueSeverity</span><span class="o">.</span><span class="n">HIGH</span><span class="p">,</span>
+                                <span class="s1">&#39;medium&#39;</span><span class="p">:</span> <span class="n">IssueSeverity</span><span class="o">.</span><span class="n">MEDIUM</span><span class="p">,</span>
+                                <span class="s1">&#39;low&#39;</span><span class="p">:</span> <span class="n">IssueSeverity</span><span class="o">.</span><span class="n">LOW</span><span class="p">,</span>
+                                <span class="s1">&#39;info&#39;</span><span class="p">:</span> <span class="n">IssueSeverity</span><span class="o">.</span><span class="n">INFO</span>
+                            <span class="p">}</span>
+                            <span class="n">severity</span> <span class="o">=</span> <span class="n">severity_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">severity_str</span><span class="p">,</span> <span class="n">IssueSeverity</span><span class="o">.</span><span class="n">MEDIUM</span><span class="p">)</span>
+                            
+                            <span class="c1"># 解析影响程度</span>
+                            <span class="k">if</span> <span class="n">severity</span> <span class="o">==</span> <span class="n">IssueSeverity</span><span class="o">.</span><span class="n">CRITICAL</span><span class="p">:</span>
+                                <span class="n">impact_level</span> <span class="o">=</span> <span class="n">ImpactLevel</span><span class="o">.</span><span class="n">BREAKING</span>
+                            <span class="k">elif</span> <span class="n">severity</span> <span class="o">==</span> <span class="n">IssueSeverity</span><span class="o">.</span><span class="n">HIGH</span><span class="p">:</span>
+                                <span class="n">impact_level</span> <span class="o">=</span> <span class="n">ImpactLevel</span><span class="o">.</span><span class="n">MAJOR</span>
+                            <span class="k">elif</span> <span class="n">severity</span> <span class="o">==</span> <span class="n">IssueSeverity</span><span class="o">.</span><span class="n">MEDIUM</span><span class="p">:</span>
+                                <span class="n">impact_level</span> <span class="o">=</span> <span class="n">ImpactLevel</span><span class="o">.</span><span class="n">MINOR</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="n">impact_level</span> <span class="o">=</span> <span class="n">ImpactLevel</span><span class="o">.</span><span class="n">NEGLIGIBLE</span>
+                            
+                            <span class="n">issue</span> <span class="o">=</span> <span class="n">Issue</span><span class="p">(</span>
+                                <span class="nb">id</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;issue_</span><span class="si">{</span><span class="n">issue_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                                <span class="n">title</span><span class="o">=</span><span class="n">issue_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;message&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;Issue from </span><span class="si">{</span><span class="n">tool_name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">),</span>
+                                <span class="n">description</span><span class="o">=</span><span class="n">issue_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;description&#39;</span><span class="p">,</span> <span class="n">issue_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;message&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)),</span>
+                                <span class="n">severity</span><span class="o">=</span><span class="n">severity</span><span class="p">,</span>
+                                <span class="n">category</span><span class="o">=</span><span class="n">issue_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;category&#39;</span><span class="p">,</span> <span class="n">tool_name</span><span class="p">),</span>
+                                <span class="n">file_path</span><span class="o">=</span><span class="n">issue_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;filename&#39;</span><span class="p">,</span> <span class="n">issue_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;file&#39;</span><span class="p">)),</span>
+                                <span class="n">line_number</span><span class="o">=</span><span class="n">issue_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;line&#39;</span><span class="p">,</span> <span class="n">issue_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;line_number&#39;</span><span class="p">)),</span>
+                                <span class="n">tool_source</span><span class="o">=</span><span class="n">tool_name</span><span class="p">,</span>
+                                <span class="n">fix_effort</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_estimate_fix_effort</span><span class="p">(</span><span class="n">issue_data</span><span class="p">,</span> <span class="n">severity</span><span class="p">),</span>
+                                <span class="n">impact_level</span><span class="o">=</span><span class="n">impact_level</span>
+                            <span class="p">)</span>
+                            
+                            <span class="n">all_issues</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">issue</span><span class="p">)</span>
+                            <span class="n">issue_id</span> <span class="o">+=</span> <span class="mi">1</span>
+                            
+                        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;解析问题失败 (</span><span class="si">{</span><span class="n">tool_name</span><span class="si">}</span><span class="s2">): </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                            <span class="k">continue</span>
+            
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;从工具结果中提取了</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">all_issues</span><span class="p">)</span><span class="si">}</span><span class="s2">个问题&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">all_issues</span>
+            
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;问题提取失败: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">[]</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_estimate_fix_effort</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">issue_data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">severity</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;估算修复工作量&quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.recommendation_agent</span><span class="w"> </span><span class="kn">import</span> <span class="n">IssueSeverity</span>
+        <span class="k">if</span> <span class="n">severity</span> <span class="o">==</span> <span class="n">IssueSeverity</span><span class="o">.</span><span class="n">CRITICAL</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;high&quot;</span>
+        <span class="k">elif</span> <span class="n">severity</span> <span class="o">==</span> <span class="n">IssueSeverity</span><span class="o">.</span><span class="n">HIGH</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;medium&quot;</span>  
+        <span class="k">elif</span> <span class="n">severity</span> <span class="o">==</span> <span class="n">IssueSeverity</span><span class="o">.</span><span class="n">MEDIUM</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;medium&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;low&quot;</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_calculate_overall_score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tool_results</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;计算整体分数&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">scores</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">tool_results</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;success&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="ow">and</span> <span class="s1">&#39;score&#39;</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+                    <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;score&#39;</span><span class="p">]))</span>
+            
+            <span class="k">if</span> <span class="n">scores</span><span class="p">:</span>
+                <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="mf">50.0</span>  <span class="c1"># 默认分数</span>
+                
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;整体分数计算失败: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="mf">50.0</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_calculate_dimension_scores</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tool_results</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;计算维度分数&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">dimension_scores</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;security&#39;</span><span class="p">:</span> <span class="mf">50.0</span><span class="p">,</span>
+                <span class="s1">&#39;quality&#39;</span><span class="p">:</span> <span class="mf">50.0</span><span class="p">,</span>
+                <span class="s1">&#39;testing&#39;</span><span class="p">:</span> <span class="mf">50.0</span><span class="p">,</span>
+                <span class="s1">&#39;performance&#39;</span><span class="p">:</span> <span class="mf">50.0</span><span class="p">,</span>
+                <span class="s1">&#39;documentation&#39;</span><span class="p">:</span> <span class="mf">50.0</span>
+            <span class="p">}</span>
+            
+            <span class="c1"># 基于工具类型计算维度分数</span>
+            <span class="k">for</span> <span class="n">tool_name</span><span class="p">,</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">tool_results</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;success&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="ow">or</span> <span class="s1">&#39;score&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                
+                <span class="n">score</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;score&#39;</span><span class="p">])</span>
+                
+                <span class="c1"># 根据工具名称推断维度</span>
+                <span class="k">if</span> <span class="s1">&#39;bandit&#39;</span> <span class="ow">in</span> <span class="n">tool_name</span> <span class="ow">or</span> <span class="s1">&#39;security&#39;</span> <span class="ow">in</span> <span class="n">tool_name</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+                    <span class="n">dimension_scores</span><span class="p">[</span><span class="s1">&#39;security&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">score</span>
+                <span class="k">elif</span> <span class="s1">&#39;pylint&#39;</span> <span class="ow">in</span> <span class="n">tool_name</span> <span class="ow">or</span> <span class="s1">&#39;eslint&#39;</span> <span class="ow">in</span> <span class="n">tool_name</span><span class="p">:</span>
+                    <span class="n">dimension_scores</span><span class="p">[</span><span class="s1">&#39;quality&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">score</span>
+                <span class="k">elif</span> <span class="s1">&#39;test&#39;</span> <span class="ow">in</span> <span class="n">tool_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">or</span> <span class="s1">&#39;coverage&#39;</span> <span class="ow">in</span> <span class="n">tool_name</span><span class="p">:</span>
+                    <span class="n">dimension_scores</span><span class="p">[</span><span class="s1">&#39;testing&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">score</span>
+            
+            <span class="k">return</span> <span class="n">dimension_scores</span>
+            
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;维度分数计算失败: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;quality&#39;</span><span class="p">:</span> <span class="mf">50.0</span><span class="p">}</span>
+    
+<div class="viewcode-block" id="AuditRunner.validate_project_path">
+<a class="viewcode-back" href="../../../api/core.html#oss_audit.core.audit_runner.AuditRunner.validate_project_path">[文档]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_project_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;验证项目路径&quot;&quot;&quot;</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">project_path</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;项目路径不存在: </span><span class="si">{</span><span class="n">project_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="o">.</span><span class="n">is_dir</span><span class="p">():</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;项目路径不是目录: </span><span class="si">{</span><span class="n">project_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        
+        <span class="c1"># 检查是否为空目录</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">iterdir</span><span class="p">()):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;项目目录为空: </span><span class="si">{</span><span class="n">project_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        
+        <span class="k">return</span> <span class="kc">True</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="print_help">
+<a class="viewcode-back" href="../../../api/core.html#oss_audit.core.audit_runner.print_help">[文档]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">print_help</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;打印帮助信息&quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;OSS Audit 2.0 - 开源软件成熟度评估工具&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;用法:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;    python main.py &lt;项目路径&gt; [输出目录]&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;    python -m oss_audit.core.audit_runner &lt;项目路径&gt; [输出目录]&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;    oss-audit &lt;项目路径&gt; [输出目录]        # 安装后可用&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;参数:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;    项目路径     要分析的项目目录路径（必需）&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;    输出目录     报告输出目录（可选，默认为 reports/）&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;选项:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;    -h, --help   显示此帮助信息&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;特性:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;    - 零配置运行 - 无需配置文件，智能分析&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;    - 多语言支持 - Python、JavaScript、TypeScript、Java、Go、Rust、C++&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;    - 智能检测   - 自动识别项目类型和特征&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;    - AI增强     - 可选的AI分析增强功能&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;示例:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;    python main.py ./my-python-project&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;    python main.py ./my-js-app ./custom-reports&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;    python main.py ../enterprise-project&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;更多信息: https://gitee.com/oss-audit/oss-audit&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="setup_logging">
+<a class="viewcode-back" href="../../../api/core.html#oss_audit.core.audit_runner.setup_logging">[文档]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">setup_logging</span><span class="p">(</span><span class="n">level</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;INFO&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;设置日志配置&quot;&quot;&quot;</span>
+    <span class="n">numeric_level</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">logging</span><span class="p">,</span> <span class="n">level</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">numeric_level</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Invalid log level: </span><span class="si">{</span><span class="n">level</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    
+    <span class="c1"># 配置日志格式</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span>
+        <span class="n">level</span><span class="o">=</span><span class="n">numeric_level</span><span class="p">,</span>
+        <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%(asctime)s</span><span class="s1"> - </span><span class="si">%(name)s</span><span class="s1"> - </span><span class="si">%(levelname)s</span><span class="s1"> - </span><span class="si">%(message)s</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="n">datefmt</span><span class="o">=</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M:%S&#39;</span>
+    <span class="p">)</span>
+    
+    <span class="c1"># 设置第三方库日志级别</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;urllib3&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">)</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;requests&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">)</span></div>
+
+
+
+
+
+<div class="viewcode-block" id="main">
+<a class="viewcode-back" href="../../../api/core.html#oss_audit.core.audit_runner.main">[文档]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;主函数 - 命令行入口&quot;&quot;&quot;</span>
+    
+    <span class="c1"># 设置日志</span>
+    <span class="n">setup_logging</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;LOG_LEVEL&#39;</span><span class="p">,</span> <span class="s1">&#39;INFO&#39;</span><span class="p">))</span>
+    
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;OSS Audit 2.0 - 开源软件成熟度评估工具&quot;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;智能增强版: DecisionAgent, AdaptiveAgent, RecommendationAgent 集成&quot;</span><span class="p">)</span>
+    
+    <span class="c1"># 解析命令行参数</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;-h&#39;</span><span class="p">,</span> <span class="s1">&#39;--help&#39;</span><span class="p">,</span> <span class="s1">&#39;help&#39;</span><span class="p">]:</span>
+        <span class="n">print_help</span><span class="p">()</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    
+    <span class="n">project_path</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">output_dir</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span> <span class="k">else</span> <span class="kc">None</span>
+    
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># 创建审计运行器</span>
+        <span class="n">runner</span> <span class="o">=</span> <span class="n">AuditRunner</span><span class="p">()</span>
+        
+        <span class="c1"># 验证项目路径</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">runner</span><span class="o">.</span><span class="n">validate_project_path</span><span class="p">(</span><span class="n">project_path</span><span class="p">):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;项目路径验证失败&quot;</span><span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        
+        <span class="c1"># 执行审计</span>
+        <span class="n">report_path</span> <span class="o">=</span> <span class="n">runner</span><span class="o">.</span><span class="n">audit_project</span><span class="p">(</span><span class="n">project_path</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">)</span>
+        
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">✅ 审计完成！&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;📊 报告路径: </span><span class="si">{</span><span class="n">report_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;⏱️  总耗时: </span><span class="si">{</span><span class="n">runner</span><span class="o">.</span><span class="n">execution_stats</span><span class="p">[</span><span class="s1">&#39;total_duration&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">s&quot;</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="kc">True</span>
+        
+    <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;审计被用户中断&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span>
+        
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;审计失败: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2024, OSS Audit Team。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

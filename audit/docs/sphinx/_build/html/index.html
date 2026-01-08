@@ -1,0 +1,294 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OSS Audit 2.0 API文档 &mdash; OSS Audit 2.0 API文档</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=a3f70f27" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=b15d7ad8"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/translations.js?v=beaddf03"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="安装指南" href="installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            OSS Audit 2.0
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">快速开始:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">安装指南</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API参考:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/core.html">核心模块 (oss_audit.core)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/agents.html">智能代理系统 (oss_audit.core.agents)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">核心模块</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="_autosummary/oss_audit.core.audit_runner.html">oss_audit.core.audit_runner</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_autosummary/oss_audit.core.project_detector.html">oss_audit.core.project_detector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_autosummary/oss_audit.core.tool_executor.html">oss_audit.core.tool_executor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_autosummary/oss_audit.core.report_generator.html">oss_audit.core.report_generator</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">智能代理</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="_autosummary/oss_audit.core.decision_agent.html">oss_audit.core.decision_agent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_autosummary/oss_audit.core.adaptive_agent.html">oss_audit.core.adaptive_agent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_autosummary/oss_audit.core.recommendation_agent.html">oss_audit.core.recommendation_agent</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">工具和插件</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="_autosummary/oss_audit.utils.ai_analyzer.html">oss_audit.utils.ai_analyzer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_autosummary/oss_audit.core.tool_registry.html">oss_audit.core.tool_registry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_autosummary/oss_audit.plugins.html">oss_audit.plugins</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">OSS Audit 2.0</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">OSS Audit 2.0 API文档</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="oss-audit-2-0-api">
+<h1>OSS Audit 2.0 API文档<a class="headerlink" href="#oss-audit-2-0-api" title="Link to this heading"></a></h1>
+<p>欢迎使用OSS Audit 2.0 API文档！这是一个全面的开源软件成熟度评估工具，支持智能项目检测和AI增强分析。</p>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">快速开始:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">安装指南</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#id2">系统要求</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#id3">核心安装</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#docker">Docker安装</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#id8">验证安装</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#id10">工具依赖</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#id11">可选工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#id14">故障排除</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#id16">支持和帮助</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#id17">版本兼容性</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">API参考:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/core.html">核心模块 (oss_audit.core)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/core.html#module-oss_audit.core.audit_runner">审计运行器 (AuditRunner)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/core.html#module-oss_audit.core.project_detector">项目检测器 (ProjectDetector)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/core.html#module-oss_audit.core.tool_executor">工具执行器 (ToolExecutor)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/core.html#module-oss_audit.core.report_generator">报告生成器 (ReportGenerator)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/core.html#module-oss_audit.core.tool_registry">工具注册表 (ToolRegistry)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/core.html#id1">使用示例</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/core.html#id5">数据结构</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/core.html#id6">枚举类型</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api/agents.html">智能代理系统 (oss_audit.core.agents)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/agents.html#module-oss_audit.core.decision_agent">决策代理 (DecisionAgent)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/agents.html#module-oss_audit.core.adaptive_agent">自适应代理 (AdaptiveAgent)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/agents.html#module-oss_audit.core.recommendation_agent">推荐代理 (RecommendationAgent)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/agents.html#id1">代理协作工作流</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/agents.html#id6">数据结构</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/agents.html#id7">枚举类型</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+</div>
+<section id="id1">
+<h2>特性概览<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<p>OSS Audit 2.0 提供以下核心功能：</p>
+<dl class="simple">
+<dt>🔍 <strong>智能项目检测</strong></dt><dd><ul class="simple">
+<li><p>多语言项目自动识别 (Python, JavaScript, Java, Go, Rust, C++)</p></li>
+<li><p>项目结构类型智能推断 (单项目, 多项目, 单一仓库)</p></li>
+<li><p>自动项目类型分类 (Web应用, 库, CLI工具, 数据科学)</p></li>
+</ul>
+</dd>
+<dt>🤖 <strong>AI增强分析</strong></dt><dd><ul class="simple">
+<li><p>集成OpenAI/DeepSeek和Gemini模型</p></li>
+<li><p>智能问题优先级排序</p></li>
+<li><p>自适应评分模型优化</p></li>
+<li><p>针对性改进建议生成</p></li>
+</ul>
+</dd>
+<dt>🛠️ <strong>综合工具支持</strong></dt><dd><ul class="simple">
+<li><p>14个评估维度覆盖</p></li>
+<li><p>多种静态分析工具集成</p></li>
+<li><p>Docker容器化工具支持</p></li>
+<li><p>并行和串行执行模式</p></li>
+</ul>
+</dd>
+<dt>📊 <strong>详细报告生成</strong></dt><dd><ul class="simple">
+<li><p>HTML可视化报告</p></li>
+<li><p>JSON数据导出</p></li>
+<li><p>维度评分分析</p></li>
+<li><p>改进路线图规划</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+<section id="id2">
+<h2>核心组件<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/core.html#module-oss_audit.core.audit_runner" title="oss_audit.core.audit_runner"><code class="xref py py-obj docutils literal notranslate"><span class="pre">oss_audit.core.audit_runner</span></code></a></p></td>
+<td><p>Audit Runner - 主审计运行器 整合所有核心组件，提供统一的审计入口 整合所有核心组件，提供统一的审计入口</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/core.html#module-oss_audit.core.project_detector" title="oss_audit.core.project_detector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">oss_audit.core.project_detector</span></code></a></p></td>
+<td><p>Project Detector - 项目检测器 负责智能检测项目语言组成、结构类型和项目类型 支持单项目、多项目和Monorepo结构</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/core.html#module-oss_audit.core.tool_executor" title="oss_audit.core.tool_executor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">oss_audit.core.tool_executor</span></code></a></p></td>
+<td><p>Tool Executor - 工具执行器 负责具体的工具执行和资源管理，支持并行和串行执行</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/core.html#module-oss_audit.core.report_generator" title="oss_audit.core.report_generator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">oss_audit.core.report_generator</span></code></a></p></td>
+<td><p>Report Generator - 报告生成器 负责生成各种格式的审计报告（HTML、JSON、PDF等） 负责生成多格式审计报告，支持智能分析结果展示</p></td>
+</tr>
+</tbody>
+</table>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/agents.html#module-oss_audit.core.decision_agent" title="oss_audit.core.decision_agent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">oss_audit.core.decision_agent</span></code></a></p></td>
+<td><p>Decision Agent - 智能决策代理 基于项目特征和可用工具，智能制定工具选择和执行策略</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/agents.html#module-oss_audit.core.adaptive_agent" title="oss_audit.core.adaptive_agent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">oss_audit.core.adaptive_agent</span></code></a></p></td>
+<td><p>Adaptive Agent - 自适应评分优化代理 动态评分模型适配和分析过程优化</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/agents.html#module-oss_audit.core.recommendation_agent" title="oss_audit.core.recommendation_agent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">oss_audit.core.recommendation_agent</span></code></a></p></td>
+<td><p>Recommendation Agent - 智能推荐代理 智能问题优先级排序和针对性建议生成</p></td>
+</tr>
+</tbody>
+</table>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/oss_audit.utils.ai_analyzer.html#module-oss_audit.utils.ai_analyzer" title="oss_audit.utils.ai_analyzer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">oss_audit.utils.ai_analyzer</span></code></a></p></td>
+<td><p>AI分析模块 - 使用AI技术分析项目成熟度</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/core.html#module-oss_audit.core.tool_registry" title="oss_audit.core.tool_registry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">oss_audit.core.tool_registry</span></code></a></p></td>
+<td><p>Tool Registry - 工具注册表核心类 负责加载和管理工具配置，替代硬编码的工具配置</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/oss_audit.plugins.html#module-oss_audit.plugins" title="oss_audit.plugins"><code class="xref py py-obj docutils literal notranslate"><span class="pre">oss_audit.plugins</span></code></a></p></td>
+<td><p>Plugin System for OSS Audit 2.0 Provides language-specific analysis capabilities through a plugin architecture</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="id3">
+<h2>快速开始<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<p>安装OSS Audit 2.0:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>oss-audit
+</pre></div>
+</div>
+<p>基本使用:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oss_audit.core.audit_runner</span><span class="w"> </span><span class="kn">import</span> <span class="n">AuditRunner</span>
+
+<span class="c1"># 创建审计运行器</span>
+<span class="n">runner</span> <span class="o">=</span> <span class="n">AuditRunner</span><span class="p">()</span>
+
+<span class="c1"># 运行项目审计</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">runner</span><span class="o">.</span><span class="n">audit_project</span><span class="p">(</span><span class="s2">&quot;/path/to/project&quot;</span><span class="p">)</span>
+
+<span class="c1"># 查看结果</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;总体评分: </span><span class="si">{</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;overall_score&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Docker使用:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 构建Docker镜像</span>
+docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>oss-audit:2.0<span class="w"> </span>.
+
+<span class="c1"># 运行审计</span>
+docker<span class="w"> </span>run<span class="w"> </span>-v<span class="w"> </span>/path/to/project:/workspace/project<span class="w"> </span>oss-audit:2.0
+</pre></div>
+</div>
+</section>
+<section id="id4">
+<h2>搜索和索引<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">索引</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">模块索引</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">搜索页面</span></a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="installation.html" class="btn btn-neutral float-right" title="安装指南" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2024, OSS Audit Team。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,102 @@
+/* Custom CSS for OSS Audit 2.0 Documentation */
+
+/* 自定义颜色主题 */
+:root {
+    --primary-color: #2980B9;
+    --secondary-color: #3498DB;  
+    --accent-color: #E74C3C;
+    --success-color: #27AE60;
+    --warning-color: #F39C12;
+    --text-color: #2C3E50;
+    --bg-color: #FFFFFF;
+    --code-bg: #F8F9FA;
+}
+
+/* 导航栏样式 */
+.wy-nav-side {
+    background: linear-gradient(180deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+}
+
+.wy-nav-top {
+    background-color: var(--primary-color);
+}
+
+/* 代码块样式 */
+.highlight {
+    background-color: var(--code-bg);
+    border-left: 3px solid var(--primary-color);
+    padding: 10px;
+    border-radius: 4px;
+}
+
+/* API文档特殊样式 */
+.py.class > dt {
+    background-color: #E8F4FD;
+    border-left: 4px solid var(--primary-color);
+    padding: 8px;
+}
+
+.py.method > dt {
+    background-color: #F0F8FF;
+    border-left: 3px solid var(--secondary-color);
+    padding: 6px;
+}
+
+.py.function > dt {
+    background-color: #F5F5F5;
+    border-left: 3px solid var(--success-color);
+    padding: 6px;
+}
+
+/* 参数列表样式 */
+.field-list th {
+    background-color: var(--code-bg);
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+/* 警告和提示样式 */
+.admonition.note {
+    border-left: 4px solid var(--primary-color);
+    background-color: #F0F8FF;
+}
+
+.admonition.warning {
+    border-left: 4px solid var(--warning-color);
+    background-color: #FFF8E1;
+}
+
+.admonition.danger {
+    border-left: 4px solid var(--accent-color);
+    background-color: #FFEBEE;
+}
+
+/* 表格样式 */
+.wy-table-responsive table td,
+.wy-table-responsive table th {
+    white-space: normal;
+}
+
+.docutils.table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.docutils.table th,
+.docutils.table td {
+    border: 1px solid #DDD;
+    padding: 8px 12px;
+}
+
+.docutils.table th {
+    background-color: var(--code-bg);
+    font-weight: 600;
+}
+
+/* 移动端响应式 */
+@media screen and (max-width: 768px) {
+    .wy-nav-content {
+        max-width: none;
+        margin-left: 0;
+    }
+}

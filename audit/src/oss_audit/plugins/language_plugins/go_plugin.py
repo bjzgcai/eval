@@ -84,14 +84,16 @@ class GoPlugin(LanguagePlugin):
         
         # Check Go environment
         try:
-            result = subprocess.run(['go', 'version'], capture_output=True, text=True)
+            result = subprocess.run(['go', 'version'], capture_output=True, text=True, timeout=5)
             if result.returncode == 0:
                 go_version = result.stdout.strip()
                 self.logger.debug(f"Go version: {go_version}")
             else:
-                self.logger.warning("Go not found in PATH")
+                self.logger.info("Go not found in PATH - Go analysis will be limited")
+        except FileNotFoundError:
+            self.logger.info("Go not installed - Go analysis will be limited to basic file checks")
         except Exception as e:
-            self.logger.warning(f"Could not check Go version: {e}")
+            self.logger.debug(f"Go environment check failed: {e}")
     
     def select_tools(self, project_info: ProjectInfo, available_tools: List[Tool]) -> List[Tool]:
         """Select Go-specific tools using smart selector"""

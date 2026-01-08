@@ -1,0 +1,990 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>oss_audit.core.recommendation_agent &mdash; OSS Audit 2.0 API文档</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=a3f70f27" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=b15d7ad8"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/translations.js?v=beaddf03"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../../genindex.html" />
+    <link rel="search" title="搜索" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            OSS Audit 2.0
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">快速开始:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">安装指南</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API参考:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/core.html">核心模块 (oss_audit.core)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/agents.html">智能代理系统 (oss_audit.core.agents)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">核心模块</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.core.audit_runner.html">oss_audit.core.audit_runner</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.core.project_detector.html">oss_audit.core.project_detector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.core.tool_executor.html">oss_audit.core.tool_executor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.core.report_generator.html">oss_audit.core.report_generator</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">智能代理</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.core.decision_agent.html">oss_audit.core.decision_agent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.core.adaptive_agent.html">oss_audit.core.adaptive_agent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.core.recommendation_agent.html">oss_audit.core.recommendation_agent</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">工具和插件</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.utils.ai_analyzer.html">oss_audit.utils.ai_analyzer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.core.tool_registry.html">oss_audit.core.tool_registry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.plugins.html">oss_audit.plugins</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">OSS Audit 2.0</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">模块代码</a></li>
+      <li class="breadcrumb-item active">oss_audit.core.recommendation_agent</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>oss_audit.core.recommendation_agent 源代码</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Recommendation Agent - 智能推荐代理</span>
+<span class="sd">智能问题优先级排序和针对性建议生成</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.project_detector</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProjectInfo</span><span class="p">,</span> <span class="n">ProjectType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.adaptive_agent</span><span class="w"> </span><span class="kn">import</span> <span class="n">ScoringModel</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="IssueSeverity">
+<a class="viewcode-back" href="../../../api/agents.html#oss_audit.core.recommendation_agent.IssueSeverity">[文档]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">IssueSeverity</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;问题严重程度&quot;&quot;&quot;</span>
+    <span class="n">CRITICAL</span> <span class="o">=</span> <span class="s2">&quot;critical&quot;</span>
+    <span class="n">HIGH</span> <span class="o">=</span> <span class="s2">&quot;high&quot;</span> 
+    <span class="n">MEDIUM</span> <span class="o">=</span> <span class="s2">&quot;medium&quot;</span>
+    <span class="n">LOW</span> <span class="o">=</span> <span class="s2">&quot;low&quot;</span>
+    <span class="n">INFO</span> <span class="o">=</span> <span class="s2">&quot;info&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="ImpactLevel">
+<a class="viewcode-back" href="../../../api/agents.html#oss_audit.core.recommendation_agent.ImpactLevel">[文档]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ImpactLevel</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;影响程度&quot;&quot;&quot;</span>
+    <span class="n">BREAKING</span> <span class="o">=</span> <span class="s2">&quot;breaking&quot;</span>      <span class="c1"># 破坏性影响</span>
+    <span class="n">MAJOR</span> <span class="o">=</span> <span class="s2">&quot;major&quot;</span>           <span class="c1"># 主要影响</span>
+    <span class="n">MINOR</span> <span class="o">=</span> <span class="s2">&quot;minor&quot;</span>           <span class="c1"># 轻微影响</span>
+    <span class="n">NEGLIGIBLE</span> <span class="o">=</span> <span class="s2">&quot;negligible&quot;</span> <span class="c1"># 可忽略影响</span></div>
+
+
+
+<div class="viewcode-block" id="Issue">
+<a class="viewcode-back" href="../../../api/agents.html#oss_audit.core.recommendation_agent.Issue">[文档]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Issue</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;问题定义&quot;&quot;&quot;</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">title</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">description</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">severity</span><span class="p">:</span> <span class="n">IssueSeverity</span>
+    <span class="n">category</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">file_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">line_number</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">tool_source</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">fix_effort</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;medium&quot;</span>  <span class="c1"># low, medium, high</span>
+    <span class="n">impact_level</span><span class="p">:</span> <span class="n">ImpactLevel</span> <span class="o">=</span> <span class="n">ImpactLevel</span><span class="o">.</span><span class="n">MINOR</span></div>
+
+
+
+<div class="viewcode-block" id="Recommendation">
+<a class="viewcode-back" href="../../../api/agents.html#oss_audit.core.recommendation_agent.Recommendation">[文档]</a>
+<span class="nd">@dataclass</span>  
+<span class="k">class</span><span class="w"> </span><span class="nc">Recommendation</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;推荐建议&quot;&quot;&quot;</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">title</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">description</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">rationale</span><span class="p">:</span> <span class="nb">str</span>  <span class="c1"># 建议理由</span>
+    <span class="n">priority_score</span><span class="p">:</span> <span class="nb">float</span>  <span class="c1"># 优先级分数 0-100</span>
+    <span class="n">estimated_effort</span><span class="p">:</span> <span class="nb">int</span>  <span class="c1"># 估算工作量(小时)</span>
+    <span class="n">impact_level</span><span class="p">:</span> <span class="nb">float</span>   <span class="c1"># 影响程度 0-1</span>
+    <span class="n">category</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">action_items</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
+    <span class="n">resources</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>  <span class="c1"># 相关资源链接</span>
+    <span class="n">success_metrics</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="RoadmapPhase">
+<a class="viewcode-back" href="../../../api/agents.html#oss_audit.core.recommendation_agent.RoadmapPhase">[文档]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">RoadmapPhase</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;路线图阶段&quot;&quot;&quot;</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">duration_weeks</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">recommendations</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Recommendation</span><span class="p">]</span> 
+    <span class="n">rationale</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">prerequisites</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
+    <span class="n">success_criteria</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="ImprovementRoadmap">
+<a class="viewcode-back" href="../../../api/agents.html#oss_audit.core.recommendation_agent.ImprovementRoadmap">[文档]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ImprovementRoadmap</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;改进路线图&quot;&quot;&quot;</span>
+    <span class="n">phases</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">RoadmapPhase</span><span class="p">]</span>
+    <span class="n">total_duration_weeks</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">estimated_roi</span><span class="p">:</span> <span class="nb">float</span>  <span class="c1"># 投资回报率</span>
+    <span class="n">risk_factors</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="IntelligentRecommendations">
+<a class="viewcode-back" href="../../../api/agents.html#oss_audit.core.recommendation_agent.IntelligentRecommendations">[文档]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">IntelligentRecommendations</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;智能推荐结果&quot;&quot;&quot;</span>
+    <span class="n">recommendations</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Recommendation</span><span class="p">]</span>
+    <span class="n">roadmap</span><span class="p">:</span> <span class="n">ImprovementRoadmap</span>  
+    <span class="n">impact_predictions</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
+    <span class="n">success_metrics</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">confidence_level</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.8</span></div>
+
+
+
+<div class="viewcode-block" id="AnalysisResults">
+<a class="viewcode-back" href="../../../api/agents.html#oss_audit.core.recommendation_agent.AnalysisResults">[文档]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">AnalysisResults</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;分析结果&quot;&quot;&quot;</span>
+    <span class="n">all_issues</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Issue</span><span class="p">]</span>
+    <span class="n">tool_results</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
+    <span class="n">overall_score</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">dimension_scores</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="RecommendationEngine">
+<a class="viewcode-back" href="../../../api/agents.html#oss_audit.core.recommendation_agent.RecommendationEngine">[文档]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">RecommendationEngine</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;推荐引擎&quot;&quot;&quot;</span>
+    
+<div class="viewcode-block" id="RecommendationEngine.__init__">
+<a class="viewcode-back" href="../../../api/agents.html#oss_audit.core.recommendation_agent.RecommendationEngine.__init__">[文档]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">recommendation_templates</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_templates</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">issue_patterns</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_issue_patterns</span><span class="p">()</span></div>
+
+        
+    <span class="k">def</span><span class="w"> </span><span class="nf">_load_templates</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;加载推荐模板&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;security_vulnerability&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;priority_multiplier&quot;</span><span class="p">:</span> <span class="mf">1.8</span><span class="p">,</span>
+                <span class="s2">&quot;effort_base&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+                <span class="s2">&quot;impact_base&quot;</span><span class="p">:</span> <span class="mf">0.8</span><span class="p">,</span>
+                <span class="s2">&quot;urgency&quot;</span><span class="p">:</span> <span class="s2">&quot;high&quot;</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;code_quality&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;priority_multiplier&quot;</span><span class="p">:</span> <span class="mf">1.2</span><span class="p">,</span>
+                <span class="s2">&quot;effort_base&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+                <span class="s2">&quot;impact_base&quot;</span><span class="p">:</span> <span class="mf">0.6</span><span class="p">,</span>
+                <span class="s2">&quot;urgency&quot;</span><span class="p">:</span> <span class="s2">&quot;medium&quot;</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;testing_gap&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;priority_multiplier&quot;</span><span class="p">:</span> <span class="mf">1.4</span><span class="p">,</span>
+                <span class="s2">&quot;effort_base&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+                <span class="s2">&quot;impact_base&quot;</span><span class="p">:</span> <span class="mf">0.7</span><span class="p">,</span>
+                <span class="s2">&quot;urgency&quot;</span><span class="p">:</span> <span class="s2">&quot;high&quot;</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;documentation&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;priority_multiplier&quot;</span><span class="p">:</span> <span class="mf">0.8</span><span class="p">,</span>
+                <span class="s2">&quot;effort_base&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+                <span class="s2">&quot;impact_base&quot;</span><span class="p">:</span> <span class="mf">0.4</span><span class="p">,</span>
+                <span class="s2">&quot;urgency&quot;</span><span class="p">:</span> <span class="s2">&quot;low&quot;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_load_issue_patterns</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;加载问题模式&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;security&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="s2">&quot;sql injection&quot;</span><span class="p">,</span> <span class="s2">&quot;xss&quot;</span><span class="p">,</span> <span class="s2">&quot;csrf&quot;</span><span class="p">,</span> <span class="s2">&quot;authentication&quot;</span><span class="p">,</span> 
+                <span class="s2">&quot;authorization&quot;</span><span class="p">,</span> <span class="s2">&quot;encryption&quot;</span><span class="p">,</span> <span class="s2">&quot;sensitive data&quot;</span>
+            <span class="p">],</span>
+            <span class="s2">&quot;performance&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="s2">&quot;memory leak&quot;</span><span class="p">,</span> <span class="s2">&quot;slow query&quot;</span><span class="p">,</span> <span class="s2">&quot;inefficient algorithm&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;resource usage&quot;</span><span class="p">,</span> <span class="s2">&quot;latency&quot;</span>
+            <span class="p">],</span>
+            <span class="s2">&quot;maintainability&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="s2">&quot;code complexity&quot;</span><span class="p">,</span> <span class="s2">&quot;duplicate code&quot;</span><span class="p">,</span> <span class="s2">&quot;large function&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;coupling&quot;</span><span class="p">,</span> <span class="s2">&quot;cohesion&quot;</span>
+            <span class="p">]</span>
+        <span class="p">}</span></div>
+
+
+
+<div class="viewcode-block" id="BestPracticesDatabase">
+<a class="viewcode-back" href="../../../api/agents.html#oss_audit.core.recommendation_agent.BestPracticesDatabase">[文档]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BestPracticesDatabase</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;最佳实践数据库&quot;&quot;&quot;</span>
+    
+<div class="viewcode-block" id="BestPracticesDatabase.__init__">
+<a class="viewcode-back" href="../../../api/agents.html#oss_audit.core.recommendation_agent.BestPracticesDatabase.__init__">[文档]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">practices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_best_practices</span><span class="p">()</span></div>
+
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_load_best_practices</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;加载最佳实践&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;python&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;使用类型提示&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;添加类型注解提高代码可读性&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;effort&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+                    <span class="s2">&quot;impact&quot;</span><span class="p">:</span> <span class="mf">0.6</span>
+                <span class="p">},</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;单元测试覆盖率&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;确保测试覆盖率达到80%以上&quot;</span><span class="p">,</span> 
+                    <span class="s2">&quot;effort&quot;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
+                    <span class="s2">&quot;impact&quot;</span><span class="p">:</span> <span class="mf">0.8</span>
+                <span class="p">}</span>
+            <span class="p">],</span>
+            <span class="s2">&quot;javascript&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;使用ESLint&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;配置ESLint规则保证代码质量&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;effort&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                    <span class="s2">&quot;impact&quot;</span><span class="p">:</span> <span class="mf">0.7</span>
+                <span class="p">}</span>
+            <span class="p">]</span>
+        <span class="p">}</span></div>
+
+
+
+<div class="viewcode-block" id="ImprovementPlanner">
+<a class="viewcode-back" href="../../../api/agents.html#oss_audit.core.recommendation_agent.ImprovementPlanner">[文档]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ImprovementPlanner</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;改进规划器&quot;&quot;&quot;</span>
+    
+<div class="viewcode-block" id="ImprovementPlanner.create_roadmap">
+<a class="viewcode-back" href="../../../api/agents.html#oss_audit.core.recommendation_agent.ImprovementPlanner.create_roadmap">[文档]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_roadmap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">recommendations</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Recommendation</span><span class="p">],</span>
+                      <span class="n">project_info</span><span class="p">:</span> <span class="n">ProjectInfo</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ImprovementRoadmap</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;创建改进路线图&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># 按优先级和工作量分组推荐</span>
+            <span class="n">phases</span> <span class="o">=</span> <span class="p">[]</span>
+            
+            <span class="c1"># 快速改进项目</span>
+            <span class="n">quick_wins</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">recommendations</span> 
+                         <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">estimated_effort</span> <span class="o">&lt;=</span> <span class="mi">4</span> <span class="ow">and</span> <span class="n">r</span><span class="o">.</span><span class="n">impact_level</span> <span class="o">&gt;=</span> <span class="mf">0.6</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">quick_wins</span><span class="p">:</span>
+                <span class="n">phases</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">RoadmapPhase</span><span class="p">(</span>
+                    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Quick Wins&quot;</span><span class="p">,</span>
+                    <span class="n">duration_weeks</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                    <span class="n">recommendations</span><span class="o">=</span><span class="nb">sorted</span><span class="p">(</span><span class="n">quick_wins</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">priority_score</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)[:</span><span class="mi">5</span><span class="p">],</span>
+                    <span class="n">rationale</span><span class="o">=</span><span class="s2">&quot;快速提升项目质量，建立改进信心&quot;</span><span class="p">,</span>
+                    <span class="n">success_criteria</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;问题修复率提升30%&quot;</span><span class="p">,</span> <span class="s2">&quot;代码质量分数提升10分&quot;</span><span class="p">]</span>
+                <span class="p">))</span>
+            
+            <span class="c1"># 核心问题解决</span>
+            <span class="n">high_impact</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">recommendations</span>
+                          <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">impact_level</span> <span class="o">&gt;=</span> <span class="mf">0.7</span> <span class="ow">and</span> <span class="n">r</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">quick_wins</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">high_impact</span><span class="p">:</span>
+                <span class="n">phases</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">RoadmapPhase</span><span class="p">(</span>
+                    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;High Impact Improvements&quot;</span><span class="p">,</span>
+                    <span class="n">duration_weeks</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+                    <span class="n">recommendations</span><span class="o">=</span><span class="nb">sorted</span><span class="p">(</span><span class="n">high_impact</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">priority_score</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)[:</span><span class="mi">8</span><span class="p">],</span>
+                    <span class="n">rationale</span><span class="o">=</span><span class="s2">&quot;解决最重要的质量问题&quot;</span><span class="p">,</span>
+                    <span class="n">prerequisites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;完成快速改进项目&quot;</span><span class="p">],</span>
+                    <span class="n">success_criteria</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;整体质量分数提升20分&quot;</span><span class="p">,</span> <span class="s2">&quot;关键问题解决率90%&quot;</span><span class="p">]</span>
+                <span class="p">))</span>
+            
+            <span class="c1"># 系统性改进</span>
+            <span class="n">systematic</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">recommendations</span>
+                         <span class="k">if</span> <span class="n">r</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">quick_wins</span> <span class="ow">and</span> <span class="n">r</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">high_impact</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">systematic</span><span class="p">:</span>
+                <span class="n">phases</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">RoadmapPhase</span><span class="p">(</span>
+                    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Systematic Improvements&quot;</span><span class="p">,</span> 
+                    <span class="n">duration_weeks</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+                    <span class="n">recommendations</span><span class="o">=</span><span class="nb">sorted</span><span class="p">(</span><span class="n">systematic</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">priority_score</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+                    <span class="n">rationale</span><span class="o">=</span><span class="s2">&quot;建立长期质量保障机制&quot;</span><span class="p">,</span>
+                    <span class="n">prerequisites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;完成核心问题解决&quot;</span><span class="p">],</span>
+                    <span class="n">success_criteria</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;建立完整的质量保障流程&quot;</span><span class="p">,</span> <span class="s2">&quot;技术债务减少50%&quot;</span><span class="p">]</span>
+                <span class="p">))</span>
+            
+            <span class="n">total_weeks</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">phase</span><span class="o">.</span><span class="n">duration_weeks</span> <span class="k">for</span> <span class="n">phase</span> <span class="ow">in</span> <span class="n">phases</span><span class="p">)</span>
+            <span class="n">estimated_roi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calculate_estimated_roi</span><span class="p">(</span><span class="n">phases</span><span class="p">,</span> <span class="n">project_info</span><span class="p">)</span>
+            
+            <span class="k">return</span> <span class="n">ImprovementRoadmap</span><span class="p">(</span>
+                <span class="n">phases</span><span class="o">=</span><span class="n">phases</span><span class="p">,</span>
+                <span class="n">total_duration_weeks</span><span class="o">=</span><span class="n">total_weeks</span><span class="p">,</span>
+                <span class="n">estimated_roi</span><span class="o">=</span><span class="n">estimated_roi</span><span class="p">,</span>
+                <span class="n">risk_factors</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;资源投入不足&quot;</span><span class="p">,</span> <span class="s2">&quot;团队技能差距&quot;</span><span class="p">,</span> <span class="s2">&quot;业务需求变化&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
+            
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;路线图创建失败: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">ImprovementRoadmap</span><span class="p">(</span><span class="n">phases</span><span class="o">=</span><span class="p">[],</span> <span class="n">total_duration_weeks</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">estimated_roi</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span></div>
+
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_calculate_estimated_roi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">phases</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">RoadmapPhase</span><span class="p">],</span> 
+                               <span class="n">project_info</span><span class="p">:</span> <span class="n">ProjectInfo</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;计算估算ROI&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">total_effort</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span>
+                <span class="nb">sum</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">estimated_effort</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">phase</span><span class="o">.</span><span class="n">recommendations</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">phase</span> <span class="ow">in</span> <span class="n">phases</span>
+            <span class="p">)</span>
+            
+            <span class="k">if</span> <span class="n">total_effort</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">return</span> <span class="mf">0.0</span>
+            
+            <span class="n">total_impact</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span>
+                <span class="nb">sum</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">impact_level</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">phase</span><span class="o">.</span><span class="n">recommendations</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">phase</span> <span class="ow">in</span> <span class="n">phases</span>
+            <span class="p">)</span>
+            
+            <span class="c1"># 基于项目规模调整ROI</span>
+            <span class="n">size_factor</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">project_info</span><span class="o">.</span><span class="n">size_metrics</span><span class="o">.</span><span class="n">code_lines</span> <span class="o">/</span> <span class="mi">10000</span><span class="p">)</span>
+            
+            <span class="n">roi</span> <span class="o">=</span> <span class="p">(</span><span class="n">total_impact</span> <span class="o">*</span> <span class="n">size_factor</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span> <span class="o">/</span> <span class="nb">max</span><span class="p">(</span><span class="n">total_effort</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="mf">500.0</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">roi</span><span class="p">))</span>  <span class="c1"># 限制在0-500%范围</span>
+            
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ROI计算失败: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="mf">0.0</span></div>
+
+
+
+<div class="viewcode-block" id="RecommendationAgent">
+<a class="viewcode-back" href="../../../api/agents.html#oss_audit.core.recommendation_agent.RecommendationAgent">[文档]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">RecommendationAgent</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    推荐Agent - 生成智能建议和改进路线图</span>
+<span class="sd">    </span>
+<span class="sd">    核心功能:</span>
+<span class="sd">    - 智能问题优先级排序</span>
+<span class="sd">    - 针对性建议生成</span>
+<span class="sd">    - 智能路线图规划</span>
+<span class="sd">    - 改进效果预测</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+<div class="viewcode-block" id="RecommendationAgent.__init__">
+<a class="viewcode-back" href="../../../api/agents.html#oss_audit.core.recommendation_agent.RecommendationAgent.__init__">[文档]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">recommendation_engine</span> <span class="o">=</span> <span class="n">RecommendationEngine</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">best_practices_db</span> <span class="o">=</span> <span class="n">BestPracticesDatabase</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">improvement_planner</span> <span class="o">=</span> <span class="n">ImprovementPlanner</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">recommendation_history</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span></div>
+
+    
+<div class="viewcode-block" id="RecommendationAgent.generate_intelligent_recommendations">
+<a class="viewcode-back" href="../../../api/agents.html#oss_audit.core.recommendation_agent.RecommendationAgent.generate_intelligent_recommendations">[文档]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">generate_intelligent_recommendations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
+                                           <span class="n">analysis_results</span><span class="p">:</span> <span class="n">AnalysisResults</span><span class="p">,</span>
+                                           <span class="n">project_info</span><span class="p">:</span> <span class="n">ProjectInfo</span><span class="p">,</span>
+                                           <span class="n">scoring_model</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ScoringModel</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IntelligentRecommendations</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        生成智能化建议</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            analysis_results: 分析结果</span>
+<span class="sd">            project_info: 项目信息</span>
+<span class="sd">            scoring_model: 评分模型</span>
+<span class="sd">            </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            智能推荐结果</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;开始生成智能推荐...&quot;</span><span class="p">)</span>
+            
+            <span class="c1"># 1. 智能问题优先级排序</span>
+            <span class="n">prioritized_issues</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_prioritize_issues_intelligently</span><span class="p">(</span>
+                <span class="n">analysis_results</span><span class="o">.</span><span class="n">all_issues</span><span class="p">,</span> <span class="n">project_info</span><span class="p">,</span> <span class="n">scoring_model</span><span class="p">)</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;问题优先级排序完成: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">prioritized_issues</span><span class="p">)</span><span class="si">}</span><span class="s2">个问题&quot;</span><span class="p">)</span>
+            
+            <span class="c1"># 2. 生成针对性建议</span>
+            <span class="n">targeted_recommendations</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">issue</span> <span class="ow">in</span> <span class="n">prioritized_issues</span><span class="p">[:</span><span class="mi">15</span><span class="p">]:</span>  <span class="c1"># 处理前15个最重要问题</span>
+                <span class="n">recommendation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate_targeted_recommendation</span><span class="p">(</span>
+                    <span class="n">issue</span><span class="p">,</span> <span class="n">project_info</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">recommendation</span><span class="p">:</span>
+                    <span class="n">targeted_recommendations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">recommendation</span><span class="p">)</span>
+            
+            <span class="c1"># 3. 添加最佳实践建议</span>
+            <span class="n">best_practice_recommendations</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate_best_practice_recommendations</span><span class="p">(</span>
+                <span class="n">project_info</span><span class="p">,</span> <span class="n">analysis_results</span><span class="p">)</span>
+            <span class="n">targeted_recommendations</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">best_practice_recommendations</span><span class="p">)</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;生成了</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">targeted_recommendations</span><span class="p">)</span><span class="si">}</span><span class="s2">个推荐建议&quot;</span><span class="p">)</span>
+            
+            <span class="c1"># 4. 制定智能路线图</span>
+            <span class="n">roadmap</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">improvement_planner</span><span class="o">.</span><span class="n">create_roadmap</span><span class="p">(</span>
+                <span class="n">targeted_recommendations</span><span class="p">,</span> <span class="n">project_info</span><span class="p">)</span>
+            
+            <span class="c1"># 5. 预测改进效果</span>
+            <span class="n">impact_predictions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_predict_improvement_impact</span><span class="p">(</span>
+                <span class="n">targeted_recommendations</span><span class="p">,</span> <span class="n">project_info</span><span class="p">,</span> <span class="n">analysis_results</span><span class="p">)</span>
+            
+            <span class="c1"># 6. 定义成功指标</span>
+            <span class="n">success_metrics</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_define_success_metrics</span><span class="p">(</span>
+                <span class="n">targeted_recommendations</span><span class="p">,</span> <span class="n">analysis_results</span><span class="p">)</span>
+            
+            <span class="c1"># 7. 计算信心度</span>
+            <span class="n">confidence</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calculate_recommendation_confidence</span><span class="p">(</span>
+                <span class="n">targeted_recommendations</span><span class="p">,</span> <span class="n">analysis_results</span><span class="p">)</span>
+            
+            <span class="n">recommendations</span> <span class="o">=</span> <span class="n">IntelligentRecommendations</span><span class="p">(</span>
+                <span class="n">recommendations</span><span class="o">=</span><span class="n">targeted_recommendations</span><span class="p">,</span>
+                <span class="n">roadmap</span><span class="o">=</span><span class="n">roadmap</span><span class="p">,</span>
+                <span class="n">impact_predictions</span><span class="o">=</span><span class="n">impact_predictions</span><span class="p">,</span>
+                <span class="n">success_metrics</span><span class="o">=</span><span class="n">success_metrics</span><span class="p">,</span>
+                <span class="n">confidence_level</span><span class="o">=</span><span class="n">confidence</span>
+            <span class="p">)</span>
+            
+            <span class="c1"># 8. 记录推荐历史</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_record_recommendation</span><span class="p">(</span><span class="n">project_info</span><span class="p">,</span> <span class="n">recommendations</span><span class="p">)</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;智能推荐生成完成: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">targeted_recommendations</span><span class="p">)</span><span class="si">}</span><span class="s2">个建议, &quot;</span>
+                           <span class="sa">f</span><span class="s2">&quot;路线图</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">roadmap</span><span class="o">.</span><span class="n">phases</span><span class="p">)</span><span class="si">}</span><span class="s2">个阶段, 信心度</span><span class="si">{</span><span class="n">confidence</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            
+            <span class="k">return</span> <span class="n">recommendations</span>
+            
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;智能推荐生成失败: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_fallback_recommendations</span><span class="p">()</span></div>
+
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_prioritize_issues_intelligently</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">issues</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Issue</span><span class="p">],</span> 
+                                       <span class="n">project_info</span><span class="p">:</span> <span class="n">ProjectInfo</span><span class="p">,</span>
+                                       <span class="n">scoring_model</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ScoringModel</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Issue</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;智能优先级排序&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">def</span><span class="w"> </span><span class="nf">calculate_priority_score</span><span class="p">(</span><span class="n">issue</span><span class="p">:</span> <span class="n">Issue</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+                <span class="n">score</span> <span class="o">=</span> <span class="mf">0.0</span>
+                
+                <span class="c1"># 基础严重程度 (40%)</span>
+                <span class="n">severity_weights</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="n">IssueSeverity</span><span class="o">.</span><span class="n">CRITICAL</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+                    <span class="n">IssueSeverity</span><span class="o">.</span><span class="n">HIGH</span><span class="p">:</span> <span class="mi">70</span><span class="p">,</span>
+                    <span class="n">IssueSeverity</span><span class="o">.</span><span class="n">MEDIUM</span><span class="p">:</span> <span class="mi">40</span><span class="p">,</span>
+                    <span class="n">IssueSeverity</span><span class="o">.</span><span class="n">LOW</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+                    <span class="n">IssueSeverity</span><span class="o">.</span><span class="n">INFO</span><span class="p">:</span> <span class="mi">5</span>
+                <span class="p">}</span>
+                <span class="n">score</span> <span class="o">+=</span> <span class="n">severity_weights</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">issue</span><span class="o">.</span><span class="n">severity</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.4</span>
+                
+                <span class="c1"># 项目类型相关性调整 (25%)</span>
+                <span class="n">project_type</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">project_info</span><span class="o">.</span><span class="n">project_type</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="s1">&#39;library&#39;</span><span class="p">)</span>
+                <span class="n">type_multiplier</span> <span class="o">=</span> <span class="mf">1.0</span>
+                
+                <span class="k">if</span> <span class="n">project_type</span> <span class="o">==</span> <span class="s1">&#39;web_application&#39;</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">issue</span><span class="o">.</span><span class="n">category</span> <span class="o">==</span> <span class="s2">&quot;security&quot;</span><span class="p">:</span>
+                        <span class="n">type_multiplier</span> <span class="o">=</span> <span class="mf">1.8</span>
+                    <span class="k">elif</span> <span class="n">issue</span><span class="o">.</span><span class="n">category</span> <span class="o">==</span> <span class="s2">&quot;performance&quot;</span><span class="p">:</span>
+                        <span class="n">type_multiplier</span> <span class="o">=</span> <span class="mf">1.3</span>
+                <span class="k">elif</span> <span class="n">project_type</span> <span class="o">==</span> <span class="s1">&#39;library&#39;</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">issue</span><span class="o">.</span><span class="n">category</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;api_design&quot;</span><span class="p">,</span> <span class="s2">&quot;documentation&quot;</span><span class="p">]:</span>
+                        <span class="n">type_multiplier</span> <span class="o">=</span> <span class="mf">1.5</span>
+                <span class="k">elif</span> <span class="n">project_type</span> <span class="o">==</span> <span class="s1">&#39;data_science&#39;</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">issue</span><span class="o">.</span><span class="n">category</span> <span class="o">==</span> <span class="s2">&quot;reproducibility&quot;</span><span class="p">:</span>
+                        <span class="n">type_multiplier</span> <span class="o">=</span> <span class="mf">1.6</span>
+                
+                <span class="n">score</span> <span class="o">+=</span> <span class="n">score</span> <span class="o">*</span> <span class="mf">0.25</span> <span class="o">*</span> <span class="p">(</span><span class="n">type_multiplier</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span>
+                
+                <span class="c1"># 修复成本考虑 (20%)</span>
+                <span class="n">effort_weights</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;low&quot;</span><span class="p">:</span> <span class="mf">1.3</span><span class="p">,</span> <span class="s2">&quot;medium&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="s2">&quot;high&quot;</span><span class="p">:</span> <span class="mf">0.7</span><span class="p">}</span>
+                <span class="n">effort_multiplier</span> <span class="o">=</span> <span class="n">effort_weights</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">issue</span><span class="o">.</span><span class="n">fix_effort</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+                <span class="n">score</span> <span class="o">+=</span> <span class="n">score</span> <span class="o">*</span> <span class="mf">0.2</span> <span class="o">*</span> <span class="p">(</span><span class="n">effort_multiplier</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span>
+                
+                <span class="c1"># 影响程度 (15%)</span>
+                <span class="n">impact_weights</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="n">ImpactLevel</span><span class="o">.</span><span class="n">BREAKING</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span>
+                    <span class="n">ImpactLevel</span><span class="o">.</span><span class="n">MAJOR</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+                    <span class="n">ImpactLevel</span><span class="o">.</span><span class="n">MINOR</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+                    <span class="n">ImpactLevel</span><span class="o">.</span><span class="n">NEGLIGIBLE</span><span class="p">:</span> <span class="mi">2</span>
+                <span class="p">}</span>
+                <span class="n">score</span> <span class="o">+=</span> <span class="n">impact_weights</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">issue</span><span class="o">.</span><span class="n">impact_level</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.15</span>
+                
+                <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">score</span><span class="p">)</span>
+            
+            <span class="c1"># 排序并返回</span>
+            <span class="n">prioritized</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">issues</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">calculate_priority_score</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;优先级排序: 最高分</span><span class="si">{</span><span class="n">calculate_priority_score</span><span class="p">(</span><span class="n">prioritized</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">, &quot;</span>
+                            <span class="sa">f</span><span class="s2">&quot;最低分</span><span class="si">{</span><span class="n">calculate_priority_score</span><span class="p">(</span><span class="n">prioritized</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            
+            <span class="k">return</span> <span class="n">prioritized</span>
+            
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;优先级排序失败: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">issues</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_generate_targeted_recommendation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">issue</span><span class="p">:</span> <span class="n">Issue</span><span class="p">,</span> 
+                                        <span class="n">project_info</span><span class="p">:</span> <span class="n">ProjectInfo</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Recommendation</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;生成针对性建议&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">template</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">recommendation_engine</span><span class="o">.</span><span class="n">recommendation_templates</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                <span class="n">issue</span><span class="o">.</span><span class="n">category</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">recommendation_engine</span><span class="o">.</span><span class="n">recommendation_templates</span><span class="p">[</span><span class="s2">&quot;code_quality&quot;</span><span class="p">])</span>
+            
+            <span class="c1"># 基础优先级分数</span>
+            <span class="n">base_score</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="n">IssueSeverity</span><span class="o">.</span><span class="n">CRITICAL</span><span class="p">:</span> <span class="mi">90</span><span class="p">,</span>
+                <span class="n">IssueSeverity</span><span class="o">.</span><span class="n">HIGH</span><span class="p">:</span> <span class="mi">70</span><span class="p">,</span>
+                <span class="n">IssueSeverity</span><span class="o">.</span><span class="n">MEDIUM</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+                <span class="n">IssueSeverity</span><span class="o">.</span><span class="n">LOW</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span>
+                <span class="n">IssueSeverity</span><span class="o">.</span><span class="n">INFO</span><span class="p">:</span> <span class="mi">10</span>
+            <span class="p">}</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">issue</span><span class="o">.</span><span class="n">severity</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+            
+            <span class="n">priority_score</span> <span class="o">=</span> <span class="n">base_score</span> <span class="o">*</span> <span class="n">template</span><span class="p">[</span><span class="s2">&quot;priority_multiplier&quot;</span><span class="p">]</span>
+            
+            <span class="c1"># 估算工作量</span>
+            <span class="n">estimated_effort</span> <span class="o">=</span> <span class="n">template</span><span class="p">[</span><span class="s2">&quot;effort_base&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">issue</span><span class="o">.</span><span class="n">fix_effort</span> <span class="o">==</span> <span class="s2">&quot;high&quot;</span><span class="p">:</span>
+                <span class="n">estimated_effort</span> <span class="o">*=</span> <span class="mi">2</span>
+            <span class="k">elif</span> <span class="n">issue</span><span class="o">.</span><span class="n">fix_effort</span> <span class="o">==</span> <span class="s2">&quot;low&quot;</span><span class="p">:</span>
+                <span class="n">estimated_effort</span> <span class="o">*=</span> <span class="mf">0.5</span>
+            
+            <span class="c1"># 生成行动项目</span>
+            <span class="n">action_items</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate_action_items</span><span class="p">(</span><span class="n">issue</span><span class="p">,</span> <span class="n">project_info</span><span class="p">)</span>
+            
+            <span class="c1"># 生成资源链接</span>
+            <span class="n">resources</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate_resources</span><span class="p">(</span><span class="n">issue</span><span class="p">,</span> <span class="n">project_info</span><span class="p">)</span>
+            
+            <span class="n">recommendation</span> <span class="o">=</span> <span class="n">Recommendation</span><span class="p">(</span>
+                <span class="nb">id</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;rec_</span><span class="si">{</span><span class="n">issue</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;解决</span><span class="si">{</span><span class="n">issue</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">description</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_generate_recommendation_description</span><span class="p">(</span><span class="n">issue</span><span class="p">),</span>
+                <span class="n">rationale</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_generate_rationale</span><span class="p">(</span><span class="n">issue</span><span class="p">,</span> <span class="n">project_info</span><span class="p">),</span>
+                <span class="n">priority_score</span><span class="o">=</span><span class="nb">min</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">priority_score</span><span class="p">),</span>
+                <span class="n">estimated_effort</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">estimated_effort</span><span class="p">),</span>
+                <span class="n">impact_level</span><span class="o">=</span><span class="n">template</span><span class="p">[</span><span class="s2">&quot;impact_base&quot;</span><span class="p">],</span>
+                <span class="n">category</span><span class="o">=</span><span class="n">issue</span><span class="o">.</span><span class="n">category</span><span class="p">,</span>
+                <span class="n">action_items</span><span class="o">=</span><span class="n">action_items</span><span class="p">,</span>
+                <span class="n">resources</span><span class="o">=</span><span class="n">resources</span><span class="p">,</span>
+                <span class="n">success_metrics</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_generate_success_metrics</span><span class="p">(</span><span class="n">issue</span><span class="p">)</span>
+            <span class="p">)</span>
+            
+            <span class="k">return</span> <span class="n">recommendation</span>
+            
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;针对性建议生成失败 </span><span class="si">{</span><span class="n">issue</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_generate_best_practice_recommendations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_info</span><span class="p">:</span> <span class="n">ProjectInfo</span><span class="p">,</span>
+                                              <span class="n">analysis_results</span><span class="p">:</span> <span class="n">AnalysisResults</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Recommendation</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;生成最佳实践建议&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">recommendations</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">primary_language</span> <span class="o">=</span> <span class="n">project_info</span><span class="o">.</span><span class="n">get_primary_language</span><span class="p">()</span>
+            
+            <span class="k">if</span> <span class="n">primary_language</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_practices_db</span><span class="o">.</span><span class="n">practices</span><span class="p">:</span>
+                <span class="n">practices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_practices_db</span><span class="o">.</span><span class="n">practices</span><span class="p">[</span><span class="n">primary_language</span><span class="p">]</span>
+                
+                <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">practice</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">practices</span><span class="p">[:</span><span class="mi">3</span><span class="p">]):</span>  <span class="c1"># 最多3个最佳实践</span>
+                    <span class="n">rec</span> <span class="o">=</span> <span class="n">Recommendation</span><span class="p">(</span>
+                        <span class="nb">id</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;bp_</span><span class="si">{</span><span class="n">primary_language</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                        <span class="n">title</span><span class="o">=</span><span class="n">practice</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span>
+                        <span class="n">description</span><span class="o">=</span><span class="n">practice</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">],</span>
+                        <span class="n">rationale</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;基于</span><span class="si">{</span><span class="n">primary_language</span><span class="si">}</span><span class="s2">项目最佳实践&quot;</span><span class="p">,</span>
+                        <span class="n">priority_score</span><span class="o">=</span><span class="mf">40.0</span><span class="p">,</span>  <span class="c1"># 最佳实践优先级中等</span>
+                        <span class="n">estimated_effort</span><span class="o">=</span><span class="n">practice</span><span class="p">[</span><span class="s2">&quot;effort&quot;</span><span class="p">],</span>
+                        <span class="n">impact_level</span><span class="o">=</span><span class="n">practice</span><span class="p">[</span><span class="s2">&quot;impact&quot;</span><span class="p">],</span>
+                        <span class="n">category</span><span class="o">=</span><span class="s2">&quot;best_practice&quot;</span><span class="p">,</span>
+                        <span class="n">action_items</span><span class="o">=</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;实施</span><span class="si">{</span><span class="n">practice</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">],</span>
+                        <span class="n">resources</span><span class="o">=</span><span class="p">[],</span>
+                        <span class="n">success_metrics</span><span class="o">=</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">practice</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">实施完成&quot;</span><span class="p">]</span>
+                    <span class="p">)</span>
+                    <span class="n">recommendations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rec</span><span class="p">)</span>
+            
+            <span class="k">return</span> <span class="n">recommendations</span>
+            
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;最佳实践建议生成失败: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">[]</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_predict_improvement_impact</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">recommendations</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Recommendation</span><span class="p">],</span>
+                                  <span class="n">project_info</span><span class="p">:</span> <span class="n">ProjectInfo</span><span class="p">,</span>
+                                  <span class="n">analysis_results</span><span class="p">:</span> <span class="n">AnalysisResults</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;预测改进效果&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">predictions</span> <span class="o">=</span> <span class="p">{}</span>
+            
+            <span class="c1"># 整体质量分数提升预测</span>
+            <span class="n">total_impact</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">impact_level</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">recommendations</span><span class="p">)</span>
+            <span class="n">current_score</span> <span class="o">=</span> <span class="n">analysis_results</span><span class="o">.</span><span class="n">overall_score</span>
+            
+            <span class="n">predicted_improvement</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="n">total_impact</span> <span class="o">*</span> <span class="mi">5</span><span class="p">)</span>  <span class="c1"># 最多提升30分</span>
+            <span class="n">predictions</span><span class="p">[</span><span class="s2">&quot;overall_score_improvement&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">predicted_improvement</span>
+            <span class="n">predictions</span><span class="p">[</span><span class="s2">&quot;predicted_new_score&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">current_score</span> <span class="o">+</span> <span class="n">predicted_improvement</span><span class="p">)</span>
+            
+            <span class="c1"># 按类别预测改进</span>
+            <span class="n">category_impacts</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">rec</span> <span class="ow">in</span> <span class="n">recommendations</span><span class="p">:</span>
+                <span class="n">category_impacts</span><span class="p">[</span><span class="n">rec</span><span class="o">.</span><span class="n">category</span><span class="p">]</span> <span class="o">+=</span> <span class="n">rec</span><span class="o">.</span><span class="n">impact_level</span>
+            
+            <span class="k">for</span> <span class="n">category</span><span class="p">,</span> <span class="n">impact</span> <span class="ow">in</span> <span class="n">category_impacts</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">predictions</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">category</span><span class="si">}</span><span class="s2">_improvement&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="n">impact</span> <span class="o">*</span> <span class="mi">8</span><span class="p">)</span>
+            
+            <span class="c1"># 预测问题解决率</span>
+            <span class="n">high_priority_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">([</span><span class="n">r</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">recommendations</span> <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">priority_score</span> <span class="o">&gt;</span> <span class="mi">70</span><span class="p">])</span>
+            <span class="n">total_recommendations</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">recommendations</span><span class="p">)</span>
+            
+            <span class="k">if</span> <span class="n">total_recommendations</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">predictions</span><span class="p">[</span><span class="s2">&quot;issue_resolution_rate&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.6</span> <span class="o">+</span> <span class="p">(</span><span class="n">high_priority_count</span> <span class="o">/</span> <span class="n">total_recommendations</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.3</span><span class="p">)</span>
+            
+            <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span>
+            
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;改进效果预测失败: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">{}</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_define_success_metrics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">recommendations</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Recommendation</span><span class="p">],</span>
+                              <span class="n">analysis_results</span><span class="p">:</span> <span class="n">AnalysisResults</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;定义成功指标&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">metrics</span> <span class="o">=</span> <span class="p">[]</span>
+            
+            <span class="c1"># 基于推荐数量的指标</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">recommendations</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">:</span>
+                <span class="n">metrics</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;完成80%的推荐建议&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">metrics</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;完成90%的推荐建议&quot;</span><span class="p">)</span>
+            
+            <span class="c1"># 基于当前分数的指标</span>
+            <span class="n">current_score</span> <span class="o">=</span> <span class="n">analysis_results</span><span class="o">.</span><span class="n">overall_score</span>
+            <span class="k">if</span> <span class="n">current_score</span> <span class="o">&lt;</span> <span class="mi">60</span><span class="p">:</span>
+                <span class="n">metrics</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;整体质量分数提升到70分以上&quot;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">current_score</span> <span class="o">&lt;</span> <span class="mi">80</span><span class="p">:</span>
+                <span class="n">metrics</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;整体质量分数提升到85分以上&quot;</span><span class="p">)</span> 
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">metrics</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;整体质量分数提升5分以上&quot;</span><span class="p">)</span>
+            
+            <span class="c1"># 基于问题类型的指标</span>
+            <span class="n">security_recs</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">recommendations</span> <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">category</span> <span class="o">==</span> <span class="s2">&quot;security&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">security_recs</span><span class="p">:</span>
+                <span class="n">metrics</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;解决所有高优先级安全问题&quot;</span><span class="p">)</span>
+            
+            <span class="n">testing_recs</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">recommendations</span> <span class="k">if</span> <span class="s2">&quot;test&quot;</span> <span class="ow">in</span> <span class="n">r</span><span class="o">.</span><span class="n">category</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span>
+            <span class="k">if</span> <span class="n">testing_recs</span><span class="p">:</span>
+                <span class="n">metrics</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;测试覆盖率达到80%以上&quot;</span><span class="p">)</span>
+            
+            <span class="c1"># 通用指标</span>
+            <span class="n">metrics</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span>
+                <span class="s2">&quot;代码质量工具检查通过率达到95%&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;团队开发效率提升15%&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;技术债务减少30%&quot;</span>
+            <span class="p">])</span>
+            
+            <span class="k">return</span> <span class="n">metrics</span><span class="p">[:</span><span class="mi">6</span><span class="p">]</span>  <span class="c1"># 最多6个指标</span>
+            
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;成功指标定义失败: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">[</span><span class="s2">&quot;完成推荐建议&quot;</span><span class="p">,</span> <span class="s2">&quot;提升代码质量&quot;</span><span class="p">]</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_generate_action_items</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">issue</span><span class="p">:</span> <span class="n">Issue</span><span class="p">,</span> <span class="n">project_info</span><span class="p">:</span> <span class="n">ProjectInfo</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;生成行动项目&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">actions</span> <span class="o">=</span> <span class="p">[]</span>
+            
+            <span class="k">if</span> <span class="n">issue</span><span class="o">.</span><span class="n">category</span> <span class="o">==</span> <span class="s2">&quot;security&quot;</span><span class="p">:</span>
+                <span class="n">actions</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="s2">&quot;进行安全代码审查&quot;</span><span class="p">,</span>
+                    <span class="sa">f</span><span class="s2">&quot;修复</span><span class="si">{</span><span class="n">issue</span><span class="o">.</span><span class="n">file_path</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="s1">&#39;相关文件&#39;</span><span class="si">}</span><span class="s2">中的安全漏洞&quot;</span><span class="p">,</span> 
+                    <span class="s2">&quot;添加安全测试用例&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;更新安全编码规范&quot;</span>
+                <span class="p">]</span>
+            <span class="k">elif</span> <span class="n">issue</span><span class="o">.</span><span class="n">category</span> <span class="o">==</span> <span class="s2">&quot;testing&quot;</span><span class="p">:</span>
+                <span class="n">actions</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="s2">&quot;编写单元测试&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;提高测试覆盖率&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;添加集成测试&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;设置持续集成检查&quot;</span>
+                <span class="p">]</span>
+            <span class="k">elif</span> <span class="n">issue</span><span class="o">.</span><span class="n">category</span> <span class="o">==</span> <span class="s2">&quot;performance&quot;</span><span class="p">:</span>
+                <span class="n">actions</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="s2">&quot;性能分析和profiling&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;优化关键性能路径&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;添加性能监控&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;建立性能基准测试&quot;</span>
+                <span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">actions</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="sa">f</span><span class="s2">&quot;修复</span><span class="si">{</span><span class="n">issue</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s2">问题&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;代码审查&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;添加相关测试&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;更新文档&quot;</span>
+                <span class="p">]</span>
+            
+            <span class="k">return</span> <span class="n">actions</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span>  <span class="c1"># 最多3个行动项</span>
+            
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;行动项目生成失败: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">[</span><span class="s2">&quot;修复问题&quot;</span><span class="p">,</span> <span class="s2">&quot;添加测试&quot;</span><span class="p">]</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_generate_resources</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">issue</span><span class="p">:</span> <span class="n">Issue</span><span class="p">,</span> <span class="n">project_info</span><span class="p">:</span> <span class="n">ProjectInfo</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;生成资源链接&quot;&quot;&quot;</span>
+        <span class="n">resources</span> <span class="o">=</span> <span class="p">[]</span>
+        
+        <span class="k">if</span> <span class="n">issue</span><span class="o">.</span><span class="n">category</span> <span class="o">==</span> <span class="s2">&quot;security&quot;</span><span class="p">:</span>
+            <span class="n">resources</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="s2">&quot;OWASP安全编码指南&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;项目安全检查清单&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;安全漏洞修复指南&quot;</span>
+            <span class="p">]</span>
+        <span class="k">elif</span> <span class="n">issue</span><span class="o">.</span><span class="n">category</span> <span class="o">==</span> <span class="s2">&quot;testing&quot;</span><span class="p">:</span>
+            <span class="n">resources</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">project_info</span><span class="o">.</span><span class="n">get_primary_language</span><span class="p">()</span><span class="si">}</span><span class="s2">测试最佳实践&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;测试覆盖率提升指南&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;单元测试编写规范&quot;</span>
+            <span class="p">]</span>
+        
+        <span class="k">return</span> <span class="n">resources</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>  <span class="c1"># 最多2个资源</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_generate_recommendation_description</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">issue</span><span class="p">:</span> <span class="n">Issue</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;生成建议描述&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;针对</span><span class="si">{</span><span class="n">issue</span><span class="o">.</span><span class="n">category</span><span class="si">}</span><span class="s2">类型的</span><span class="si">{</span><span class="n">issue</span><span class="o">.</span><span class="n">severity</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">级别问题，建议采取相应的修复措施以提升代码质量。&quot;</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_generate_rationale</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">issue</span><span class="p">:</span> <span class="n">Issue</span><span class="p">,</span> <span class="n">project_info</span><span class="p">:</span> <span class="n">ProjectInfo</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;生成建议理由&quot;&quot;&quot;</span>
+        <span class="n">project_type</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">project_info</span><span class="o">.</span><span class="n">project_type</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="s1">&#39;unknown&#39;</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">issue</span><span class="o">.</span><span class="n">category</span> <span class="o">==</span> <span class="s2">&quot;security&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">project_type</span> <span class="o">==</span> <span class="s2">&quot;web_application&quot;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s2">&quot;Web应用中的安全问题可能导致用户数据泄露或系统被攻击，需要优先处理。&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s2">&quot;安全问题可能影响系统稳定性和用户信任，建议及时修复。&quot;</span>
+        <span class="k">elif</span> <span class="n">issue</span><span class="o">.</span><span class="n">category</span> <span class="o">==</span> <span class="s2">&quot;performance&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;性能问题可能影响用户体验和系统可扩展性，建议优化改进。&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;该</span><span class="si">{</span><span class="n">issue</span><span class="o">.</span><span class="n">category</span><span class="si">}</span><span class="s2">问题影响代码质量和可维护性，建议及时解决。&quot;</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_generate_success_metrics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">issue</span><span class="p">:</span> <span class="n">Issue</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;生成成功指标&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">issue</span><span class="o">.</span><span class="n">category</span> <span class="o">==</span> <span class="s2">&quot;security&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[</span><span class="s2">&quot;安全扫描通过&quot;</span><span class="p">,</span> <span class="s2">&quot;漏洞修复确认&quot;</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">issue</span><span class="o">.</span><span class="n">category</span> <span class="o">==</span> <span class="s2">&quot;testing&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[</span><span class="s2">&quot;测试覆盖率提升&quot;</span><span class="p">,</span> <span class="s2">&quot;所有测试通过&quot;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[</span><span class="s2">&quot;问题修复确认&quot;</span><span class="p">,</span> <span class="s2">&quot;代码审查通过&quot;</span><span class="p">]</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_calculate_recommendation_confidence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">recommendations</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Recommendation</span><span class="p">],</span>
+                                           <span class="n">analysis_results</span><span class="p">:</span> <span class="n">AnalysisResults</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;计算推荐信心度&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">base_confidence</span> <span class="o">=</span> <span class="mf">0.7</span>
+            
+            <span class="c1"># 基于问题数量调整</span>
+            <span class="n">issue_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">analysis_results</span><span class="o">.</span><span class="n">all_issues</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">issue_count</span> <span class="o">&gt;</span> <span class="mi">50</span><span class="p">:</span>
+                <span class="n">base_confidence</span> <span class="o">-=</span> <span class="mf">0.1</span>  <span class="c1"># 问题太多，信心度降低</span>
+            <span class="k">elif</span> <span class="n">issue_count</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
+                <span class="n">base_confidence</span> <span class="o">+=</span> <span class="mf">0.1</span>  <span class="c1"># 问题较少，信心度提升</span>
+            
+            <span class="c1"># 基于推荐数量调整</span>
+            <span class="n">rec_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">recommendations</span><span class="p">)</span>
+            <span class="k">if</span> <span class="mi">5</span> <span class="o">&lt;=</span> <span class="n">rec_count</span> <span class="o">&lt;=</span> <span class="mi">15</span><span class="p">:</span>
+                <span class="n">base_confidence</span> <span class="o">+=</span> <span class="mf">0.1</span>  <span class="c1"># 推荐数量合适</span>
+            <span class="k">elif</span> <span class="n">rec_count</span> <span class="o">&gt;</span> <span class="mi">20</span><span class="p">:</span>
+                <span class="n">base_confidence</span> <span class="o">-=</span> <span class="mf">0.1</span>  <span class="c1"># 推荐过多</span>
+            
+            <span class="c1"># 基于分析工具成功率调整</span>
+            <span class="n">tool_success_rate</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span>
+                <span class="mi">1</span> <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">analysis_results</span><span class="o">.</span><span class="n">tool_results</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;success&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="p">)</span> <span class="o">/</span> <span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">analysis_results</span><span class="o">.</span><span class="n">tool_results</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+            
+            <span class="n">confidence_adjustment</span> <span class="o">=</span> <span class="p">(</span><span class="n">tool_success_rate</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.2</span>
+            <span class="n">base_confidence</span> <span class="o">+=</span> <span class="n">confidence_adjustment</span>
+            
+            <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">base_confidence</span><span class="p">))</span>
+            
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;信心度计算失败: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="mf">0.6</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_record_recommendation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_info</span><span class="p">:</span> <span class="n">ProjectInfo</span><span class="p">,</span> 
+                             <span class="n">recommendations</span><span class="p">:</span> <span class="n">IntelligentRecommendations</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;记录推荐历史&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">record</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;timestamp&#39;</span><span class="p">:</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">(),</span>
+                <span class="s1">&#39;project_type&#39;</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">project_info</span><span class="o">.</span><span class="n">project_type</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="s1">&#39;unknown&#39;</span><span class="p">),</span>
+                <span class="s1">&#39;project_size&#39;</span><span class="p">:</span> <span class="n">project_info</span><span class="o">.</span><span class="n">size_metrics</span><span class="o">.</span><span class="n">code_lines</span><span class="p">,</span>
+                <span class="s1">&#39;recommendation_count&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">recommendations</span><span class="o">.</span><span class="n">recommendations</span><span class="p">),</span>
+                <span class="s1">&#39;roadmap_phases&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">recommendations</span><span class="o">.</span><span class="n">roadmap</span><span class="o">.</span><span class="n">phases</span><span class="p">),</span>
+                <span class="s1">&#39;confidence&#39;</span><span class="p">:</span> <span class="n">recommendations</span><span class="o">.</span><span class="n">confidence_level</span>
+            <span class="p">}</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">recommendation_history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
+            
+            <span class="c1"># 限制历史记录</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">recommendation_history</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">50</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">recommendation_history</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">recommendation_history</span><span class="p">[</span><span class="o">-</span><span class="mi">50</span><span class="p">:]</span>
+                
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;推荐历史记录失败: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_create_fallback_recommendations</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IntelligentRecommendations</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;创建降级推荐&quot;&quot;&quot;</span>
+        <span class="n">fallback_rec</span> <span class="o">=</span> <span class="n">Recommendation</span><span class="p">(</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;fallback_001&quot;</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="s2">&quot;提升代码质量&quot;</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;建议进行基础的代码质量改进&quot;</span><span class="p">,</span>
+            <span class="n">rationale</span><span class="o">=</span><span class="s2">&quot;提升整体代码质量&quot;</span><span class="p">,</span>
+            <span class="n">priority_score</span><span class="o">=</span><span class="mf">50.0</span><span class="p">,</span>
+            <span class="n">estimated_effort</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+            <span class="n">impact_level</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+            <span class="n">category</span><span class="o">=</span><span class="s2">&quot;quality&quot;</span><span class="p">,</span>
+            <span class="n">action_items</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;代码审查&quot;</span><span class="p">,</span> <span class="s2">&quot;添加测试&quot;</span><span class="p">],</span>
+            <span class="n">resources</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;代码质量指南&quot;</span><span class="p">],</span>
+            <span class="n">success_metrics</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;代码质量提升&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
+        
+        <span class="n">fallback_roadmap</span> <span class="o">=</span> <span class="n">ImprovementRoadmap</span><span class="p">(</span>
+            <span class="n">phases</span><span class="o">=</span><span class="p">[</span><span class="n">RoadmapPhase</span><span class="p">(</span>
+                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;基础改进&quot;</span><span class="p">,</span>
+                <span class="n">duration_weeks</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                <span class="n">recommendations</span><span class="o">=</span><span class="p">[</span><span class="n">fallback_rec</span><span class="p">],</span>
+                <span class="n">rationale</span><span class="o">=</span><span class="s2">&quot;基础质量改进&quot;</span>
+            <span class="p">)],</span>
+            <span class="n">total_duration_weeks</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+            <span class="n">estimated_roi</span><span class="o">=</span><span class="mf">50.0</span>
+        <span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">IntelligentRecommendations</span><span class="p">(</span>
+            <span class="n">recommendations</span><span class="o">=</span><span class="p">[</span><span class="n">fallback_rec</span><span class="p">],</span>
+            <span class="n">roadmap</span><span class="o">=</span><span class="n">fallback_roadmap</span><span class="p">,</span>
+            <span class="n">impact_predictions</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;overall_improvement&quot;</span><span class="p">:</span> <span class="mf">10.0</span><span class="p">},</span>
+            <span class="n">success_metrics</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;基础质量改进完成&quot;</span><span class="p">],</span>
+            <span class="n">confidence_level</span><span class="o">=</span><span class="mf">0.4</span>
+        <span class="p">)</span>
+    
+<div class="viewcode-block" id="RecommendationAgent.get_recommendation_stats">
+<a class="viewcode-back" href="../../../api/agents.html#oss_audit.core.recommendation_agent.RecommendationAgent.get_recommendation_stats">[文档]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_recommendation_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;获取推荐统计&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">recommendation_history</span><span class="p">:</span>
+                <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;total_recommendations&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+            
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s2">&quot;total_sessions&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">recommendation_history</span><span class="p">),</span>
+                <span class="s2">&quot;avg_recommendations_per_session&quot;</span><span class="p">:</span> <span class="nb">sum</span><span class="p">(</span>
+                    <span class="n">record</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;recommendation_count&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> 
+                    <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">recommendation_history</span>
+                <span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">recommendation_history</span><span class="p">),</span>
+                <span class="s2">&quot;avg_confidence&quot;</span><span class="p">:</span> <span class="nb">sum</span><span class="p">(</span>
+                    <span class="n">record</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;confidence&#39;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span> 
+                    <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">recommendation_history</span>
+                <span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">recommendation_history</span><span class="p">)</span>
+            <span class="p">}</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;推荐统计获取失败: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">{}</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="create_recommendation_agent">
+<a class="viewcode-back" href="../../../api/agents.html#oss_audit.core.recommendation_agent.create_recommendation_agent">[文档]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_recommendation_agent</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">RecommendationAgent</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;创建推荐代理实例&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">RecommendationAgent</span><span class="p">()</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2024, OSS Audit Team。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

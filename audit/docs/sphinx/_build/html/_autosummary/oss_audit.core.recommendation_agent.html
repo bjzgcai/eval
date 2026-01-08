@@ -1,0 +1,907 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>oss_audit.core.recommendation_agent &mdash; OSS Audit 2.0 API文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=a3f70f27" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=b15d7ad8"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=beaddf03"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="oss_audit.utils.ai_analyzer" href="oss_audit.utils.ai_analyzer.html" />
+    <link rel="prev" title="oss_audit.core.adaptive_agent" href="oss_audit.core.adaptive_agent.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            OSS Audit 2.0
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">快速开始:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">安装指南</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API参考:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/core.html">核心模块 (oss_audit.core)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/agents.html">智能代理系统 (oss_audit.core.agents)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">核心模块</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="oss_audit.core.audit_runner.html">oss_audit.core.audit_runner</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oss_audit.core.project_detector.html">oss_audit.core.project_detector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oss_audit.core.tool_executor.html">oss_audit.core.tool_executor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oss_audit.core.report_generator.html">oss_audit.core.report_generator</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">智能代理</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="oss_audit.core.decision_agent.html">oss_audit.core.decision_agent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oss_audit.core.adaptive_agent.html">oss_audit.core.adaptive_agent</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">oss_audit.core.recommendation_agent</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#oss_audit.core.recommendation_agent.IssueSeverity"><code class="docutils literal notranslate"><span class="pre">IssueSeverity</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.IssueSeverity.CRITICAL"><code class="docutils literal notranslate"><span class="pre">IssueSeverity.CRITICAL</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.IssueSeverity.HIGH"><code class="docutils literal notranslate"><span class="pre">IssueSeverity.HIGH</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.IssueSeverity.MEDIUM"><code class="docutils literal notranslate"><span class="pre">IssueSeverity.MEDIUM</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.IssueSeverity.LOW"><code class="docutils literal notranslate"><span class="pre">IssueSeverity.LOW</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.IssueSeverity.INFO"><code class="docutils literal notranslate"><span class="pre">IssueSeverity.INFO</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#oss_audit.core.recommendation_agent.ImpactLevel"><code class="docutils literal notranslate"><span class="pre">ImpactLevel</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.ImpactLevel.BREAKING"><code class="docutils literal notranslate"><span class="pre">ImpactLevel.BREAKING</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.ImpactLevel.MAJOR"><code class="docutils literal notranslate"><span class="pre">ImpactLevel.MAJOR</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.ImpactLevel.MINOR"><code class="docutils literal notranslate"><span class="pre">ImpactLevel.MINOR</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.ImpactLevel.NEGLIGIBLE"><code class="docutils literal notranslate"><span class="pre">ImpactLevel.NEGLIGIBLE</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#oss_audit.core.recommendation_agent.Issue"><code class="docutils literal notranslate"><span class="pre">Issue</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.Issue.id"><code class="docutils literal notranslate"><span class="pre">Issue.id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.Issue.title"><code class="docutils literal notranslate"><span class="pre">Issue.title</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.Issue.description"><code class="docutils literal notranslate"><span class="pre">Issue.description</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.Issue.severity"><code class="docutils literal notranslate"><span class="pre">Issue.severity</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.Issue.category"><code class="docutils literal notranslate"><span class="pre">Issue.category</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.Issue.file_path"><code class="docutils literal notranslate"><span class="pre">Issue.file_path</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.Issue.line_number"><code class="docutils literal notranslate"><span class="pre">Issue.line_number</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.Issue.tool_source"><code class="docutils literal notranslate"><span class="pre">Issue.tool_source</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.Issue.fix_effort"><code class="docutils literal notranslate"><span class="pre">Issue.fix_effort</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.Issue.impact_level"><code class="docutils literal notranslate"><span class="pre">Issue.impact_level</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.Issue.__init__"><code class="docutils literal notranslate"><span class="pre">Issue.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#oss_audit.core.recommendation_agent.Recommendation"><code class="docutils literal notranslate"><span class="pre">Recommendation</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.Recommendation.id"><code class="docutils literal notranslate"><span class="pre">Recommendation.id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.Recommendation.title"><code class="docutils literal notranslate"><span class="pre">Recommendation.title</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.Recommendation.description"><code class="docutils literal notranslate"><span class="pre">Recommendation.description</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.Recommendation.rationale"><code class="docutils literal notranslate"><span class="pre">Recommendation.rationale</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.Recommendation.priority_score"><code class="docutils literal notranslate"><span class="pre">Recommendation.priority_score</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.Recommendation.estimated_effort"><code class="docutils literal notranslate"><span class="pre">Recommendation.estimated_effort</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.Recommendation.impact_level"><code class="docutils literal notranslate"><span class="pre">Recommendation.impact_level</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.Recommendation.category"><code class="docutils literal notranslate"><span class="pre">Recommendation.category</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.Recommendation.action_items"><code class="docutils literal notranslate"><span class="pre">Recommendation.action_items</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.Recommendation.resources"><code class="docutils literal notranslate"><span class="pre">Recommendation.resources</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.Recommendation.success_metrics"><code class="docutils literal notranslate"><span class="pre">Recommendation.success_metrics</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.Recommendation.__init__"><code class="docutils literal notranslate"><span class="pre">Recommendation.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#oss_audit.core.recommendation_agent.RoadmapPhase"><code class="docutils literal notranslate"><span class="pre">RoadmapPhase</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.RoadmapPhase.name"><code class="docutils literal notranslate"><span class="pre">RoadmapPhase.name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.RoadmapPhase.duration_weeks"><code class="docutils literal notranslate"><span class="pre">RoadmapPhase.duration_weeks</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.RoadmapPhase.recommendations"><code class="docutils literal notranslate"><span class="pre">RoadmapPhase.recommendations</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.RoadmapPhase.rationale"><code class="docutils literal notranslate"><span class="pre">RoadmapPhase.rationale</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.RoadmapPhase.prerequisites"><code class="docutils literal notranslate"><span class="pre">RoadmapPhase.prerequisites</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.RoadmapPhase.success_criteria"><code class="docutils literal notranslate"><span class="pre">RoadmapPhase.success_criteria</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.RoadmapPhase.__init__"><code class="docutils literal notranslate"><span class="pre">RoadmapPhase.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#oss_audit.core.recommendation_agent.ImprovementRoadmap"><code class="docutils literal notranslate"><span class="pre">ImprovementRoadmap</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.ImprovementRoadmap.phases"><code class="docutils literal notranslate"><span class="pre">ImprovementRoadmap.phases</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.ImprovementRoadmap.total_duration_weeks"><code class="docutils literal notranslate"><span class="pre">ImprovementRoadmap.total_duration_weeks</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.ImprovementRoadmap.estimated_roi"><code class="docutils literal notranslate"><span class="pre">ImprovementRoadmap.estimated_roi</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.ImprovementRoadmap.risk_factors"><code class="docutils literal notranslate"><span class="pre">ImprovementRoadmap.risk_factors</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.ImprovementRoadmap.__init__"><code class="docutils literal notranslate"><span class="pre">ImprovementRoadmap.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#oss_audit.core.recommendation_agent.IntelligentRecommendations"><code class="docutils literal notranslate"><span class="pre">IntelligentRecommendations</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.IntelligentRecommendations.recommendations"><code class="docutils literal notranslate"><span class="pre">IntelligentRecommendations.recommendations</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.IntelligentRecommendations.roadmap"><code class="docutils literal notranslate"><span class="pre">IntelligentRecommendations.roadmap</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.IntelligentRecommendations.impact_predictions"><code class="docutils literal notranslate"><span class="pre">IntelligentRecommendations.impact_predictions</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.IntelligentRecommendations.success_metrics"><code class="docutils literal notranslate"><span class="pre">IntelligentRecommendations.success_metrics</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.IntelligentRecommendations.confidence_level"><code class="docutils literal notranslate"><span class="pre">IntelligentRecommendations.confidence_level</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.IntelligentRecommendations.__init__"><code class="docutils literal notranslate"><span class="pre">IntelligentRecommendations.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#oss_audit.core.recommendation_agent.AnalysisResults"><code class="docutils literal notranslate"><span class="pre">AnalysisResults</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.AnalysisResults.all_issues"><code class="docutils literal notranslate"><span class="pre">AnalysisResults.all_issues</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.AnalysisResults.tool_results"><code class="docutils literal notranslate"><span class="pre">AnalysisResults.tool_results</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.AnalysisResults.overall_score"><code class="docutils literal notranslate"><span class="pre">AnalysisResults.overall_score</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.AnalysisResults.dimension_scores"><code class="docutils literal notranslate"><span class="pre">AnalysisResults.dimension_scores</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.AnalysisResults.__init__"><code class="docutils literal notranslate"><span class="pre">AnalysisResults.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#oss_audit.core.recommendation_agent.RecommendationEngine"><code class="docutils literal notranslate"><span class="pre">RecommendationEngine</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.RecommendationEngine.__init__"><code class="docutils literal notranslate"><span class="pre">RecommendationEngine.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#oss_audit.core.recommendation_agent.BestPracticesDatabase"><code class="docutils literal notranslate"><span class="pre">BestPracticesDatabase</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.BestPracticesDatabase.__init__"><code class="docutils literal notranslate"><span class="pre">BestPracticesDatabase.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#oss_audit.core.recommendation_agent.ImprovementPlanner"><code class="docutils literal notranslate"><span class="pre">ImprovementPlanner</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.ImprovementPlanner.create_roadmap"><code class="docutils literal notranslate"><span class="pre">ImprovementPlanner.create_roadmap()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#oss_audit.core.recommendation_agent.RecommendationAgent"><code class="docutils literal notranslate"><span class="pre">RecommendationAgent</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.RecommendationAgent.__init__"><code class="docutils literal notranslate"><span class="pre">RecommendationAgent.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.RecommendationAgent.generate_intelligent_recommendations"><code class="docutils literal notranslate"><span class="pre">RecommendationAgent.generate_intelligent_recommendations()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.recommendation_agent.RecommendationAgent.get_recommendation_stats"><code class="docutils literal notranslate"><span class="pre">RecommendationAgent.get_recommendation_stats()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#oss_audit.core.recommendation_agent.create_recommendation_agent"><code class="docutils literal notranslate"><span class="pre">create_recommendation_agent()</span></code></a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">工具和插件</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="oss_audit.utils.ai_analyzer.html">oss_audit.utils.ai_analyzer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oss_audit.core.tool_registry.html">oss_audit.core.tool_registry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oss_audit.plugins.html">oss_audit.plugins</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">OSS Audit 2.0</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">oss_audit.core.recommendation_agent</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/_autosummary/oss_audit.core.recommendation_agent.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-oss_audit.core.recommendation_agent">
+<span id="oss-audit-core-recommendation-agent"></span><h1>oss_audit.core.recommendation_agent<a class="headerlink" href="#module-oss_audit.core.recommendation_agent" title="Link to this heading"></a></h1>
+<p>Recommendation Agent - 智能推荐代理
+智能问题优先级排序和针对性建议生成</p>
+<p class="rubric">Functions</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api/agents.html#oss_audit.core.recommendation_agent.create_recommendation_agent" title="oss_audit.core.recommendation_agent.create_recommendation_agent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_recommendation_agent</span></code></a>()</p></td>
+<td><p>创建推荐代理实例</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">dataclass</span></code>([cls, init, repr, eq, order, ...])</p></td>
+<td><p>Add dunder methods based on the fields defined in the class.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">field</span></code>(*[, default, default_factory, init, ...])</p></td>
+<td><p>Return an object to identify dataclass fields.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Classes</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api/agents.html#oss_audit.core.recommendation_agent.AnalysisResults" title="oss_audit.core.recommendation_agent.AnalysisResults"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AnalysisResults</span></code></a>(all_issues, tool_results, ...)</p></td>
+<td><p>分析结果</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Any</span></code>(*args, **kwargs)</p></td>
+<td><p>Special type indicating an unconstrained type.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api/agents.html#oss_audit.core.recommendation_agent.BestPracticesDatabase" title="oss_audit.core.recommendation_agent.BestPracticesDatabase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BestPracticesDatabase</span></code></a>()</p></td>
+<td><p>最佳实践数据库</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Enum</span></code>(new_class_name, /, names, *[, module, ...])</p></td>
+<td><p>Create a collection of name/value pairs.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api/agents.html#oss_audit.core.recommendation_agent.ImpactLevel" title="oss_audit.core.recommendation_agent.ImpactLevel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ImpactLevel</span></code></a>(*values)</p></td>
+<td><p>影响程度</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../api/agents.html#oss_audit.core.recommendation_agent.ImprovementPlanner" title="oss_audit.core.recommendation_agent.ImprovementPlanner"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ImprovementPlanner</span></code></a>()</p></td>
+<td><p>改进规划器</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api/agents.html#oss_audit.core.recommendation_agent.ImprovementRoadmap" title="oss_audit.core.recommendation_agent.ImprovementRoadmap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ImprovementRoadmap</span></code></a>(phases, ...)</p></td>
+<td><p>改进路线图</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../api/agents.html#oss_audit.core.recommendation_agent.IntelligentRecommendations" title="oss_audit.core.recommendation_agent.IntelligentRecommendations"><code class="xref py py-obj docutils literal notranslate"><span class="pre">IntelligentRecommendations</span></code></a>(recommendations, ...)</p></td>
+<td><p>智能推荐结果</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api/agents.html#oss_audit.core.recommendation_agent.Issue" title="oss_audit.core.recommendation_agent.Issue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Issue</span></code></a>(id, title, description, severity, category)</p></td>
+<td><p>问题定义</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../api/agents.html#oss_audit.core.recommendation_agent.IssueSeverity" title="oss_audit.core.recommendation_agent.IssueSeverity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">IssueSeverity</span></code></a>(*values)</p></td>
+<td><p>问题严重程度</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">ProjectInfo</span></code>(path, name, languages, float] =, ...)</p></td>
+<td><p>项目信息数据模型</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">ProjectType</span></code>(*values)</p></td>
+<td><p>项目类型</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api/agents.html#oss_audit.core.recommendation_agent.Recommendation" title="oss_audit.core.recommendation_agent.Recommendation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Recommendation</span></code></a>(id, title, description, ...)</p></td>
+<td><p>推荐建议</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../api/agents.html#oss_audit.core.recommendation_agent.RecommendationAgent" title="oss_audit.core.recommendation_agent.RecommendationAgent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RecommendationAgent</span></code></a>()</p></td>
+<td><p>推荐Agent - 生成智能建议和改进路线图</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api/agents.html#oss_audit.core.recommendation_agent.RecommendationEngine" title="oss_audit.core.recommendation_agent.RecommendationEngine"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RecommendationEngine</span></code></a>()</p></td>
+<td><p>推荐引擎</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../api/agents.html#oss_audit.core.recommendation_agent.RoadmapPhase" title="oss_audit.core.recommendation_agent.RoadmapPhase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RoadmapPhase</span></code></a>(name, duration_weeks, ...)</p></td>
+<td><p>路线图阶段</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">ScoringModel</span></code>(weights, float], ...)</p></td>
+<td><p>评分模型</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">defaultdict</span></code></p></td>
+<td><p>defaultdict(default_factory=None, /, [...]) --&gt; dict with default factory</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.IssueSeverity">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oss_audit.core.recommendation_agent.</span></span><span class="sig-name descname"><span class="pre">IssueSeverity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oss_audit/core/recommendation_agent.html#IssueSeverity"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.recommendation_agent.IssueSeverity" title="Link to this definition"></a></dt>
+<dd><p>问题严重程度</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.IssueSeverity.CRITICAL">
+<span class="sig-name descname"><span class="pre">CRITICAL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'critical'</span></em><a class="headerlink" href="#oss_audit.core.recommendation_agent.IssueSeverity.CRITICAL" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.IssueSeverity.HIGH">
+<span class="sig-name descname"><span class="pre">HIGH</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'high'</span></em><a class="headerlink" href="#oss_audit.core.recommendation_agent.IssueSeverity.HIGH" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.IssueSeverity.MEDIUM">
+<span class="sig-name descname"><span class="pre">MEDIUM</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'medium'</span></em><a class="headerlink" href="#oss_audit.core.recommendation_agent.IssueSeverity.MEDIUM" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.IssueSeverity.LOW">
+<span class="sig-name descname"><span class="pre">LOW</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'low'</span></em><a class="headerlink" href="#oss_audit.core.recommendation_agent.IssueSeverity.LOW" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.IssueSeverity.INFO">
+<span class="sig-name descname"><span class="pre">INFO</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'info'</span></em><a class="headerlink" href="#oss_audit.core.recommendation_agent.IssueSeverity.INFO" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.ImpactLevel">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oss_audit.core.recommendation_agent.</span></span><span class="sig-name descname"><span class="pre">ImpactLevel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oss_audit/core/recommendation_agent.html#ImpactLevel"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.recommendation_agent.ImpactLevel" title="Link to this definition"></a></dt>
+<dd><p>影响程度</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.ImpactLevel.BREAKING">
+<span class="sig-name descname"><span class="pre">BREAKING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'breaking'</span></em><a class="headerlink" href="#oss_audit.core.recommendation_agent.ImpactLevel.BREAKING" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.ImpactLevel.MAJOR">
+<span class="sig-name descname"><span class="pre">MAJOR</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'major'</span></em><a class="headerlink" href="#oss_audit.core.recommendation_agent.ImpactLevel.MAJOR" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.ImpactLevel.MINOR">
+<span class="sig-name descname"><span class="pre">MINOR</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'minor'</span></em><a class="headerlink" href="#oss_audit.core.recommendation_agent.ImpactLevel.MINOR" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.ImpactLevel.NEGLIGIBLE">
+<span class="sig-name descname"><span class="pre">NEGLIGIBLE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'negligible'</span></em><a class="headerlink" href="#oss_audit.core.recommendation_agent.ImpactLevel.NEGLIGIBLE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.Issue">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oss_audit.core.recommendation_agent.</span></span><span class="sig-name descname"><span class="pre">Issue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">severity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../api/agents.html#oss_audit.core.recommendation_agent.IssueSeverity" title="oss_audit.core.recommendation_agent.IssueSeverity"><span class="pre">IssueSeverity</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">category</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="（在 Python v3.13）"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line_number</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="（在 Python v3.13）"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tool_source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fix_effort</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'medium'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">impact_level</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../api/agents.html#oss_audit.core.recommendation_agent.ImpactLevel" title="oss_audit.core.recommendation_agent.ImpactLevel"><span class="pre">ImpactLevel</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">ImpactLevel.MINOR</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="（在 Python v3.13）"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/oss_audit/core/recommendation_agent.html#Issue"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.recommendation_agent.Issue" title="Link to this definition"></a></dt>
+<dd><p>问题定义</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>title</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>description</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>severity</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../api/agents.html#oss_audit.core.recommendation_agent.IssueSeverity" title="oss_audit.core.recommendation_agent.IssueSeverity"><code class="xref py py-class docutils literal notranslate"><span class="pre">IssueSeverity</span></code></a></span>)</p></li>
+<li><p><strong>category</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>file_path</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="（在 Python v3.13）"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>)</p></li>
+<li><p><strong>line_number</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="（在 Python v3.13）"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]</span>)</p></li>
+<li><p><strong>tool_source</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>fix_effort</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>impact_level</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../api/agents.html#oss_audit.core.recommendation_agent.ImpactLevel" title="oss_audit.core.recommendation_agent.ImpactLevel"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImpactLevel</span></code></a></span>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.Issue.id">
+<span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><a class="headerlink" href="#oss_audit.core.recommendation_agent.Issue.id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.Issue.title">
+<span class="sig-name descname"><span class="pre">title</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><a class="headerlink" href="#oss_audit.core.recommendation_agent.Issue.title" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.Issue.description">
+<span class="sig-name descname"><span class="pre">description</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><a class="headerlink" href="#oss_audit.core.recommendation_agent.Issue.description" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.Issue.severity">
+<span class="sig-name descname"><span class="pre">severity</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../api/agents.html#oss_audit.core.recommendation_agent.IssueSeverity" title="oss_audit.core.recommendation_agent.IssueSeverity"><code class="xref py py-class docutils literal notranslate"><span class="pre">IssueSeverity</span></code></a></em><a class="headerlink" href="#oss_audit.core.recommendation_agent.Issue.severity" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.Issue.category">
+<span class="sig-name descname"><span class="pre">category</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><a class="headerlink" href="#oss_audit.core.recommendation_agent.Issue.category" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.Issue.file_path">
+<span class="sig-name descname"><span class="pre">file_path</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="（在 Python v3.13）"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a><span class="pre">]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#oss_audit.core.recommendation_agent.Issue.file_path" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.Issue.line_number">
+<span class="sig-name descname"><span class="pre">line_number</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="（在 Python v3.13）"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a><span class="pre">]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#oss_audit.core.recommendation_agent.Issue.line_number" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.Issue.tool_source">
+<span class="sig-name descname"><span class="pre">tool_source</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#oss_audit.core.recommendation_agent.Issue.tool_source" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.Issue.fix_effort">
+<span class="sig-name descname"><span class="pre">fix_effort</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'medium'</span></em><a class="headerlink" href="#oss_audit.core.recommendation_agent.Issue.fix_effort" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.Issue.impact_level">
+<span class="sig-name descname"><span class="pre">impact_level</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../api/agents.html#oss_audit.core.recommendation_agent.ImpactLevel" title="oss_audit.core.recommendation_agent.ImpactLevel"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImpactLevel</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'minor'</span></em><a class="headerlink" href="#oss_audit.core.recommendation_agent.Issue.impact_level" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.Issue.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">severity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../api/agents.html#oss_audit.core.recommendation_agent.IssueSeverity" title="oss_audit.core.recommendation_agent.IssueSeverity"><span class="pre">IssueSeverity</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">category</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="（在 Python v3.13）"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line_number</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="（在 Python v3.13）"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tool_source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fix_effort</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'medium'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">impact_level</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../api/agents.html#oss_audit.core.recommendation_agent.ImpactLevel" title="oss_audit.core.recommendation_agent.ImpactLevel"><span class="pre">ImpactLevel</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">ImpactLevel.MINOR</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="（在 Python v3.13）"><span class="pre">None</span></a></span></span><a class="headerlink" href="#oss_audit.core.recommendation_agent.Issue.__init__" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>title</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>description</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>severity</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../api/agents.html#oss_audit.core.recommendation_agent.IssueSeverity" title="oss_audit.core.recommendation_agent.IssueSeverity"><code class="xref py py-class docutils literal notranslate"><span class="pre">IssueSeverity</span></code></a></span>)</p></li>
+<li><p><strong>category</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>file_path</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="（在 Python v3.13）"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>)</p></li>
+<li><p><strong>line_number</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="（在 Python v3.13）"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]</span>)</p></li>
+<li><p><strong>tool_source</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>fix_effort</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>impact_level</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../api/agents.html#oss_audit.core.recommendation_agent.ImpactLevel" title="oss_audit.core.recommendation_agent.ImpactLevel"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImpactLevel</span></code></a></span>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">返回类型<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.Recommendation">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oss_audit.core.recommendation_agent.</span></span><span class="sig-name descname"><span class="pre">Recommendation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rationale:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">priority_score:</span> <span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">estimated_effort:</span> <span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">impact_level:</span> <span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">action_items:</span> <span class="pre">~typing.List[str]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resources:</span> <span class="pre">~typing.List[str]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">success_metrics:</span> <span class="pre">~typing.List[str]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="（在 Python v3.13）"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/oss_audit/core/recommendation_agent.html#Recommendation"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.recommendation_agent.Recommendation" title="Link to this definition"></a></dt>
+<dd><p>推荐建议</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>title</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>description</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>rationale</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>priority_score</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>)</p></li>
+<li><p><strong>estimated_effort</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>impact_level</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>)</p></li>
+<li><p><strong>category</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>action_items</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>)</p></li>
+<li><p><strong>resources</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>)</p></li>
+<li><p><strong>success_metrics</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.Recommendation.id">
+<span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><a class="headerlink" href="#oss_audit.core.recommendation_agent.Recommendation.id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.Recommendation.title">
+<span class="sig-name descname"><span class="pre">title</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><a class="headerlink" href="#oss_audit.core.recommendation_agent.Recommendation.title" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.Recommendation.description">
+<span class="sig-name descname"><span class="pre">description</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><a class="headerlink" href="#oss_audit.core.recommendation_agent.Recommendation.description" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.Recommendation.rationale">
+<span class="sig-name descname"><span class="pre">rationale</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><a class="headerlink" href="#oss_audit.core.recommendation_agent.Recommendation.rationale" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.Recommendation.priority_score">
+<span class="sig-name descname"><span class="pre">priority_score</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></em><a class="headerlink" href="#oss_audit.core.recommendation_agent.Recommendation.priority_score" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.Recommendation.estimated_effort">
+<span class="sig-name descname"><span class="pre">estimated_effort</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></em><a class="headerlink" href="#oss_audit.core.recommendation_agent.Recommendation.estimated_effort" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.Recommendation.impact_level">
+<span class="sig-name descname"><span class="pre">impact_level</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></em><a class="headerlink" href="#oss_audit.core.recommendation_agent.Recommendation.impact_level" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.Recommendation.category">
+<span class="sig-name descname"><span class="pre">category</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><a class="headerlink" href="#oss_audit.core.recommendation_agent.Recommendation.category" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.Recommendation.action_items">
+<span class="sig-name descname"><span class="pre">action_items</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#oss_audit.core.recommendation_agent.Recommendation.action_items" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.Recommendation.resources">
+<span class="sig-name descname"><span class="pre">resources</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#oss_audit.core.recommendation_agent.Recommendation.resources" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.Recommendation.success_metrics">
+<span class="sig-name descname"><span class="pre">success_metrics</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#oss_audit.core.recommendation_agent.Recommendation.success_metrics" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.Recommendation.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rationale:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">priority_score:</span> <span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">estimated_effort:</span> <span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">impact_level:</span> <span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">action_items:</span> <span class="pre">~typing.List[str]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resources:</span> <span class="pre">~typing.List[str]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">success_metrics:</span> <span class="pre">~typing.List[str]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="（在 Python v3.13）"><span class="pre">None</span></a></span></span><a class="headerlink" href="#oss_audit.core.recommendation_agent.Recommendation.__init__" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>title</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>description</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>rationale</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>priority_score</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>)</p></li>
+<li><p><strong>estimated_effort</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>impact_level</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>)</p></li>
+<li><p><strong>category</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>action_items</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>)</p></li>
+<li><p><strong>resources</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>)</p></li>
+<li><p><strong>success_metrics</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">返回类型<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.RoadmapPhase">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oss_audit.core.recommendation_agent.</span></span><span class="sig-name descname"><span class="pre">RoadmapPhase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">name:</span> <span class="pre">str,</span> <span class="pre">duration_weeks:</span> <span class="pre">int,</span> <span class="pre">recommendations:</span> <span class="pre">~typing.List[~oss_audit.core.recommendation_agent.Recommendation],</span> <span class="pre">rationale:</span> <span class="pre">str,</span> <span class="pre">prerequisites:</span> <span class="pre">~typing.List[str]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;,</span> <span class="pre">success_criteria:</span> <span class="pre">~typing.List[str]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="（在 Python v3.13）"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/oss_audit/core/recommendation_agent.html#RoadmapPhase"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.recommendation_agent.RoadmapPhase" title="Link to this definition"></a></dt>
+<dd><p>路线图阶段</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>duration_weeks</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>recommendations</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="../api/agents.html#oss_audit.core.recommendation_agent.Recommendation" title="oss_audit.core.recommendation_agent.Recommendation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Recommendation</span></code></a>]</span>)</p></li>
+<li><p><strong>rationale</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>prerequisites</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>)</p></li>
+<li><p><strong>success_criteria</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.RoadmapPhase.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><a class="headerlink" href="#oss_audit.core.recommendation_agent.RoadmapPhase.name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.RoadmapPhase.duration_weeks">
+<span class="sig-name descname"><span class="pre">duration_weeks</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></em><a class="headerlink" href="#oss_audit.core.recommendation_agent.RoadmapPhase.duration_weeks" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.RoadmapPhase.recommendations">
+<span class="sig-name descname"><span class="pre">recommendations</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a><span class="pre">[</span><a class="reference internal" href="../api/agents.html#oss_audit.core.recommendation_agent.Recommendation" title="oss_audit.core.recommendation_agent.Recommendation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Recommendation</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#oss_audit.core.recommendation_agent.RoadmapPhase.recommendations" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.RoadmapPhase.rationale">
+<span class="sig-name descname"><span class="pre">rationale</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><a class="headerlink" href="#oss_audit.core.recommendation_agent.RoadmapPhase.rationale" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.RoadmapPhase.prerequisites">
+<span class="sig-name descname"><span class="pre">prerequisites</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#oss_audit.core.recommendation_agent.RoadmapPhase.prerequisites" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.RoadmapPhase.success_criteria">
+<span class="sig-name descname"><span class="pre">success_criteria</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#oss_audit.core.recommendation_agent.RoadmapPhase.success_criteria" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.RoadmapPhase.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">name:</span> <span class="pre">str,</span> <span class="pre">duration_weeks:</span> <span class="pre">int,</span> <span class="pre">recommendations:</span> <span class="pre">~typing.List[~oss_audit.core.recommendation_agent.Recommendation],</span> <span class="pre">rationale:</span> <span class="pre">str,</span> <span class="pre">prerequisites:</span> <span class="pre">~typing.List[str]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;,</span> <span class="pre">success_criteria:</span> <span class="pre">~typing.List[str]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="（在 Python v3.13）"><span class="pre">None</span></a></span></span><a class="headerlink" href="#oss_audit.core.recommendation_agent.RoadmapPhase.__init__" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>duration_weeks</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>recommendations</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="../api/agents.html#oss_audit.core.recommendation_agent.Recommendation" title="oss_audit.core.recommendation_agent.Recommendation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Recommendation</span></code></a>]</span>)</p></li>
+<li><p><strong>rationale</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>prerequisites</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>)</p></li>
+<li><p><strong>success_criteria</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">返回类型<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.ImprovementRoadmap">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oss_audit.core.recommendation_agent.</span></span><span class="sig-name descname"><span class="pre">ImprovementRoadmap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">phases:</span> <span class="pre">~typing.List[~oss_audit.core.recommendation_agent.RoadmapPhase],</span> <span class="pre">total_duration_weeks:</span> <span class="pre">int,</span> <span class="pre">estimated_roi:</span> <span class="pre">float,</span> <span class="pre">risk_factors:</span> <span class="pre">~typing.List[str]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="（在 Python v3.13）"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/oss_audit/core/recommendation_agent.html#ImprovementRoadmap"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.recommendation_agent.ImprovementRoadmap" title="Link to this definition"></a></dt>
+<dd><p>改进路线图</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>phases</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="../api/agents.html#oss_audit.core.recommendation_agent.RoadmapPhase" title="oss_audit.core.recommendation_agent.RoadmapPhase"><code class="xref py py-class docutils literal notranslate"><span class="pre">RoadmapPhase</span></code></a>]</span>)</p></li>
+<li><p><strong>total_duration_weeks</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>estimated_roi</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>)</p></li>
+<li><p><strong>risk_factors</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.ImprovementRoadmap.phases">
+<span class="sig-name descname"><span class="pre">phases</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a><span class="pre">[</span><a class="reference internal" href="../api/agents.html#oss_audit.core.recommendation_agent.RoadmapPhase" title="oss_audit.core.recommendation_agent.RoadmapPhase"><code class="xref py py-class docutils literal notranslate"><span class="pre">RoadmapPhase</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#oss_audit.core.recommendation_agent.ImprovementRoadmap.phases" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.ImprovementRoadmap.total_duration_weeks">
+<span class="sig-name descname"><span class="pre">total_duration_weeks</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></em><a class="headerlink" href="#oss_audit.core.recommendation_agent.ImprovementRoadmap.total_duration_weeks" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.ImprovementRoadmap.estimated_roi">
+<span class="sig-name descname"><span class="pre">estimated_roi</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></em><a class="headerlink" href="#oss_audit.core.recommendation_agent.ImprovementRoadmap.estimated_roi" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.ImprovementRoadmap.risk_factors">
+<span class="sig-name descname"><span class="pre">risk_factors</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#oss_audit.core.recommendation_agent.ImprovementRoadmap.risk_factors" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.ImprovementRoadmap.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">phases:</span> <span class="pre">~typing.List[~oss_audit.core.recommendation_agent.RoadmapPhase],</span> <span class="pre">total_duration_weeks:</span> <span class="pre">int,</span> <span class="pre">estimated_roi:</span> <span class="pre">float,</span> <span class="pre">risk_factors:</span> <span class="pre">~typing.List[str]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="（在 Python v3.13）"><span class="pre">None</span></a></span></span><a class="headerlink" href="#oss_audit.core.recommendation_agent.ImprovementRoadmap.__init__" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>phases</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="../api/agents.html#oss_audit.core.recommendation_agent.RoadmapPhase" title="oss_audit.core.recommendation_agent.RoadmapPhase"><code class="xref py py-class docutils literal notranslate"><span class="pre">RoadmapPhase</span></code></a>]</span>)</p></li>
+<li><p><strong>total_duration_weeks</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>estimated_roi</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>)</p></li>
+<li><p><strong>risk_factors</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">返回类型<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.IntelligentRecommendations">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oss_audit.core.recommendation_agent.</span></span><span class="sig-name descname"><span class="pre">IntelligentRecommendations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">recommendations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../api/agents.html#oss_audit.core.recommendation_agent.Recommendation" title="oss_audit.core.recommendation_agent.Recommendation"><span class="pre">Recommendation</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">roadmap</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../api/agents.html#oss_audit.core.recommendation_agent.ImprovementRoadmap" title="oss_audit.core.recommendation_agent.ImprovementRoadmap"><span class="pre">ImprovementRoadmap</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">impact_predictions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">success_metrics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">confidence_level</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.8</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="（在 Python v3.13）"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/oss_audit/core/recommendation_agent.html#IntelligentRecommendations"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.recommendation_agent.IntelligentRecommendations" title="Link to this definition"></a></dt>
+<dd><p>智能推荐结果</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>recommendations</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="../api/agents.html#oss_audit.core.recommendation_agent.Recommendation" title="oss_audit.core.recommendation_agent.Recommendation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Recommendation</span></code></a>]</span>)</p></li>
+<li><p><strong>roadmap</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../api/agents.html#oss_audit.core.recommendation_agent.ImprovementRoadmap" title="oss_audit.core.recommendation_agent.ImprovementRoadmap"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImprovementRoadmap</span></code></a></span>)</p></li>
+<li><p><strong>impact_predictions</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</span>)</p></li>
+<li><p><strong>success_metrics</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>)</p></li>
+<li><p><strong>confidence_level</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.IntelligentRecommendations.recommendations">
+<span class="sig-name descname"><span class="pre">recommendations</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a><span class="pre">[</span><a class="reference internal" href="../api/agents.html#oss_audit.core.recommendation_agent.Recommendation" title="oss_audit.core.recommendation_agent.Recommendation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Recommendation</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#oss_audit.core.recommendation_agent.IntelligentRecommendations.recommendations" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.IntelligentRecommendations.roadmap">
+<span class="sig-name descname"><span class="pre">roadmap</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../api/agents.html#oss_audit.core.recommendation_agent.ImprovementRoadmap" title="oss_audit.core.recommendation_agent.ImprovementRoadmap"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImprovementRoadmap</span></code></a></em><a class="headerlink" href="#oss_audit.core.recommendation_agent.IntelligentRecommendations.roadmap" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.IntelligentRecommendations.impact_predictions">
+<span class="sig-name descname"><span class="pre">impact_predictions</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a><span class="pre">,</span> <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#oss_audit.core.recommendation_agent.IntelligentRecommendations.impact_predictions" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.IntelligentRecommendations.success_metrics">
+<span class="sig-name descname"><span class="pre">success_metrics</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#oss_audit.core.recommendation_agent.IntelligentRecommendations.success_metrics" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.IntelligentRecommendations.confidence_level">
+<span class="sig-name descname"><span class="pre">confidence_level</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.8</span></em><a class="headerlink" href="#oss_audit.core.recommendation_agent.IntelligentRecommendations.confidence_level" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.IntelligentRecommendations.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">recommendations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../api/agents.html#oss_audit.core.recommendation_agent.Recommendation" title="oss_audit.core.recommendation_agent.Recommendation"><span class="pre">Recommendation</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">roadmap</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../api/agents.html#oss_audit.core.recommendation_agent.ImprovementRoadmap" title="oss_audit.core.recommendation_agent.ImprovementRoadmap"><span class="pre">ImprovementRoadmap</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">impact_predictions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">success_metrics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">confidence_level</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.8</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="（在 Python v3.13）"><span class="pre">None</span></a></span></span><a class="headerlink" href="#oss_audit.core.recommendation_agent.IntelligentRecommendations.__init__" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>recommendations</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="../api/agents.html#oss_audit.core.recommendation_agent.Recommendation" title="oss_audit.core.recommendation_agent.Recommendation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Recommendation</span></code></a>]</span>)</p></li>
+<li><p><strong>roadmap</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../api/agents.html#oss_audit.core.recommendation_agent.ImprovementRoadmap" title="oss_audit.core.recommendation_agent.ImprovementRoadmap"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImprovementRoadmap</span></code></a></span>)</p></li>
+<li><p><strong>impact_predictions</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</span>)</p></li>
+<li><p><strong>success_metrics</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>)</p></li>
+<li><p><strong>confidence_level</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">返回类型<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.AnalysisResults">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oss_audit.core.recommendation_agent.</span></span><span class="sig-name descname"><span class="pre">AnalysisResults</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">all_issues:</span> <span class="pre">~typing.List[~oss_audit.core.recommendation_agent.Issue],</span> <span class="pre">tool_results:</span> <span class="pre">~typing.Dict[str,</span> <span class="pre">~typing.Any],</span> <span class="pre">overall_score:</span> <span class="pre">float,</span> <span class="pre">dimension_scores:</span> <span class="pre">~typing.Dict[str,</span> <span class="pre">float]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="（在 Python v3.13）"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/oss_audit/core/recommendation_agent.html#AnalysisResults"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.recommendation_agent.AnalysisResults" title="Link to this definition"></a></dt>
+<dd><p>分析结果</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>all_issues</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="../api/agents.html#oss_audit.core.recommendation_agent.Issue" title="oss_audit.core.recommendation_agent.Issue"><code class="xref py py-class docutils literal notranslate"><span class="pre">Issue</span></code></a>]</span>)</p></li>
+<li><p><strong>tool_results</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="（在 Python v3.13）"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span>)</p></li>
+<li><p><strong>overall_score</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>)</p></li>
+<li><p><strong>dimension_scores</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</span>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.AnalysisResults.all_issues">
+<span class="sig-name descname"><span class="pre">all_issues</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a><span class="pre">[</span><a class="reference internal" href="../api/agents.html#oss_audit.core.recommendation_agent.Issue" title="oss_audit.core.recommendation_agent.Issue"><code class="xref py py-class docutils literal notranslate"><span class="pre">Issue</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#oss_audit.core.recommendation_agent.AnalysisResults.all_issues" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.AnalysisResults.tool_results">
+<span class="sig-name descname"><span class="pre">tool_results</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a><span class="pre">,</span> <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="（在 Python v3.13）"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#oss_audit.core.recommendation_agent.AnalysisResults.tool_results" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.AnalysisResults.overall_score">
+<span class="sig-name descname"><span class="pre">overall_score</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></em><a class="headerlink" href="#oss_audit.core.recommendation_agent.AnalysisResults.overall_score" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.AnalysisResults.dimension_scores">
+<span class="sig-name descname"><span class="pre">dimension_scores</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a><span class="pre">,</span> <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#oss_audit.core.recommendation_agent.AnalysisResults.dimension_scores" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.AnalysisResults.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">all_issues:</span> <span class="pre">~typing.List[~oss_audit.core.recommendation_agent.Issue],</span> <span class="pre">tool_results:</span> <span class="pre">~typing.Dict[str,</span> <span class="pre">~typing.Any],</span> <span class="pre">overall_score:</span> <span class="pre">float,</span> <span class="pre">dimension_scores:</span> <span class="pre">~typing.Dict[str,</span> <span class="pre">float]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="（在 Python v3.13）"><span class="pre">None</span></a></span></span><a class="headerlink" href="#oss_audit.core.recommendation_agent.AnalysisResults.__init__" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>all_issues</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="../api/agents.html#oss_audit.core.recommendation_agent.Issue" title="oss_audit.core.recommendation_agent.Issue"><code class="xref py py-class docutils literal notranslate"><span class="pre">Issue</span></code></a>]</span>)</p></li>
+<li><p><strong>tool_results</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="（在 Python v3.13）"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span>)</p></li>
+<li><p><strong>overall_score</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>)</p></li>
+<li><p><strong>dimension_scores</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</span>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">返回类型<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.RecommendationEngine">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oss_audit.core.recommendation_agent.</span></span><span class="sig-name descname"><span class="pre">RecommendationEngine</span></span><a class="reference internal" href="../_modules/oss_audit/core/recommendation_agent.html#RecommendationEngine"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.recommendation_agent.RecommendationEngine" title="Link to this definition"></a></dt>
+<dd><p>推荐引擎</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.RecommendationEngine.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oss_audit/core/recommendation_agent.html#RecommendationEngine.__init__"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.recommendation_agent.RecommendationEngine.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.BestPracticesDatabase">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oss_audit.core.recommendation_agent.</span></span><span class="sig-name descname"><span class="pre">BestPracticesDatabase</span></span><a class="reference internal" href="../_modules/oss_audit/core/recommendation_agent.html#BestPracticesDatabase"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.recommendation_agent.BestPracticesDatabase" title="Link to this definition"></a></dt>
+<dd><p>最佳实践数据库</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.BestPracticesDatabase.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oss_audit/core/recommendation_agent.html#BestPracticesDatabase.__init__"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.recommendation_agent.BestPracticesDatabase.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.ImprovementPlanner">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oss_audit.core.recommendation_agent.</span></span><span class="sig-name descname"><span class="pre">ImprovementPlanner</span></span><a class="reference internal" href="../_modules/oss_audit/core/recommendation_agent.html#ImprovementPlanner"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.recommendation_agent.ImprovementPlanner" title="Link to this definition"></a></dt>
+<dd><p>改进规划器</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.ImprovementPlanner.create_roadmap">
+<span class="sig-name descname"><span class="pre">create_roadmap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">recommendations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../api/agents.html#oss_audit.core.recommendation_agent.Recommendation" title="oss_audit.core.recommendation_agent.Recommendation"><span class="pre">Recommendation</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../api/core.html#oss_audit.core.project_detector.ProjectInfo" title="oss_audit.core.project_detector.ProjectInfo"><span class="pre">ProjectInfo</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../api/agents.html#oss_audit.core.recommendation_agent.ImprovementRoadmap" title="oss_audit.core.recommendation_agent.ImprovementRoadmap"><span class="pre">ImprovementRoadmap</span></a></span></span><a class="reference internal" href="../_modules/oss_audit/core/recommendation_agent.html#ImprovementPlanner.create_roadmap"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.recommendation_agent.ImprovementPlanner.create_roadmap" title="Link to this definition"></a></dt>
+<dd><p>创建改进路线图</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>recommendations</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="../api/agents.html#oss_audit.core.recommendation_agent.Recommendation" title="oss_audit.core.recommendation_agent.Recommendation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Recommendation</span></code></a>]</span>)</p></li>
+<li><p><strong>project_info</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../api/core.html#oss_audit.core.project_detector.ProjectInfo" title="oss_audit.core.project_detector.ProjectInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProjectInfo</span></code></a></span>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">返回类型<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../api/agents.html#oss_audit.core.recommendation_agent.ImprovementRoadmap" title="oss_audit.core.recommendation_agent.ImprovementRoadmap"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImprovementRoadmap</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.RecommendationAgent">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oss_audit.core.recommendation_agent.</span></span><span class="sig-name descname"><span class="pre">RecommendationAgent</span></span><a class="reference internal" href="../_modules/oss_audit/core/recommendation_agent.html#RecommendationAgent"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.recommendation_agent.RecommendationAgent" title="Link to this definition"></a></dt>
+<dd><p>推荐Agent - 生成智能建议和改进路线图</p>
+<p>核心功能:
+- 智能问题优先级排序
+- 针对性建议生成
+- 智能路线图规划
+- 改进效果预测</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.RecommendationAgent.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oss_audit/core/recommendation_agent.html#RecommendationAgent.__init__"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.recommendation_agent.RecommendationAgent.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.RecommendationAgent.generate_intelligent_recommendations">
+<span class="sig-name descname"><span class="pre">generate_intelligent_recommendations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">analysis_results</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../api/agents.html#oss_audit.core.recommendation_agent.AnalysisResults" title="oss_audit.core.recommendation_agent.AnalysisResults"><span class="pre">AnalysisResults</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">project_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../api/core.html#oss_audit.core.project_detector.ProjectInfo" title="oss_audit.core.project_detector.ProjectInfo"><span class="pre">ProjectInfo</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">scoring_model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../api/agents.html#oss_audit.core.adaptive_agent.ScoringModel" title="oss_audit.core.adaptive_agent.ScoringModel"><span class="pre">ScoringModel</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="（在 Python v3.13）"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../api/agents.html#oss_audit.core.recommendation_agent.IntelligentRecommendations" title="oss_audit.core.recommendation_agent.IntelligentRecommendations"><span class="pre">IntelligentRecommendations</span></a></span></span><a class="reference internal" href="../_modules/oss_audit/core/recommendation_agent.html#RecommendationAgent.generate_intelligent_recommendations"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.recommendation_agent.RecommendationAgent.generate_intelligent_recommendations" title="Link to this definition"></a></dt>
+<dd><p>生成智能化建议</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>analysis_results</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../api/agents.html#oss_audit.core.recommendation_agent.AnalysisResults" title="oss_audit.core.recommendation_agent.AnalysisResults"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnalysisResults</span></code></a></span>) -- 分析结果</p></li>
+<li><p><strong>project_info</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../api/core.html#oss_audit.core.project_detector.ProjectInfo" title="oss_audit.core.project_detector.ProjectInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProjectInfo</span></code></a></span>) -- 项目信息</p></li>
+<li><p><strong>scoring_model</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="（在 Python v3.13）"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference internal" href="../api/agents.html#oss_audit.core.adaptive_agent.ScoringModel" title="oss_audit.core.adaptive_agent.ScoringModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">ScoringModel</span></code></a>]</span>) -- 评分模型</p></li>
+</ul>
+</dd>
+<dt class="field-even">返回类型<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../api/agents.html#oss_audit.core.recommendation_agent.IntelligentRecommendations" title="oss_audit.core.recommendation_agent.IntelligentRecommendations"><code class="xref py py-class docutils literal notranslate"><span class="pre">IntelligentRecommendations</span></code></a></span></p>
+</dd>
+<dt class="field-odd">返回<span class="colon">:</span></dt>
+<dd class="field-odd"><p>智能推荐结果</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.RecommendationAgent.get_recommendation_stats">
+<span class="sig-name descname"><span class="pre">get_recommendation_stats</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="（在 Python v3.13）"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oss_audit/core/recommendation_agent.html#RecommendationAgent.get_recommendation_stats"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.recommendation_agent.RecommendationAgent.get_recommendation_stats" title="Link to this definition"></a></dt>
+<dd><p>获取推荐统计</p>
+<dl class="field-list simple">
+<dt class="field-odd">返回类型<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="（在 Python v3.13）"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="oss_audit.core.recommendation_agent.create_recommendation_agent">
+<span class="sig-prename descclassname"><span class="pre">oss_audit.core.recommendation_agent.</span></span><span class="sig-name descname"><span class="pre">create_recommendation_agent</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../api/agents.html#oss_audit.core.recommendation_agent.RecommendationAgent" title="oss_audit.core.recommendation_agent.RecommendationAgent"><span class="pre">RecommendationAgent</span></a></span></span><a class="reference internal" href="../_modules/oss_audit/core/recommendation_agent.html#create_recommendation_agent"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.recommendation_agent.create_recommendation_agent" title="Link to this definition"></a></dt>
+<dd><p>创建推荐代理实例</p>
+<dl class="field-list simple">
+<dt class="field-odd">返回类型<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../api/agents.html#oss_audit.core.recommendation_agent.RecommendationAgent" title="oss_audit.core.recommendation_agent.RecommendationAgent"><code class="xref py py-class docutils literal notranslate"><span class="pre">RecommendationAgent</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="oss_audit.core.adaptive_agent.html" class="btn btn-neutral float-left" title="oss_audit.core.adaptive_agent" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="oss_audit.utils.ai_analyzer.html" class="btn btn-neutral float-right" title="oss_audit.utils.ai_analyzer" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2024, OSS Audit Team。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

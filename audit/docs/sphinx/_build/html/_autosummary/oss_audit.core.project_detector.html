@@ -1,0 +1,551 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>oss_audit.core.project_detector &mdash; OSS Audit 2.0 API文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=a3f70f27" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=b15d7ad8"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=beaddf03"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="oss_audit.core.tool_executor" href="oss_audit.core.tool_executor.html" />
+    <link rel="prev" title="oss_audit.core.audit_runner" href="oss_audit.core.audit_runner.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            OSS Audit 2.0
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">快速开始:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">安装指南</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API参考:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/core.html">核心模块 (oss_audit.core)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/agents.html">智能代理系统 (oss_audit.core.agents)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">核心模块</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="oss_audit.core.audit_runner.html">oss_audit.core.audit_runner</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">oss_audit.core.project_detector</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#oss_audit.core.project_detector.StructureType"><code class="docutils literal notranslate"><span class="pre">StructureType</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.project_detector.StructureType.SINGLE_PROJECT"><code class="docutils literal notranslate"><span class="pre">StructureType.SINGLE_PROJECT</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.project_detector.StructureType.MULTI_PROJECT"><code class="docutils literal notranslate"><span class="pre">StructureType.MULTI_PROJECT</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.project_detector.StructureType.MONOREPO"><code class="docutils literal notranslate"><span class="pre">StructureType.MONOREPO</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.project_detector.StructureType.UNKNOWN"><code class="docutils literal notranslate"><span class="pre">StructureType.UNKNOWN</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#oss_audit.core.project_detector.ProjectType"><code class="docutils literal notranslate"><span class="pre">ProjectType</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.project_detector.ProjectType.WEB_APPLICATION"><code class="docutils literal notranslate"><span class="pre">ProjectType.WEB_APPLICATION</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.project_detector.ProjectType.LIBRARY"><code class="docutils literal notranslate"><span class="pre">ProjectType.LIBRARY</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.project_detector.ProjectType.CLI_TOOL"><code class="docutils literal notranslate"><span class="pre">ProjectType.CLI_TOOL</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.project_detector.ProjectType.DATA_SCIENCE"><code class="docutils literal notranslate"><span class="pre">ProjectType.DATA_SCIENCE</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.project_detector.ProjectType.MOBILE_APP"><code class="docutils literal notranslate"><span class="pre">ProjectType.MOBILE_APP</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.project_detector.ProjectType.DESKTOP_APP"><code class="docutils literal notranslate"><span class="pre">ProjectType.DESKTOP_APP</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.project_detector.ProjectType.GAME"><code class="docutils literal notranslate"><span class="pre">ProjectType.GAME</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.project_detector.ProjectType.UNKNOWN"><code class="docutils literal notranslate"><span class="pre">ProjectType.UNKNOWN</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#oss_audit.core.project_detector.SizeMetrics"><code class="docutils literal notranslate"><span class="pre">SizeMetrics</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.project_detector.SizeMetrics.total_files"><code class="docutils literal notranslate"><span class="pre">SizeMetrics.total_files</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.project_detector.SizeMetrics.total_lines"><code class="docutils literal notranslate"><span class="pre">SizeMetrics.total_lines</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.project_detector.SizeMetrics.code_files"><code class="docutils literal notranslate"><span class="pre">SizeMetrics.code_files</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.project_detector.SizeMetrics.code_lines"><code class="docutils literal notranslate"><span class="pre">SizeMetrics.code_lines</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.project_detector.SizeMetrics.test_files"><code class="docutils literal notranslate"><span class="pre">SizeMetrics.test_files</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.project_detector.SizeMetrics.test_lines"><code class="docutils literal notranslate"><span class="pre">SizeMetrics.test_lines</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.project_detector.SizeMetrics.doc_files"><code class="docutils literal notranslate"><span class="pre">SizeMetrics.doc_files</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.project_detector.SizeMetrics.doc_lines"><code class="docutils literal notranslate"><span class="pre">SizeMetrics.doc_lines</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.project_detector.SizeMetrics.get_size_category"><code class="docutils literal notranslate"><span class="pre">SizeMetrics.get_size_category()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.project_detector.SizeMetrics.__init__"><code class="docutils literal notranslate"><span class="pre">SizeMetrics.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#oss_audit.core.project_detector.ProjectInfo"><code class="docutils literal notranslate"><span class="pre">ProjectInfo</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.project_detector.ProjectInfo.path"><code class="docutils literal notranslate"><span class="pre">ProjectInfo.path</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.project_detector.ProjectInfo.name"><code class="docutils literal notranslate"><span class="pre">ProjectInfo.name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.project_detector.ProjectInfo.languages"><code class="docutils literal notranslate"><span class="pre">ProjectInfo.languages</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.project_detector.ProjectInfo.structure_type"><code class="docutils literal notranslate"><span class="pre">ProjectInfo.structure_type</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.project_detector.ProjectInfo.project_type"><code class="docutils literal notranslate"><span class="pre">ProjectInfo.project_type</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.project_detector.ProjectInfo.dependencies"><code class="docutils literal notranslate"><span class="pre">ProjectInfo.dependencies</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.project_detector.ProjectInfo.size_metrics"><code class="docutils literal notranslate"><span class="pre">ProjectInfo.size_metrics</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.project_detector.ProjectInfo.build_tools"><code class="docutils literal notranslate"><span class="pre">ProjectInfo.build_tools</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.project_detector.ProjectInfo.subprojects"><code class="docutils literal notranslate"><span class="pre">ProjectInfo.subprojects</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.project_detector.ProjectInfo.confidence"><code class="docutils literal notranslate"><span class="pre">ProjectInfo.confidence</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.project_detector.ProjectInfo.get_primary_language"><code class="docutils literal notranslate"><span class="pre">ProjectInfo.get_primary_language()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.project_detector.ProjectInfo.has_database_access"><code class="docutils literal notranslate"><span class="pre">ProjectInfo.has_database_access()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.project_detector.ProjectInfo.__init__"><code class="docutils literal notranslate"><span class="pre">ProjectInfo.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#oss_audit.core.project_detector.ProjectDetector"><code class="docutils literal notranslate"><span class="pre">ProjectDetector</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.project_detector.ProjectDetector.__init__"><code class="docutils literal notranslate"><span class="pre">ProjectDetector.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.project_detector.ProjectDetector.detect_project_info"><code class="docutils literal notranslate"><span class="pre">ProjectDetector.detect_project_info()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="oss_audit.core.tool_executor.html">oss_audit.core.tool_executor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oss_audit.core.report_generator.html">oss_audit.core.report_generator</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">智能代理</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="oss_audit.core.decision_agent.html">oss_audit.core.decision_agent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oss_audit.core.adaptive_agent.html">oss_audit.core.adaptive_agent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oss_audit.core.recommendation_agent.html">oss_audit.core.recommendation_agent</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">工具和插件</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="oss_audit.utils.ai_analyzer.html">oss_audit.utils.ai_analyzer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oss_audit.core.tool_registry.html">oss_audit.core.tool_registry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oss_audit.plugins.html">oss_audit.plugins</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">OSS Audit 2.0</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">oss_audit.core.project_detector</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/_autosummary/oss_audit.core.project_detector.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-oss_audit.core.project_detector">
+<span id="oss-audit-core-project-detector"></span><h1>oss_audit.core.project_detector<a class="headerlink" href="#module-oss_audit.core.project_detector" title="Link to this heading"></a></h1>
+<p>Project Detector - 项目检测器
+负责智能检测项目语言组成、结构类型和项目类型
+支持单项目、多项目和Monorepo结构</p>
+<p class="rubric">Functions</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">dataclass</span></code>([cls, init, repr, eq, order, ...])</p></td>
+<td><p>Add dunder methods based on the fields defined in the class.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">field</span></code>(*[, default, default_factory, init, ...])</p></td>
+<td><p>Return an object to identify dataclass fields.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Classes</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Any</span></code>(*args, **kwargs)</p></td>
+<td><p>Special type indicating an unconstrained type.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Enum</span></code>(new_class_name, /, names, *[, module, ...])</p></td>
+<td><p>Create a collection of name/value pairs.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api/core.html#oss_audit.core.project_detector.ProjectDetector" title="oss_audit.core.project_detector.ProjectDetector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ProjectDetector</span></code></a>([language_config_path])</p></td>
+<td><p>项目检测器 - 负责智能检测项目特征</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../api/core.html#oss_audit.core.project_detector.ProjectInfo" title="oss_audit.core.project_detector.ProjectInfo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ProjectInfo</span></code></a>(path, name, languages, float] =, ...)</p></td>
+<td><p>项目信息数据模型</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api/core.html#oss_audit.core.project_detector.ProjectType" title="oss_audit.core.project_detector.ProjectType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ProjectType</span></code></a>(*values)</p></td>
+<td><p>项目类型</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../api/core.html#oss_audit.core.project_detector.SizeMetrics" title="oss_audit.core.project_detector.SizeMetrics"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SizeMetrics</span></code></a>([total_files, total_lines, ...])</p></td>
+<td><p>项目规模指标</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api/core.html#oss_audit.core.project_detector.StructureType" title="oss_audit.core.project_detector.StructureType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">StructureType</span></code></a>(*values)</p></td>
+<td><p>项目结构类型</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="oss_audit.core.project_detector.StructureType">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oss_audit.core.project_detector.</span></span><span class="sig-name descname"><span class="pre">StructureType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oss_audit/core/project_detector.html#StructureType"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.project_detector.StructureType" title="Link to this definition"></a></dt>
+<dd><p>项目结构类型</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.project_detector.StructureType.SINGLE_PROJECT">
+<span class="sig-name descname"><span class="pre">SINGLE_PROJECT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'single_project'</span></em><a class="headerlink" href="#oss_audit.core.project_detector.StructureType.SINGLE_PROJECT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.project_detector.StructureType.MULTI_PROJECT">
+<span class="sig-name descname"><span class="pre">MULTI_PROJECT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'multi_project'</span></em><a class="headerlink" href="#oss_audit.core.project_detector.StructureType.MULTI_PROJECT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.project_detector.StructureType.MONOREPO">
+<span class="sig-name descname"><span class="pre">MONOREPO</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'monorepo'</span></em><a class="headerlink" href="#oss_audit.core.project_detector.StructureType.MONOREPO" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.project_detector.StructureType.UNKNOWN">
+<span class="sig-name descname"><span class="pre">UNKNOWN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'unknown'</span></em><a class="headerlink" href="#oss_audit.core.project_detector.StructureType.UNKNOWN" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="oss_audit.core.project_detector.ProjectType">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oss_audit.core.project_detector.</span></span><span class="sig-name descname"><span class="pre">ProjectType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oss_audit/core/project_detector.html#ProjectType"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.project_detector.ProjectType" title="Link to this definition"></a></dt>
+<dd><p>项目类型</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.project_detector.ProjectType.WEB_APPLICATION">
+<span class="sig-name descname"><span class="pre">WEB_APPLICATION</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'web_application'</span></em><a class="headerlink" href="#oss_audit.core.project_detector.ProjectType.WEB_APPLICATION" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.project_detector.ProjectType.LIBRARY">
+<span class="sig-name descname"><span class="pre">LIBRARY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'library'</span></em><a class="headerlink" href="#oss_audit.core.project_detector.ProjectType.LIBRARY" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.project_detector.ProjectType.CLI_TOOL">
+<span class="sig-name descname"><span class="pre">CLI_TOOL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'cli_tool'</span></em><a class="headerlink" href="#oss_audit.core.project_detector.ProjectType.CLI_TOOL" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.project_detector.ProjectType.DATA_SCIENCE">
+<span class="sig-name descname"><span class="pre">DATA_SCIENCE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'data_science'</span></em><a class="headerlink" href="#oss_audit.core.project_detector.ProjectType.DATA_SCIENCE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.project_detector.ProjectType.MOBILE_APP">
+<span class="sig-name descname"><span class="pre">MOBILE_APP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'mobile_app'</span></em><a class="headerlink" href="#oss_audit.core.project_detector.ProjectType.MOBILE_APP" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.project_detector.ProjectType.DESKTOP_APP">
+<span class="sig-name descname"><span class="pre">DESKTOP_APP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'desktop_app'</span></em><a class="headerlink" href="#oss_audit.core.project_detector.ProjectType.DESKTOP_APP" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.project_detector.ProjectType.GAME">
+<span class="sig-name descname"><span class="pre">GAME</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'game'</span></em><a class="headerlink" href="#oss_audit.core.project_detector.ProjectType.GAME" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.project_detector.ProjectType.UNKNOWN">
+<span class="sig-name descname"><span class="pre">UNKNOWN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'unknown'</span></em><a class="headerlink" href="#oss_audit.core.project_detector.ProjectType.UNKNOWN" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="oss_audit.core.project_detector.SizeMetrics">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oss_audit.core.project_detector.</span></span><span class="sig-name descname"><span class="pre">SizeMetrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">total_files</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_lines</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">code_files</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">code_lines</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_files</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_lines</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">doc_files</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">doc_lines</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="（在 Python v3.13）"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/oss_audit/core/project_detector.html#SizeMetrics"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.project_detector.SizeMetrics" title="Link to this definition"></a></dt>
+<dd><p>项目规模指标</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>total_files</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>total_lines</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>code_files</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>code_lines</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>test_files</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>test_lines</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>doc_files</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>doc_lines</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.project_detector.SizeMetrics.total_files">
+<span class="sig-name descname"><span class="pre">total_files</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#oss_audit.core.project_detector.SizeMetrics.total_files" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.project_detector.SizeMetrics.total_lines">
+<span class="sig-name descname"><span class="pre">total_lines</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#oss_audit.core.project_detector.SizeMetrics.total_lines" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.project_detector.SizeMetrics.code_files">
+<span class="sig-name descname"><span class="pre">code_files</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#oss_audit.core.project_detector.SizeMetrics.code_files" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.project_detector.SizeMetrics.code_lines">
+<span class="sig-name descname"><span class="pre">code_lines</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#oss_audit.core.project_detector.SizeMetrics.code_lines" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.project_detector.SizeMetrics.test_files">
+<span class="sig-name descname"><span class="pre">test_files</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#oss_audit.core.project_detector.SizeMetrics.test_files" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.project_detector.SizeMetrics.test_lines">
+<span class="sig-name descname"><span class="pre">test_lines</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#oss_audit.core.project_detector.SizeMetrics.test_lines" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.project_detector.SizeMetrics.doc_files">
+<span class="sig-name descname"><span class="pre">doc_files</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#oss_audit.core.project_detector.SizeMetrics.doc_files" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.project_detector.SizeMetrics.doc_lines">
+<span class="sig-name descname"><span class="pre">doc_lines</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#oss_audit.core.project_detector.SizeMetrics.doc_lines" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oss_audit.core.project_detector.SizeMetrics.get_size_category">
+<span class="sig-name descname"><span class="pre">get_size_category</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><span class="pre">str</span></a></span></span><a class="reference internal" href="../_modules/oss_audit/core/project_detector.html#SizeMetrics.get_size_category"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.project_detector.SizeMetrics.get_size_category" title="Link to this definition"></a></dt>
+<dd><p>获取项目规模分类</p>
+<dl class="field-list simple">
+<dt class="field-odd">返回类型<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oss_audit.core.project_detector.SizeMetrics.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">total_files</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_lines</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">code_files</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">code_lines</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_files</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_lines</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">doc_files</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">doc_lines</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="（在 Python v3.13）"><span class="pre">None</span></a></span></span><a class="headerlink" href="#oss_audit.core.project_detector.SizeMetrics.__init__" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>total_files</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>total_lines</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>code_files</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>code_lines</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>test_files</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>test_lines</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>doc_files</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>doc_lines</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">返回类型<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="oss_audit.core.project_detector.ProjectInfo">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oss_audit.core.project_detector.</span></span><span class="sig-name descname"><span class="pre">ProjectInfo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">languages:</span> <span class="pre">~typing.Dict[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">float]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">structure_type:</span> <span class="pre">~oss_audit.core.project_detector.StructureType</span> <span class="pre">=</span> <span class="pre">StructureType.UNKNOWN</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project_type:</span> <span class="pre">~oss_audit.core.project_detector.ProjectType</span> <span class="pre">=</span> <span class="pre">ProjectType.UNKNOWN</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dependencies:</span> <span class="pre">~typing.Dict[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">~typing.List[str]]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size_metrics:</span> <span class="pre">~oss_audit.core.project_detector.SizeMetrics</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">build_tools:</span> <span class="pre">~typing.List[str]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subprojects:</span> <span class="pre">~typing.List[~typing.Dict[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">~typing.Any]]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">confidence:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">0.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="（在 Python v3.13）"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/oss_audit/core/project_detector.html#ProjectInfo"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.project_detector.ProjectInfo" title="Link to this definition"></a></dt>
+<dd><p>项目信息数据模型</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>name</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>languages</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</span>)</p></li>
+<li><p><strong>structure_type</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../api/core.html#oss_audit.core.project_detector.StructureType" title="oss_audit.core.project_detector.StructureType"><code class="xref py py-class docutils literal notranslate"><span class="pre">StructureType</span></code></a></span>)</p></li>
+<li><p><strong>project_type</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../api/core.html#oss_audit.core.project_detector.ProjectType" title="oss_audit.core.project_detector.ProjectType"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProjectType</span></code></a></span>)</p></li>
+<li><p><strong>dependencies</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]]</span>)</p></li>
+<li><p><strong>size_metrics</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../api/core.html#oss_audit.core.project_detector.SizeMetrics" title="oss_audit.core.project_detector.SizeMetrics"><code class="xref py py-class docutils literal notranslate"><span class="pre">SizeMetrics</span></code></a></span>)</p></li>
+<li><p><strong>build_tools</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>)</p></li>
+<li><p><strong>subprojects</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="（在 Python v3.13）"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]]</span>)</p></li>
+<li><p><strong>confidence</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.project_detector.ProjectInfo.path">
+<span class="sig-name descname"><span class="pre">path</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><a class="headerlink" href="#oss_audit.core.project_detector.ProjectInfo.path" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.project_detector.ProjectInfo.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><a class="headerlink" href="#oss_audit.core.project_detector.ProjectInfo.name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.project_detector.ProjectInfo.languages">
+<span class="sig-name descname"><span class="pre">languages</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a><span class="pre">,</span> <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#oss_audit.core.project_detector.ProjectInfo.languages" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.project_detector.ProjectInfo.structure_type">
+<span class="sig-name descname"><span class="pre">structure_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../api/core.html#oss_audit.core.project_detector.StructureType" title="oss_audit.core.project_detector.StructureType"><code class="xref py py-class docutils literal notranslate"><span class="pre">StructureType</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'unknown'</span></em><a class="headerlink" href="#oss_audit.core.project_detector.ProjectInfo.structure_type" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.project_detector.ProjectInfo.project_type">
+<span class="sig-name descname"><span class="pre">project_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../api/core.html#oss_audit.core.project_detector.ProjectType" title="oss_audit.core.project_detector.ProjectType"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProjectType</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'unknown'</span></em><a class="headerlink" href="#oss_audit.core.project_detector.ProjectInfo.project_type" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.project_detector.ProjectInfo.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a><span class="pre">,</span> <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a><span class="pre">]]</span></em><a class="headerlink" href="#oss_audit.core.project_detector.ProjectInfo.dependencies" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.project_detector.ProjectInfo.size_metrics">
+<span class="sig-name descname"><span class="pre">size_metrics</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../api/core.html#oss_audit.core.project_detector.SizeMetrics" title="oss_audit.core.project_detector.SizeMetrics"><code class="xref py py-class docutils literal notranslate"><span class="pre">SizeMetrics</span></code></a></em><a class="headerlink" href="#oss_audit.core.project_detector.ProjectInfo.size_metrics" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.project_detector.ProjectInfo.build_tools">
+<span class="sig-name descname"><span class="pre">build_tools</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#oss_audit.core.project_detector.ProjectInfo.build_tools" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.project_detector.ProjectInfo.subprojects">
+<span class="sig-name descname"><span class="pre">subprojects</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a><span class="pre">,</span> <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="（在 Python v3.13）"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a><span class="pre">]]</span></em><a class="headerlink" href="#oss_audit.core.project_detector.ProjectInfo.subprojects" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.project_detector.ProjectInfo.confidence">
+<span class="sig-name descname"><span class="pre">confidence</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.0</span></em><a class="headerlink" href="#oss_audit.core.project_detector.ProjectInfo.confidence" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oss_audit.core.project_detector.ProjectInfo.get_primary_language">
+<span class="sig-name descname"><span class="pre">get_primary_language</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="（在 Python v3.13）"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/oss_audit/core/project_detector.html#ProjectInfo.get_primary_language"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.project_detector.ProjectInfo.get_primary_language" title="Link to this definition"></a></dt>
+<dd><p>获取主要编程语言</p>
+<dl class="field-list simple">
+<dt class="field-odd">返回类型<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="（在 Python v3.13）"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oss_audit.core.project_detector.ProjectInfo.has_database_access">
+<span class="sig-name descname"><span class="pre">has_database_access</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="（在 Python v3.13）"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/oss_audit/core/project_detector.html#ProjectInfo.has_database_access"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.project_detector.ProjectInfo.has_database_access" title="Link to this definition"></a></dt>
+<dd><p>检查是否有数据库访问</p>
+<dl class="field-list simple">
+<dt class="field-odd">返回类型<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oss_audit.core.project_detector.ProjectInfo.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">languages:</span> <span class="pre">~typing.Dict[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">float]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">structure_type:</span> <span class="pre">~oss_audit.core.project_detector.StructureType</span> <span class="pre">=</span> <span class="pre">StructureType.UNKNOWN</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project_type:</span> <span class="pre">~oss_audit.core.project_detector.ProjectType</span> <span class="pre">=</span> <span class="pre">ProjectType.UNKNOWN</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dependencies:</span> <span class="pre">~typing.Dict[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">~typing.List[str]]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size_metrics:</span> <span class="pre">~oss_audit.core.project_detector.SizeMetrics</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">build_tools:</span> <span class="pre">~typing.List[str]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subprojects:</span> <span class="pre">~typing.List[~typing.Dict[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">~typing.Any]]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">confidence:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">0.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="（在 Python v3.13）"><span class="pre">None</span></a></span></span><a class="headerlink" href="#oss_audit.core.project_detector.ProjectInfo.__init__" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>name</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>languages</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</span>)</p></li>
+<li><p><strong>structure_type</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../api/core.html#oss_audit.core.project_detector.StructureType" title="oss_audit.core.project_detector.StructureType"><code class="xref py py-class docutils literal notranslate"><span class="pre">StructureType</span></code></a></span>)</p></li>
+<li><p><strong>project_type</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../api/core.html#oss_audit.core.project_detector.ProjectType" title="oss_audit.core.project_detector.ProjectType"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProjectType</span></code></a></span>)</p></li>
+<li><p><strong>dependencies</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]]</span>)</p></li>
+<li><p><strong>size_metrics</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../api/core.html#oss_audit.core.project_detector.SizeMetrics" title="oss_audit.core.project_detector.SizeMetrics"><code class="xref py py-class docutils literal notranslate"><span class="pre">SizeMetrics</span></code></a></span>)</p></li>
+<li><p><strong>build_tools</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>)</p></li>
+<li><p><strong>subprojects</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="（在 Python v3.13）"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]]</span>)</p></li>
+<li><p><strong>confidence</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">返回类型<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="oss_audit.core.project_detector.ProjectDetector">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oss_audit.core.project_detector.</span></span><span class="sig-name descname"><span class="pre">ProjectDetector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">language_config_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="（在 Python v3.13）"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oss_audit/core/project_detector.html#ProjectDetector"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.project_detector.ProjectDetector" title="Link to this definition"></a></dt>
+<dd><p>项目检测器 - 负责智能检测项目特征</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>language_config_path</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="（在 Python v3.13）"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>)</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="oss_audit.core.project_detector.ProjectDetector.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">language_config_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="（在 Python v3.13）"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oss_audit/core/project_detector.html#ProjectDetector.__init__"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.project_detector.ProjectDetector.__init__" title="Link to this definition"></a></dt>
+<dd><p>初始化项目检测器</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>language_config_path</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="（在 Python v3.13）"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>) -- 语言检测配置文件路径</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oss_audit.core.project_detector.ProjectDetector.detect_project_info">
+<span class="sig-name descname"><span class="pre">detect_project_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../api/core.html#oss_audit.core.project_detector.ProjectInfo" title="oss_audit.core.project_detector.ProjectInfo"><span class="pre">ProjectInfo</span></a></span></span><a class="reference internal" href="../_modules/oss_audit/core/project_detector.html#ProjectDetector.detect_project_info"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.project_detector.ProjectDetector.detect_project_info" title="Link to this definition"></a></dt>
+<dd><p>检测项目完整信息</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>project_path</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) -- 项目路径</p>
+</dd>
+<dt class="field-even">返回类型<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../api/core.html#oss_audit.core.project_detector.ProjectInfo" title="oss_audit.core.project_detector.ProjectInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProjectInfo</span></code></a></span></p>
+</dd>
+<dt class="field-odd">返回<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ProjectInfo对象</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="oss_audit.core.audit_runner.html" class="btn btn-neutral float-left" title="oss_audit.core.audit_runner" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="oss_audit.core.tool_executor.html" class="btn btn-neutral float-right" title="oss_audit.core.tool_executor" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2024, OSS Audit Team。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

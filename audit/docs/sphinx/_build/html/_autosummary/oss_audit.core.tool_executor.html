@@ -1,0 +1,720 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>oss_audit.core.tool_executor &mdash; OSS Audit 2.0 API文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=a3f70f27" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=b15d7ad8"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=beaddf03"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="oss_audit.core.report_generator" href="oss_audit.core.report_generator.html" />
+    <link rel="prev" title="oss_audit.core.project_detector" href="oss_audit.core.project_detector.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            OSS Audit 2.0
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">快速开始:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">安装指南</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API参考:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/core.html">核心模块 (oss_audit.core)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/agents.html">智能代理系统 (oss_audit.core.agents)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">核心模块</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="oss_audit.core.audit_runner.html">oss_audit.core.audit_runner</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oss_audit.core.project_detector.html">oss_audit.core.project_detector</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">oss_audit.core.tool_executor</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#oss_audit.core.tool_executor.ExecutionMode"><code class="docutils literal notranslate"><span class="pre">ExecutionMode</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.tool_executor.ExecutionMode.PARALLEL"><code class="docutils literal notranslate"><span class="pre">ExecutionMode.PARALLEL</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.tool_executor.ExecutionMode.SEQUENTIAL"><code class="docutils literal notranslate"><span class="pre">ExecutionMode.SEQUENTIAL</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.tool_executor.ExecutionMode.MIXED"><code class="docutils literal notranslate"><span class="pre">ExecutionMode.MIXED</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#oss_audit.core.tool_executor.ExecutionStatus"><code class="docutils literal notranslate"><span class="pre">ExecutionStatus</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.tool_executor.ExecutionStatus.PENDING"><code class="docutils literal notranslate"><span class="pre">ExecutionStatus.PENDING</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.tool_executor.ExecutionStatus.RUNNING"><code class="docutils literal notranslate"><span class="pre">ExecutionStatus.RUNNING</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.tool_executor.ExecutionStatus.COMPLETED"><code class="docutils literal notranslate"><span class="pre">ExecutionStatus.COMPLETED</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.tool_executor.ExecutionStatus.FAILED"><code class="docutils literal notranslate"><span class="pre">ExecutionStatus.FAILED</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.tool_executor.ExecutionStatus.TIMEOUT"><code class="docutils literal notranslate"><span class="pre">ExecutionStatus.TIMEOUT</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.tool_executor.ExecutionStatus.SKIPPED"><code class="docutils literal notranslate"><span class="pre">ExecutionStatus.SKIPPED</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#oss_audit.core.tool_executor.ToolResult"><code class="docutils literal notranslate"><span class="pre">ToolResult</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.tool_executor.ToolResult.tool_name"><code class="docutils literal notranslate"><span class="pre">ToolResult.tool_name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.tool_executor.ToolResult.status"><code class="docutils literal notranslate"><span class="pre">ToolResult.status</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.tool_executor.ToolResult.success"><code class="docutils literal notranslate"><span class="pre">ToolResult.success</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.tool_executor.ToolResult.result"><code class="docutils literal notranslate"><span class="pre">ToolResult.result</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.tool_executor.ToolResult.error"><code class="docutils literal notranslate"><span class="pre">ToolResult.error</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.tool_executor.ToolResult.execution_time"><code class="docutils literal notranslate"><span class="pre">ToolResult.execution_time</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.tool_executor.ToolResult.stdout"><code class="docutils literal notranslate"><span class="pre">ToolResult.stdout</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.tool_executor.ToolResult.stderr"><code class="docutils literal notranslate"><span class="pre">ToolResult.stderr</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.tool_executor.ToolResult.return_code"><code class="docutils literal notranslate"><span class="pre">ToolResult.return_code</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.tool_executor.ToolResult.to_dict"><code class="docutils literal notranslate"><span class="pre">ToolResult.to_dict()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.tool_executor.ToolResult.__init__"><code class="docutils literal notranslate"><span class="pre">ToolResult.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#oss_audit.core.tool_executor.ExecutionPhase"><code class="docutils literal notranslate"><span class="pre">ExecutionPhase</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.tool_executor.ExecutionPhase.name"><code class="docutils literal notranslate"><span class="pre">ExecutionPhase.name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.tool_executor.ExecutionPhase.tools"><code class="docutils literal notranslate"><span class="pre">ExecutionPhase.tools</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.tool_executor.ExecutionPhase.mode"><code class="docutils literal notranslate"><span class="pre">ExecutionPhase.mode</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.tool_executor.ExecutionPhase.timeout"><code class="docutils literal notranslate"><span class="pre">ExecutionPhase.timeout</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.tool_executor.ExecutionPhase.parallel_limit"><code class="docutils literal notranslate"><span class="pre">ExecutionPhase.parallel_limit</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.tool_executor.ExecutionPhase.continue_on_failure"><code class="docutils literal notranslate"><span class="pre">ExecutionPhase.continue_on_failure</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.tool_executor.ExecutionPhase.__init__"><code class="docutils literal notranslate"><span class="pre">ExecutionPhase.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#oss_audit.core.tool_executor.ExecutionPlan"><code class="docutils literal notranslate"><span class="pre">ExecutionPlan</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.tool_executor.ExecutionPlan.phases"><code class="docutils literal notranslate"><span class="pre">ExecutionPlan.phases</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.tool_executor.ExecutionPlan.global_timeout"><code class="docutils literal notranslate"><span class="pre">ExecutionPlan.global_timeout</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.tool_executor.ExecutionPlan.early_termination_threshold"><code class="docutils literal notranslate"><span class="pre">ExecutionPlan.early_termination_threshold</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.tool_executor.ExecutionPlan.resource_limits"><code class="docutils literal notranslate"><span class="pre">ExecutionPlan.resource_limits</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.tool_executor.ExecutionPlan.add_phase"><code class="docutils literal notranslate"><span class="pre">ExecutionPlan.add_phase()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.tool_executor.ExecutionPlan.get_total_estimated_time"><code class="docutils literal notranslate"><span class="pre">ExecutionPlan.get_total_estimated_time()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.tool_executor.ExecutionPlan.__init__"><code class="docutils literal notranslate"><span class="pre">ExecutionPlan.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#oss_audit.core.tool_executor.ResourceMonitor"><code class="docutils literal notranslate"><span class="pre">ResourceMonitor</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.tool_executor.ResourceMonitor.__init__"><code class="docutils literal notranslate"><span class="pre">ResourceMonitor.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.tool_executor.ResourceMonitor.start_monitoring"><code class="docutils literal notranslate"><span class="pre">ResourceMonitor.start_monitoring()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.tool_executor.ResourceMonitor.stop_monitoring"><code class="docutils literal notranslate"><span class="pre">ResourceMonitor.stop_monitoring()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#oss_audit.core.tool_executor.ToolExecutor"><code class="docutils literal notranslate"><span class="pre">ToolExecutor</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.tool_executor.ToolExecutor.__init__"><code class="docutils literal notranslate"><span class="pre">ToolExecutor.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.tool_executor.ToolExecutor.discover_available_tools"><code class="docutils literal notranslate"><span class="pre">ToolExecutor.discover_available_tools()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.tool_executor.ToolExecutor.create_execution_plan"><code class="docutils literal notranslate"><span class="pre">ToolExecutor.create_execution_plan()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.tool_executor.ToolExecutor.execute_tools"><code class="docutils literal notranslate"><span class="pre">ToolExecutor.execute_tools()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.tool_executor.ToolExecutor.get_execution_stats"><code class="docutils literal notranslate"><span class="pre">ToolExecutor.get_execution_stats()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.tool_executor.ToolExecutor.install_missing_tools"><code class="docutils literal notranslate"><span class="pre">ToolExecutor.install_missing_tools()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="oss_audit.core.report_generator.html">oss_audit.core.report_generator</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">智能代理</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="oss_audit.core.decision_agent.html">oss_audit.core.decision_agent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oss_audit.core.adaptive_agent.html">oss_audit.core.adaptive_agent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oss_audit.core.recommendation_agent.html">oss_audit.core.recommendation_agent</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">工具和插件</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="oss_audit.utils.ai_analyzer.html">oss_audit.utils.ai_analyzer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oss_audit.core.tool_registry.html">oss_audit.core.tool_registry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oss_audit.plugins.html">oss_audit.plugins</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">OSS Audit 2.0</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">oss_audit.core.tool_executor</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/_autosummary/oss_audit.core.tool_executor.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-oss_audit.core.tool_executor">
+<span id="oss-audit-core-tool-executor"></span><h1>oss_audit.core.tool_executor<a class="headerlink" href="#module-oss_audit.core.tool_executor" title="Link to this heading"></a></h1>
+<p>Tool Executor - 工具执行器
+负责具体的工具执行和资源管理，支持并行和串行执行</p>
+<p class="rubric">Functions</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">as_completed</span></code>(fs[, timeout])</p></td>
+<td><p>An iterator over the given futures that yields each as it completes.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">dataclass</span></code>([cls, init, repr, eq, order, ...])</p></td>
+<td><p>Add dunder methods based on the fields defined in the class.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">field</span></code>(*[, default, default_factory, init, ...])</p></td>
+<td><p>Return an object to identify dataclass fields.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_tool_registry</span></code>([registry_path])</p></td>
+<td><p>获取工具注册表单例实例</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Classes</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Any</span></code>(*args, **kwargs)</p></td>
+<td><p>Special type indicating an unconstrained type.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Enum</span></code>(new_class_name, /, names, *[, module, ...])</p></td>
+<td><p>Create a collection of name/value pairs.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api/core.html#oss_audit.core.tool_executor.ExecutionMode" title="oss_audit.core.tool_executor.ExecutionMode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ExecutionMode</span></code></a>(*values)</p></td>
+<td><p>执行模式</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../api/core.html#oss_audit.core.tool_executor.ExecutionPhase" title="oss_audit.core.tool_executor.ExecutionPhase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ExecutionPhase</span></code></a>(name, tools, mode[, timeout, ...])</p></td>
+<td><p>执行阶段</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api/core.html#oss_audit.core.tool_executor.ExecutionPlan" title="oss_audit.core.tool_executor.ExecutionPlan"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ExecutionPlan</span></code></a>(phases, global_timeout, ...)</p></td>
+<td><p>执行计划</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../api/core.html#oss_audit.core.tool_executor.ExecutionStatus" title="oss_audit.core.tool_executor.ExecutionStatus"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ExecutionStatus</span></code></a>(*values)</p></td>
+<td><p>执行状态</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">ProcessPoolExecutor</span></code>([max_workers, ...])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">ProjectInfo</span></code>(path, name, languages, float] =, ...)</p></td>
+<td><p>项目信息数据模型</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api/core.html#oss_audit.core.tool_executor.ResourceMonitor" title="oss_audit.core.tool_executor.ResourceMonitor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ResourceMonitor</span></code></a>([max_memory_mb, max_cpu_percent])</p></td>
+<td><p>资源监控器</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">ThreadPoolExecutor</span></code>([max_workers, ...])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tool</span></code>(name, command, args, language, install)</p></td>
+<td><p>工具配置数据类</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../api/core.html#oss_audit.core.tool_executor.ToolExecutor" title="oss_audit.core.tool_executor.ToolExecutor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ToolExecutor</span></code></a>([tools_registry_path, docker_mode])</p></td>
+<td><p>工具执行器 - 负责具体的工具执行和资源管理</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">ToolRegistry</span></code>([registry_path])</p></td>
+<td><p>工具注册表管理器</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../api/core.html#oss_audit.core.tool_executor.ToolResult" title="oss_audit.core.tool_executor.ToolResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ToolResult</span></code></a>(tool_name, status, success, ...)</p></td>
+<td><p>工具执行结果</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="oss_audit.core.tool_executor.ExecutionMode">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oss_audit.core.tool_executor.</span></span><span class="sig-name descname"><span class="pre">ExecutionMode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oss_audit/core/tool_executor.html#ExecutionMode"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.tool_executor.ExecutionMode" title="Link to this definition"></a></dt>
+<dd><p>执行模式</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.tool_executor.ExecutionMode.PARALLEL">
+<span class="sig-name descname"><span class="pre">PARALLEL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'parallel'</span></em><a class="headerlink" href="#oss_audit.core.tool_executor.ExecutionMode.PARALLEL" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.tool_executor.ExecutionMode.SEQUENTIAL">
+<span class="sig-name descname"><span class="pre">SEQUENTIAL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'sequential'</span></em><a class="headerlink" href="#oss_audit.core.tool_executor.ExecutionMode.SEQUENTIAL" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.tool_executor.ExecutionMode.MIXED">
+<span class="sig-name descname"><span class="pre">MIXED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'mixed'</span></em><a class="headerlink" href="#oss_audit.core.tool_executor.ExecutionMode.MIXED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="oss_audit.core.tool_executor.ExecutionStatus">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oss_audit.core.tool_executor.</span></span><span class="sig-name descname"><span class="pre">ExecutionStatus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oss_audit/core/tool_executor.html#ExecutionStatus"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.tool_executor.ExecutionStatus" title="Link to this definition"></a></dt>
+<dd><p>执行状态</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.tool_executor.ExecutionStatus.PENDING">
+<span class="sig-name descname"><span class="pre">PENDING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pending'</span></em><a class="headerlink" href="#oss_audit.core.tool_executor.ExecutionStatus.PENDING" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.tool_executor.ExecutionStatus.RUNNING">
+<span class="sig-name descname"><span class="pre">RUNNING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'running'</span></em><a class="headerlink" href="#oss_audit.core.tool_executor.ExecutionStatus.RUNNING" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.tool_executor.ExecutionStatus.COMPLETED">
+<span class="sig-name descname"><span class="pre">COMPLETED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'completed'</span></em><a class="headerlink" href="#oss_audit.core.tool_executor.ExecutionStatus.COMPLETED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.tool_executor.ExecutionStatus.FAILED">
+<span class="sig-name descname"><span class="pre">FAILED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'failed'</span></em><a class="headerlink" href="#oss_audit.core.tool_executor.ExecutionStatus.FAILED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.tool_executor.ExecutionStatus.TIMEOUT">
+<span class="sig-name descname"><span class="pre">TIMEOUT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'timeout'</span></em><a class="headerlink" href="#oss_audit.core.tool_executor.ExecutionStatus.TIMEOUT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.tool_executor.ExecutionStatus.SKIPPED">
+<span class="sig-name descname"><span class="pre">SKIPPED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'skipped'</span></em><a class="headerlink" href="#oss_audit.core.tool_executor.ExecutionStatus.SKIPPED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="oss_audit.core.tool_executor.ToolResult">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oss_audit.core.tool_executor.</span></span><span class="sig-name descname"><span class="pre">ToolResult</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tool_name:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">status:</span> <span class="pre">~oss_audit.core.tool_executor.ExecutionStatus</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">success:</span> <span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">result:</span> <span class="pre">~typing.Dict[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">~typing.Any]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error:</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">execution_time:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stdout:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stderr:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_code:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="（在 Python v3.13）"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/oss_audit/core/tool_executor.html#ToolResult"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.tool_executor.ToolResult" title="Link to this definition"></a></dt>
+<dd><p>工具执行结果</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tool_name</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>status</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../api/core.html#oss_audit.core.tool_executor.ExecutionStatus" title="oss_audit.core.tool_executor.ExecutionStatus"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExecutionStatus</span></code></a></span>)</p></li>
+<li><p><strong>success</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>)</p></li>
+<li><p><strong>result</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="（在 Python v3.13）"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span>)</p></li>
+<li><p><strong>error</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="（在 Python v3.13）"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>)</p></li>
+<li><p><strong>execution_time</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>)</p></li>
+<li><p><strong>stdout</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>stderr</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>return_code</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.tool_executor.ToolResult.tool_name">
+<span class="sig-name descname"><span class="pre">tool_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><a class="headerlink" href="#oss_audit.core.tool_executor.ToolResult.tool_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.tool_executor.ToolResult.status">
+<span class="sig-name descname"><span class="pre">status</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../api/core.html#oss_audit.core.tool_executor.ExecutionStatus" title="oss_audit.core.tool_executor.ExecutionStatus"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExecutionStatus</span></code></a></em><a class="headerlink" href="#oss_audit.core.tool_executor.ToolResult.status" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.tool_executor.ToolResult.success">
+<span class="sig-name descname"><span class="pre">success</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></em><a class="headerlink" href="#oss_audit.core.tool_executor.ToolResult.success" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.tool_executor.ToolResult.result">
+<span class="sig-name descname"><span class="pre">result</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a><span class="pre">,</span> <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="（在 Python v3.13）"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#oss_audit.core.tool_executor.ToolResult.result" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.tool_executor.ToolResult.error">
+<span class="sig-name descname"><span class="pre">error</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="（在 Python v3.13）"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a><span class="pre">]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#oss_audit.core.tool_executor.ToolResult.error" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.tool_executor.ToolResult.execution_time">
+<span class="sig-name descname"><span class="pre">execution_time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.0</span></em><a class="headerlink" href="#oss_audit.core.tool_executor.ToolResult.execution_time" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.tool_executor.ToolResult.stdout">
+<span class="sig-name descname"><span class="pre">stdout</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#oss_audit.core.tool_executor.ToolResult.stdout" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.tool_executor.ToolResult.stderr">
+<span class="sig-name descname"><span class="pre">stderr</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#oss_audit.core.tool_executor.ToolResult.stderr" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.tool_executor.ToolResult.return_code">
+<span class="sig-name descname"><span class="pre">return_code</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#oss_audit.core.tool_executor.ToolResult.return_code" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oss_audit.core.tool_executor.ToolResult.to_dict">
+<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="（在 Python v3.13）"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oss_audit/core/tool_executor.html#ToolResult.to_dict"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.tool_executor.ToolResult.to_dict" title="Link to this definition"></a></dt>
+<dd><p>转换为字典格式</p>
+<dl class="field-list simple">
+<dt class="field-odd">返回类型<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="（在 Python v3.13）"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oss_audit.core.tool_executor.ToolResult.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tool_name:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">status:</span> <span class="pre">~oss_audit.core.tool_executor.ExecutionStatus</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">success:</span> <span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">result:</span> <span class="pre">~typing.Dict[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">~typing.Any]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error:</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">execution_time:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stdout:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stderr:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_code:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="（在 Python v3.13）"><span class="pre">None</span></a></span></span><a class="headerlink" href="#oss_audit.core.tool_executor.ToolResult.__init__" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tool_name</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>status</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../api/core.html#oss_audit.core.tool_executor.ExecutionStatus" title="oss_audit.core.tool_executor.ExecutionStatus"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExecutionStatus</span></code></a></span>)</p></li>
+<li><p><strong>success</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>)</p></li>
+<li><p><strong>result</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="（在 Python v3.13）"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span>)</p></li>
+<li><p><strong>error</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="（在 Python v3.13）"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>)</p></li>
+<li><p><strong>execution_time</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>)</p></li>
+<li><p><strong>stdout</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>stderr</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>return_code</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">返回类型<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="oss_audit.core.tool_executor.ExecutionPhase">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oss_audit.core.tool_executor.</span></span><span class="sig-name descname"><span class="pre">ExecutionPhase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">tools</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../api/core.html#oss_audit.core.tool_registry.Tool" title="oss_audit.core.tool_registry.Tool"><span class="pre">Tool</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../api/core.html#oss_audit.core.tool_executor.ExecutionMode" title="oss_audit.core.tool_executor.ExecutionMode"><span class="pre">ExecutionMode</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">300</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parallel_limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">continue_on_failure</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="（在 Python v3.13）"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="（在 Python v3.13）"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/oss_audit/core/tool_executor.html#ExecutionPhase"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.tool_executor.ExecutionPhase" title="Link to this definition"></a></dt>
+<dd><p>执行阶段</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>tools</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="../api/core.html#oss_audit.core.tool_registry.Tool" title="oss_audit.core.tool_registry.Tool"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tool</span></code></a>]</span>)</p></li>
+<li><p><strong>mode</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../api/core.html#oss_audit.core.tool_executor.ExecutionMode" title="oss_audit.core.tool_executor.ExecutionMode"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExecutionMode</span></code></a></span>)</p></li>
+<li><p><strong>timeout</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>parallel_limit</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>continue_on_failure</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.tool_executor.ExecutionPhase.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><a class="headerlink" href="#oss_audit.core.tool_executor.ExecutionPhase.name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.tool_executor.ExecutionPhase.tools">
+<span class="sig-name descname"><span class="pre">tools</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a><span class="pre">[</span><a class="reference internal" href="../api/core.html#oss_audit.core.tool_registry.Tool" title="oss_audit.core.tool_registry.Tool"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tool</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#oss_audit.core.tool_executor.ExecutionPhase.tools" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.tool_executor.ExecutionPhase.mode">
+<span class="sig-name descname"><span class="pre">mode</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../api/core.html#oss_audit.core.tool_executor.ExecutionMode" title="oss_audit.core.tool_executor.ExecutionMode"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExecutionMode</span></code></a></em><a class="headerlink" href="#oss_audit.core.tool_executor.ExecutionPhase.mode" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.tool_executor.ExecutionPhase.timeout">
+<span class="sig-name descname"><span class="pre">timeout</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">300</span></em><a class="headerlink" href="#oss_audit.core.tool_executor.ExecutionPhase.timeout" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.tool_executor.ExecutionPhase.parallel_limit">
+<span class="sig-name descname"><span class="pre">parallel_limit</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#oss_audit.core.tool_executor.ExecutionPhase.parallel_limit" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.tool_executor.ExecutionPhase.continue_on_failure">
+<span class="sig-name descname"><span class="pre">continue_on_failure</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#oss_audit.core.tool_executor.ExecutionPhase.continue_on_failure" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oss_audit.core.tool_executor.ExecutionPhase.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">tools</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../api/core.html#oss_audit.core.tool_registry.Tool" title="oss_audit.core.tool_registry.Tool"><span class="pre">Tool</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../api/core.html#oss_audit.core.tool_executor.ExecutionMode" title="oss_audit.core.tool_executor.ExecutionMode"><span class="pre">ExecutionMode</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">300</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parallel_limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">continue_on_failure</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="（在 Python v3.13）"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="（在 Python v3.13）"><span class="pre">None</span></a></span></span><a class="headerlink" href="#oss_audit.core.tool_executor.ExecutionPhase.__init__" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>tools</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="../api/core.html#oss_audit.core.tool_registry.Tool" title="oss_audit.core.tool_registry.Tool"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tool</span></code></a>]</span>)</p></li>
+<li><p><strong>mode</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../api/core.html#oss_audit.core.tool_executor.ExecutionMode" title="oss_audit.core.tool_executor.ExecutionMode"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExecutionMode</span></code></a></span>)</p></li>
+<li><p><strong>timeout</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>parallel_limit</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>continue_on_failure</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">返回类型<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="oss_audit.core.tool_executor.ExecutionPlan">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oss_audit.core.tool_executor.</span></span><span class="sig-name descname"><span class="pre">ExecutionPlan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">phases:</span> <span class="pre">~typing.List[~oss_audit.core.tool_executor.ExecutionPhase]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">global_timeout:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">1800</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">early_termination_threshold:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">1.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource_limits:</span> <span class="pre">~typing.Dict[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">~typing.Any]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="（在 Python v3.13）"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/oss_audit/core/tool_executor.html#ExecutionPlan"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.tool_executor.ExecutionPlan" title="Link to this definition"></a></dt>
+<dd><p>执行计划</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>phases</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="../api/core.html#oss_audit.core.tool_executor.ExecutionPhase" title="oss_audit.core.tool_executor.ExecutionPhase"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExecutionPhase</span></code></a>]</span>)</p></li>
+<li><p><strong>global_timeout</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>early_termination_threshold</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>)</p></li>
+<li><p><strong>resource_limits</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="（在 Python v3.13）"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.tool_executor.ExecutionPlan.phases">
+<span class="sig-name descname"><span class="pre">phases</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a><span class="pre">[</span><a class="reference internal" href="../api/core.html#oss_audit.core.tool_executor.ExecutionPhase" title="oss_audit.core.tool_executor.ExecutionPhase"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExecutionPhase</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#oss_audit.core.tool_executor.ExecutionPlan.phases" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.tool_executor.ExecutionPlan.global_timeout">
+<span class="sig-name descname"><span class="pre">global_timeout</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1800</span></em><a class="headerlink" href="#oss_audit.core.tool_executor.ExecutionPlan.global_timeout" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.tool_executor.ExecutionPlan.early_termination_threshold">
+<span class="sig-name descname"><span class="pre">early_termination_threshold</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1.1</span></em><a class="headerlink" href="#oss_audit.core.tool_executor.ExecutionPlan.early_termination_threshold" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.tool_executor.ExecutionPlan.resource_limits">
+<span class="sig-name descname"><span class="pre">resource_limits</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a><span class="pre">,</span> <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="（在 Python v3.13）"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#oss_audit.core.tool_executor.ExecutionPlan.resource_limits" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oss_audit.core.tool_executor.ExecutionPlan.add_phase">
+<span class="sig-name descname"><span class="pre">add_phase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">phase</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../api/core.html#oss_audit.core.tool_executor.ExecutionPhase" title="oss_audit.core.tool_executor.ExecutionPhase"><span class="pre">ExecutionPhase</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oss_audit/core/tool_executor.html#ExecutionPlan.add_phase"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.tool_executor.ExecutionPlan.add_phase" title="Link to this definition"></a></dt>
+<dd><p>添加执行阶段</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>phase</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../api/core.html#oss_audit.core.tool_executor.ExecutionPhase" title="oss_audit.core.tool_executor.ExecutionPhase"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExecutionPhase</span></code></a></span>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oss_audit.core.tool_executor.ExecutionPlan.get_total_estimated_time">
+<span class="sig-name descname"><span class="pre">get_total_estimated_time</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><span class="pre">int</span></a></span></span><a class="reference internal" href="../_modules/oss_audit/core/tool_executor.html#ExecutionPlan.get_total_estimated_time"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.tool_executor.ExecutionPlan.get_total_estimated_time" title="Link to this definition"></a></dt>
+<dd><p>获取总预估时间</p>
+<dl class="field-list simple">
+<dt class="field-odd">返回类型<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oss_audit.core.tool_executor.ExecutionPlan.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">phases:</span> <span class="pre">~typing.List[~oss_audit.core.tool_executor.ExecutionPhase]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">global_timeout:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">1800</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">early_termination_threshold:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">1.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource_limits:</span> <span class="pre">~typing.Dict[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">~typing.Any]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="（在 Python v3.13）"><span class="pre">None</span></a></span></span><a class="headerlink" href="#oss_audit.core.tool_executor.ExecutionPlan.__init__" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>phases</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="../api/core.html#oss_audit.core.tool_executor.ExecutionPhase" title="oss_audit.core.tool_executor.ExecutionPhase"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExecutionPhase</span></code></a>]</span>)</p></li>
+<li><p><strong>global_timeout</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>early_termination_threshold</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>)</p></li>
+<li><p><strong>resource_limits</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="（在 Python v3.13）"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">返回类型<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="oss_audit.core.tool_executor.ResourceMonitor">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oss_audit.core.tool_executor.</span></span><span class="sig-name descname"><span class="pre">ResourceMonitor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_memory_mb</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1024</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_cpu_percent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">80.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oss_audit/core/tool_executor.html#ResourceMonitor"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.tool_executor.ResourceMonitor" title="Link to this definition"></a></dt>
+<dd><p>资源监控器</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>max_memory_mb</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>max_cpu_percent</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="oss_audit.core.tool_executor.ResourceMonitor.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_memory_mb</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1024</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_cpu_percent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">80.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oss_audit/core/tool_executor.html#ResourceMonitor.__init__"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.tool_executor.ResourceMonitor.__init__" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>max_memory_mb</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>max_cpu_percent</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oss_audit.core.tool_executor.ResourceMonitor.start_monitoring">
+<span class="sig-name descname"><span class="pre">start_monitoring</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oss_audit/core/tool_executor.html#ResourceMonitor.start_monitoring"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.tool_executor.ResourceMonitor.start_monitoring" title="Link to this definition"></a></dt>
+<dd><p>开始资源监控</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oss_audit.core.tool_executor.ResourceMonitor.stop_monitoring">
+<span class="sig-name descname"><span class="pre">stop_monitoring</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oss_audit/core/tool_executor.html#ResourceMonitor.stop_monitoring"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.tool_executor.ResourceMonitor.stop_monitoring" title="Link to this definition"></a></dt>
+<dd><p>停止资源监控</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="oss_audit.core.tool_executor.ToolExecutor">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oss_audit.core.tool_executor.</span></span><span class="sig-name descname"><span class="pre">ToolExecutor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tools_registry_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="（在 Python v3.13）"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">docker_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="（在 Python v3.13）"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oss_audit/core/tool_executor.html#ToolExecutor"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.tool_executor.ToolExecutor" title="Link to this definition"></a></dt>
+<dd><p>工具执行器 - 负责具体的工具执行和资源管理</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tools_registry_path</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="（在 Python v3.13）"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>)</p></li>
+<li><p><strong>docker_mode</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="oss_audit.core.tool_executor.ToolExecutor.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tools_registry_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="（在 Python v3.13）"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">docker_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="（在 Python v3.13）"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oss_audit/core/tool_executor.html#ToolExecutor.__init__"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.tool_executor.ToolExecutor.__init__" title="Link to this definition"></a></dt>
+<dd><p>初始化工具执行器</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tools_registry_path</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="（在 Python v3.13）"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>) -- 工具注册表路径</p></li>
+<li><p><strong>docker_mode</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) -- 是否使用Docker模式执行工具（None=自动检测）</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oss_audit.core.tool_executor.ToolExecutor.discover_available_tools">
+<span class="sig-name descname"><span class="pre">discover_available_tools</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../api/core.html#oss_audit.core.project_detector.ProjectInfo" title="oss_audit.core.project_detector.ProjectInfo"><span class="pre">ProjectInfo</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../api/core.html#oss_audit.core.tool_registry.Tool" title="oss_audit.core.tool_registry.Tool"><span class="pre">Tool</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oss_audit/core/tool_executor.html#ToolExecutor.discover_available_tools"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.tool_executor.ToolExecutor.discover_available_tools" title="Link to this definition"></a></dt>
+<dd><p>发现项目可用的工具</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>project_info</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../api/core.html#oss_audit.core.project_detector.ProjectInfo" title="oss_audit.core.project_detector.ProjectInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProjectInfo</span></code></a></span>) -- 项目信息</p>
+</dd>
+<dt class="field-even">返回类型<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="../api/core.html#oss_audit.core.tool_registry.Tool" title="oss_audit.core.tool_registry.Tool"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tool</span></code></a>]</span></p>
+</dd>
+<dt class="field-odd">返回<span class="colon">:</span></dt>
+<dd class="field-odd"><p>可用工具列表</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oss_audit.core.tool_executor.ToolExecutor.create_execution_plan">
+<span class="sig-name descname"><span class="pre">create_execution_plan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tools</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../api/core.html#oss_audit.core.tool_registry.Tool" title="oss_audit.core.tool_registry.Tool"><span class="pre">Tool</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../api/core.html#oss_audit.core.project_detector.ProjectInfo" title="oss_audit.core.project_detector.ProjectInfo"><span class="pre">ProjectInfo</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../api/core.html#oss_audit.core.tool_executor.ExecutionPlan" title="oss_audit.core.tool_executor.ExecutionPlan"><span class="pre">ExecutionPlan</span></a></span></span><a class="reference internal" href="../_modules/oss_audit/core/tool_executor.html#ToolExecutor.create_execution_plan"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.tool_executor.ToolExecutor.create_execution_plan" title="Link to this definition"></a></dt>
+<dd><p>创建执行计划</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tools</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="../api/core.html#oss_audit.core.tool_registry.Tool" title="oss_audit.core.tool_registry.Tool"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tool</span></code></a>]</span>) -- 工具列表</p></li>
+<li><p><strong>project_info</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../api/core.html#oss_audit.core.project_detector.ProjectInfo" title="oss_audit.core.project_detector.ProjectInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProjectInfo</span></code></a></span>) -- 项目信息</p></li>
+</ul>
+</dd>
+<dt class="field-even">返回类型<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../api/core.html#oss_audit.core.tool_executor.ExecutionPlan" title="oss_audit.core.tool_executor.ExecutionPlan"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExecutionPlan</span></code></a></span></p>
+</dd>
+<dt class="field-odd">返回<span class="colon">:</span></dt>
+<dd class="field-odd"><p>执行计划</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oss_audit.core.tool_executor.ToolExecutor.execute_tools">
+<span class="sig-name descname"><span class="pre">execute_tools</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">execution_plan</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../api/core.html#oss_audit.core.tool_executor.ExecutionPlan" title="oss_audit.core.tool_executor.ExecutionPlan"><span class="pre">ExecutionPlan</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">project_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="../api/core.html#oss_audit.core.tool_executor.ToolResult" title="oss_audit.core.tool_executor.ToolResult"><span class="pre">ToolResult</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oss_audit/core/tool_executor.html#ToolExecutor.execute_tools"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.tool_executor.ToolExecutor.execute_tools" title="Link to this definition"></a></dt>
+<dd><p>根据执行计划运行工具</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>execution_plan</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../api/core.html#oss_audit.core.tool_executor.ExecutionPlan" title="oss_audit.core.tool_executor.ExecutionPlan"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExecutionPlan</span></code></a></span>) -- 执行计划</p></li>
+<li><p><strong>project_path</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) -- 项目路径</p></li>
+</ul>
+</dd>
+<dt class="field-even">返回类型<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference internal" href="../api/core.html#oss_audit.core.tool_executor.ToolResult" title="oss_audit.core.tool_executor.ToolResult"><code class="xref py py-class docutils literal notranslate"><span class="pre">ToolResult</span></code></a>]</span></p>
+</dd>
+<dt class="field-odd">返回<span class="colon">:</span></dt>
+<dd class="field-odd"><p>工具执行结果字典</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oss_audit.core.tool_executor.ToolExecutor.get_execution_stats">
+<span class="sig-name descname"><span class="pre">get_execution_stats</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="（在 Python v3.13）"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oss_audit/core/tool_executor.html#ToolExecutor.get_execution_stats"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.tool_executor.ToolExecutor.get_execution_stats" title="Link to this definition"></a></dt>
+<dd><p>获取执行统计信息</p>
+<dl class="field-list simple">
+<dt class="field-odd">返回类型<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="（在 Python v3.13）"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oss_audit.core.tool_executor.ToolExecutor.install_missing_tools">
+<span class="sig-name descname"><span class="pre">install_missing_tools</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tools</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../api/core.html#oss_audit.core.tool_registry.Tool" title="oss_audit.core.tool_registry.Tool"><span class="pre">Tool</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="（在 Python v3.13）"><span class="pre">bool</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oss_audit/core/tool_executor.html#ToolExecutor.install_missing_tools"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.tool_executor.ToolExecutor.install_missing_tools" title="Link to this definition"></a></dt>
+<dd><p>安装缺失的工具</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>tools</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="../api/core.html#oss_audit.core.tool_registry.Tool" title="oss_audit.core.tool_registry.Tool"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tool</span></code></a>]</span>) -- 工具列表</p>
+</dd>
+<dt class="field-even">返回<span class="colon">:</span></dt>
+<dd class="field-even"><p>是否成功}</p>
+</dd>
+<dt class="field-odd">返回类型<span class="colon">:</span></dt>
+<dd class="field-odd"><p>安装结果字典 {工具名</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="oss_audit.core.project_detector.html" class="btn btn-neutral float-left" title="oss_audit.core.project_detector" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="oss_audit.core.report_generator.html" class="btn btn-neutral float-right" title="oss_audit.core.report_generator" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2024, OSS Audit Team。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

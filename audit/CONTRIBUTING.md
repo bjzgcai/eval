@@ -17,7 +17,7 @@ Thank you for your interest in contributing to OSS Audit! This document provides
 
 1. Install dependencies:
    ```bash
-   pip install -r requirements.txt
+   pip install -e .[dev]
    ```
 
 2. Install development dependencies:
@@ -40,10 +40,10 @@ Thank you for your interest in contributing to OSS Audit! This document provides
    pytest tests/
 
    # Run linting
-   pylint src/ audit_project.py
+   pylint src/
 
    # Test the audit tool
-   python audit_project.py /path/to/test/project
+   python main.py /path/to/test/project
    ```
 
 ### 4. Submit a Pull Request
@@ -81,14 +81,14 @@ Examples:
 
 ### Adding New Audit Dimensions
 
-1. Create a new function in `audit_project.py` following the pattern:
+1. Create or extend logic in `src/oss_audit/core/audit_runner.py` following the existing patterns:
    ```python
    def test_dimension_X(project_path, reports_dir, project_name):
        """测试维度X：维度名称"""
        # Implementation
    ```
 
-2. Add the dimension to the dimensions list in `main()`
+2. Wire the new logic into the orchestration flow (see `AuditRunner` and `main()`).
 
 3. Update the dimension names list in `generate_overview()`
 

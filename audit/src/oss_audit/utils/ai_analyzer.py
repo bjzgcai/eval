@@ -10,6 +10,7 @@ import yaml
 from typing import Dict, List, Optional, Tuple, Any
 from pathlib import Path
 import hashlib
+from .deterministic_cache import get_cached_ai_result, cache_ai_result
 
 try:
     import google.generativeai as genai
@@ -107,7 +108,8 @@ class AIAnalyzer:
             try:
                 genai.configure(api_key=self.gemini_api_key)
                 # 自动选择最佳Gemini模型
-                self.gemini_model = self._select_best_gemini_model()
+                gemini_model_name = self._select_best_gemini_model()
+                self.gemini_model = genai.GenerativeModel(gemini_model_name)
                 print("AI分析已启用: Gemini", flush=True)
             except Exception as e:
                 print(f"警告 Gemini AI初始化失败: {e}", flush=True)
@@ -1214,7 +1216,14 @@ class AIAnalyzer:
             return self._analyze_with_openai_model(model, prompt, context)
 
     def _analyze_with_openai_model(self, model: str, prompt: str, context: Dict) -> Dict:
-        """使用OpenAI模型进行分析（优化版）"""
+        """使用OpenAI模型进行分析（优化版，支持缓存）"""
+        # 检查缓存
+        cache_context = {'model': model, 'temperature': 0.1}
+        cached_result = get_cached_ai_result(prompt, cache_context)
+        if cached_result is not None:
+            print(f"AI缓存命中: {model}")
+            return cached_result
+        
         try:
             # 设置超时时间
             timeout = getattr(self, 'model_timeout', 60)
@@ -1226,16 +1235,21 @@ class AIAnalyzer:
                     {"role": "user", "content": prompt}
                 ],
                 max_tokens=2000,
-                temperature=0.3,
+                temperature=0.1,
                 timeout=timeout
             )
             
-            return {
+            result = {
                 'content': response.choices[0].message.content,
                 'model': model,
                 'usage': response.usage.dict() if response.usage else {},
                 'response_time': getattr(response, 'response_time', 0)
             }
+            
+            # 缓存结果
+            cache_ai_result(prompt, result, model, cache_context)
+            
+            return result
         except Exception as e:
             # 记录错误并尝试重试
             print(f"警告 {model} 分析失败: {e}")
@@ -2008,7 +2022,7 @@ class AIAnalyzer:
         configured_model = self.gemini_config.get('model')
         if configured_model:
             print(f"信息 使用配置指定的Gemini模型: {configured_model}")
-            return genai.GenerativeModel(configured_model)
+            return configured_model
 
         # 自动测试模型可用性
         print("检测 自动选择最佳Gemini模型...")
@@ -2018,7 +2032,7 @@ class AIAnalyzer:
                 # 简单的连接测试
                 response = model.generate_content("test")
                 print(f"成功 选择Gemini模型: {model_name}")
-                return model
+                return model_name
             except Exception as e:
                 print(f"失败 模型 {model_name} 不可用: {str(e)[:50]}...")
                 continue
@@ -2031,14 +2045,14 @@ class AIAnalyzer:
                 # 选择第一个可用的模型
                 fallback_model = available_models[0].replace('models/', '')
                 print(f"警告 使用备用Gemini模型: {fallback_model}")
-                return genai.GenerativeModel(fallback_model)
+                return fallback_model
         except Exception as e:
             print(f"警告 无法获取可用模型列表: {e}")
 
         # 最后的备用方案
         default_model = "gemini-1.5-flash"
         print(f"警告 使用默认Gemini模型: {default_model}")
-        return genai.GenerativeModel(default_model)
+        return default_model
 
     def _test_openai_connection(self) -> bool:
         """测试OpenAI/DeepSeek连接是否可用"""
@@ -2938,7 +2952,7 @@ class AIAnalyzer:
                                 {"role": "user", "content": prompt}
                             ],
                             max_tokens=1000,
-                            temperature=0.3,
+                            temperature=0.1,
                             timeout=self.model_timeout
                         )
                         return response.choices[0].message.content

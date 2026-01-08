@@ -17,6 +17,7 @@ import logging
 
 from .tool_registry import ToolRegistry, Tool, get_tool_registry
 from .project_detector import ProjectInfo
+from .container_manager import get_container_manager, ContainerManager
 
 logger = logging.getLogger(__name__)
 
@@ -169,9 +170,8 @@ class ToolExecutor:
             'total_time': 0.0
         }
         
-        # 容器配置 - 使用纯工具容器镜像
-        self.container_image = "oss-audit:tools-2.0"
-        self.container_engine = None  # 将自动检测：docker, podman等
+        # 初始化统一容器管理器
+        self.container_manager = get_container_manager()
         
         # 加载配置文件以检查容器模式设置
         self.config = self._load_config()
@@ -183,25 +183,35 @@ class ToolExecutor:
         
         # 自动检测或使用指定的容器模式
         if docker_mode is None:
-            self.docker_mode = self._auto_detect_container_mode()
+            self.docker_mode = self.container_manager.is_available()
         else:
-            self.docker_mode = docker_mode
+            self.docker_mode = docker_mode and self.container_manager.is_available()
         
-        # 如果配置强制容器模式，确保Docker可用
+        # 如果配置强制容器模式，确保容器引擎可用
         if force_container and not self.docker_mode:
-            logger.error("配置要求强制容器模式，但Docker不可用！请启动Docker服务")
-            raise RuntimeError("强制容器模式下Docker不可用")
+            logger.error("配置要求强制容器模式，但容器引擎不可用！")
+            diagnosis = self.container_manager.diagnose_issues()
+            for issue in diagnosis["issues"]:
+                logger.error(f"  问题: {issue}")
+            for rec in diagnosis["recommendations"]:
+                logger.warning(f"  建议: {rec}")
+            raise RuntimeError("强制容器模式下容器引擎不可用")
         
         # 容器优先模式：即使本地工具可用也优先使用容器
         if container_priority and self.docker_mode:
             logger.info("🐳 容器优先模式已启用")
             
         if self.docker_mode:
-            logger.info(f"🐳 启用容器执行模式 - 引擎: {self.container_engine}")
-            if not self._ensure_container_ready():
+            engine = self.container_manager.primary_engine.value if self.container_manager.primary_engine else "unknown"
+            logger.info(f"🐳 启用容器执行模式 - 引擎: {engine}")
+            
+            # 检查容器环境状态
+            status = self.container_manager.get_engine_status()
+            if not status.get("running", False):
                 if force_container:
-                    raise RuntimeError("强制容器模式下容器环境初始化失败")
-                logger.warning("容器环境准备失败，回退到本地执行模式")
+                    logger.error("强制容器模式下容器引擎未运行")
+                    raise RuntimeError("强制容器模式下容器引擎未运行")
+                logger.warning("容器引擎未运行，回退到本地执行模式")
                 self.docker_mode = False
     
     def _load_config(self) -> Dict:
@@ -290,258 +300,8 @@ class ToolExecutor:
         
         return available_tools
     
-    def _auto_detect_container_mode(self) -> bool:
-        """自动检测容器引擎并决定是否使用容器模式"""
-        # 检查是否已在容器内运行
-        if os.path.exists('/.dockerenv') or os.path.exists('/proc/1/cgroup'):
-            logger.debug("检测到已在容器内运行，不使用嵌套容器模式")
-            return False
-        
-        # 按优先级检测容器引擎
-        engines_to_check = ['docker', 'podman', 'nerdctl']
-        
-        for engine in engines_to_check:
-            try:
-                # 检查引擎是否可用
-                result = subprocess.run([engine, '--version'], 
-                                      capture_output=True, text=True, timeout=5)
-                if result.returncode == 0:
-                    logger.info(f"检测到容器引擎: {engine}")
-                    self.container_engine = engine
-                    return True
-            except FileNotFoundError:
-                logger.debug(f"容器引擎 {engine} 未找到")
-                continue
-            except Exception as e:
-                logger.debug(f"检测容器引擎 {engine} 失败: {e}")
-                continue
-        
-        logger.warning("未检测到可用的容器引擎 (docker, podman, nerdctl)")
-        return False
     
-    def _ensure_container_ready(self) -> bool:
-        """确保容器环境准备就绪 - 检查服务、自动构建镜像、启动工具服务"""
-        if not self.container_engine:
-            return False
-        
-        try:
-            # 1. 检查容器引擎服务状态
-            if not self._check_container_engine_running():
-                return False
-            
-            # 2. 检查镜像是否存在，不存在则自动构建
-            if not self._ensure_container_image():
-                return False
-            
-            # 3. 检查或启动工具服务容器
-            if not self._ensure_tools_container_running():
-                return False
-            
-            logger.info(f"容器环境准备完成 - 引擎: {self.container_engine}, 镜像: {self.container_image}")
-            return True
-            
-        except Exception as e:
-            logger.error(f"容器环境准备失败: {e}")
-            return False
-    
-    def _check_container_engine_running(self) -> bool:
-        """检查容器引擎服务是否运行"""
-        try:
-            # 通用的 info 命令检查服务状态
-            result = subprocess.run([self.container_engine, 'info'], 
-                                  capture_output=True, text=True, timeout=10)
-            if result.returncode != 0:
-                logger.error(f"{self.container_engine} 服务未运行或无权限访问")
-                logger.error(f"错误输出: {result.stderr}")
-                return False
-            
-            logger.debug(f"{self.container_engine} 服务运行正常")
-            return True
-            
-        except Exception as e:
-            logger.error(f"检查 {self.container_engine} 服务状态失败: {e}")
-            return False
-    
-    def _ensure_container_image(self) -> bool:
-        """确保容器镜像存在，不存在则自动构建"""
-        try:
-            # 检查镜像是否存在
-            result = subprocess.run([self.container_engine, 'image', 'inspect', self.container_image], 
-                                  capture_output=True, text=True, timeout=10)
-            
-            if result.returncode == 0:
-                logger.info(f"容器镜像 {self.container_image} 已存在")
-                return True
-            
-            # 镜像不存在，尝试自动构建
-            logger.warning(f"容器镜像 {self.container_image} 不存在，开始自动构建...")
-            return self._auto_build_container_image()
-            
-        except Exception as e:
-            logger.error(f"检查容器镜像失败: {e}")
-            return False
-    
-    def _auto_build_container_image(self) -> bool:
-        """自动构建纯工具容器镜像"""
-        try:
-            # 检查是否存在 Dockerfile
-            dockerfile_path = os.path.join(os.getcwd(), 'Dockerfile')
-            if not os.path.exists(dockerfile_path):
-                logger.error("未找到 Dockerfile，无法自动构建镜像")
-                logger.info("请确保在项目根目录下存在 Dockerfile")
-                return False
-            
-            logger.info(f"开始构建纯工具容器镜像: {self.container_image}")
-            logger.info("这是一个包含所有分析工具但不含应用代码的轻量级镜像")
-            logger.info("构建可能需要几分钟时间，请稍候...")
-            
-            # 构建镜像命令 - 使用明确的标签
-            build_cmd = [
-                self.container_engine, 'build', 
-                '-t', self.container_image,
-                '.'
-            ]
-            
-            # 执行构建（显示进度）
-            process = subprocess.Popen(
-                build_cmd,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.STDOUT,
-                text=True,
-                bufsize=1,
-                universal_newlines=True
-            )
-            
-            # 实时显示构建输出
-            build_output = []
-            for line in process.stdout:
-                line = line.rstrip()
-                if line:
-                    build_output.append(line)
-                    # 显示关键构建步骤
-                    if any(keyword in line.lower() for keyword in ['step', 'run', 'copy', 'from']):
-                        logger.info(f"构建进度: {line}")
-            
-            process.wait()
-            
-            if process.returncode == 0:
-                logger.info(f"纯工具容器镜像 {self.container_image} 构建成功!")
-                logger.info("容器包含以下分析工具:")
-                logger.info("  Python: pylint, flake8, mypy, bandit, safety, black, isort")
-                logger.info("  JavaScript/TypeScript: eslint, prettier, jest")
-                logger.info("  Java: checkstyle, spotbugs")  
-                logger.info("  Go: staticcheck, gosec, goimports, golangci-lint")
-                logger.info("  Rust: clippy, rustfmt, cargo-audit")
-                logger.info("  Security: semgrep, gitleaks")
-                return True
-            else:
-                logger.error(f"容器镜像构建失败，退出码: {process.returncode}")
-                logger.error("构建输出:")
-                for line in build_output[-10:]:  # 显示最后10行错误信息
-                    logger.error(f"  {line}")
-                return False
-                
-        except Exception as e:
-            logger.error(f"自动构建容器镜像失败: {e}")
-            return False
-    
-    def _ensure_tools_container_running(self) -> bool:
-        """确保工具服务容器运行"""
-        container_name = "oss-audit-tools"
-        
-        try:
-            # 检查容器是否已经运行
-            result = subprocess.run([
-                self.container_engine, 'ps', '--filter', f'name={container_name}', 
-                '--format', '{{.Names}}'
-            ], capture_output=True, text=True, timeout=10)
-            
-            if result.returncode == 0 and container_name in result.stdout:
-                logger.info(f"工具服务容器 {container_name} 已运行")
-                return True
-            
-            # 检查容器是否存在但未运行
-            result = subprocess.run([
-                self.container_engine, 'ps', '-a', '--filter', f'name={container_name}',
-                '--format', '{{.Names}}'
-            ], capture_output=True, text=True, timeout=10)
-            
-            if result.returncode == 0 and container_name in result.stdout:
-                # 容器存在但未运行，启动它
-                logger.info(f"启动现有工具服务容器 {container_name}")
-                result = subprocess.run([
-                    self.container_engine, 'start', container_name
-                ], capture_output=True, text=True, timeout=30)
-                
-                if result.returncode == 0:
-                    logger.info(f"工具服务容器 {container_name} 启动成功")
-                    return True
-                else:
-                    logger.error(f"启动容器失败: {result.stderr}")
-                    return False
-            
-            # 容器不存在，创建并运行新容器
-            logger.info(f"创建并启动工具服务容器 {container_name}")
-            return self._create_tools_container(container_name)
-            
-        except Exception as e:
-            logger.error(f"检查工具服务容器状态失败: {e}")
-            return False
-    
-    def _create_tools_container(self, container_name: str) -> bool:
-        """创建工具服务容器"""
-        try:
-            # 创建一个通用工作空间目录作为挂载点
-            workspace_mount = "/workspace"
-            
-            # 构建容器运行命令
-            create_cmd = [
-                self.container_engine, 'run', '-d',
-                '--name', container_name,
-                '--restart', 'unless-stopped',
-                '-v', f'{workspace_mount}:{workspace_mount}',  # 预留工作空间挂载点
-                '--workdir', workspace_mount
-            ]
-            
-            # 添加容器引擎特定参数
-            if self.container_engine == 'docker':
-                create_cmd.extend(['--user', '0:0'])
-            elif self.container_engine == 'podman':
-                create_cmd.extend(['--userns', 'keep-id'])
-            
-            # 挂载Docker socket（如果存在）
-            import os
-            docker_sock = '/var/run/docker.sock'
-            if os.path.exists(docker_sock):
-                create_cmd.extend(['-v', f'{docker_sock}:{docker_sock}'])
-            
-            # 添加环境变量
-            create_cmd.extend([
-                '-e', 'PYTHONIOENCODING=utf-8',
-                '--entrypoint', 'tail'  # 保持容器运行
-            ])
-            
-            # 添加镜像和保持运行的命令
-            create_cmd.extend([self.container_image, '-f', '/dev/null'])
-            
-            # 创建容器
-            result = subprocess.run(
-                create_cmd,
-                capture_output=True,
-                text=True,
-                timeout=60
-            )
-            
-            if result.returncode == 0:
-                logger.info(f"工具服务容器 {container_name} 创建成功")
-                return True
-            else:
-                logger.error(f"创建工具服务容器失败: {result.stderr}")
-                return False
-                
-        except Exception as e:
-            logger.error(f"创建工具服务容器异常: {e}")
-            return False
+    # 旧的容器管理方法已移至 ContainerManager 统一管理
     
     def _create_direct_tool_command(self, tool: Tool, project_path: str) -> List[str]:
         """创建直接工具命令 - 适用于工具容器架构
@@ -629,7 +389,15 @@ class ToolExecutor:
         
         elif tool.name == 'coverage':
             return ['bash', '-c', 'cd /workspace && coverage run -m pytest && coverage report']
-        
+
+        elif tool.name == 'sonarqube-scanner':
+            # SonarQube Scanner 需要配置，返回友好提示
+            return ['echo', 'SonarQube Scanner requires configuration (sonar-project.properties)']
+
+        elif tool.name == 'cppcheck':
+            # CPPCheck 在容器中不可用，返回友好提示
+            return ['echo', 'CPPCheck not available in minimal container (requires system installation)']
+
         else:
             # 回退到基本命令
             logger.warning(f"工具 {tool.name} 未配置直接命令，使用基本执行")
@@ -900,69 +668,37 @@ class ToolExecutor:
     
     def _run_tool_in_docker(self, tool: Tool, project_path: str, 
                            timeout: int, start_time: float) -> ToolResult:
-        """在工具服务容器中执行工具 - 使用长时间运行的服务容器"""
+        """使用ContainerManager统一接口执行容器工具"""
         try:
-            container_name = "oss-audit-tools"
+            # 构建工具执行命令
+            tool_cmd = self._create_direct_tool_command(tool, "/workspace")
+            
+            # 挂载项目目录到容器
             project_dir = os.path.abspath(project_path)
-            container_project_path = "/workspace"
+            volumes = {project_dir: "/workspace"}
             
-            # 1. 将项目文件复制到容器内
-            logger.debug(f"复制项目文件到容器: {project_dir} -> {container_name}:{container_project_path}")
-            copy_cmd = [self.container_engine, 'cp', f'{project_dir}/.', f'{container_name}:{container_project_path}/']
-            
-            copy_result = subprocess.run(
-                copy_cmd,
-                capture_output=True,
-                text=True,
-                timeout=30
-            )
-            
-            if copy_result.returncode != 0:
-                logger.warning(f"文件复制警告: {copy_result.stderr}")
-                # 继续执行，可能是权限或路径问题，但不一定阻止工具执行
-            
-            # 2. 构建工具执行命令
-            tool_cmd = self._create_direct_tool_command(tool, container_project_path)
-            shell_cmd = f"cd {container_project_path} && {' '.join(tool_cmd)}"
-            
-            # 3. 在容器内执行工具
-            exec_cmd = [
-                self.container_engine, 'exec',
-                container_name,
-                'bash', '-c', shell_cmd
-            ]
-            
-            logger.debug(f"{self.container_engine} exec 执行命令: {' '.join(exec_cmd)}")
-            
-            # 执行工具命令
-            result = subprocess.run(
-                exec_cmd,
-                capture_output=True,
-                text=True,
-                timeout=min(timeout, tool.timeout),
-                env=os.environ.copy()
+            # 使用ContainerManager执行工具
+            success, stdout, stderr = self.container_manager.run_container(
+                image=self.container_manager.default_images.get("tools", "oss-audit:tools-2.0"),
+                command=tool_cmd,
+                volumes=volumes,
+                working_dir="/workspace",
+                timeout=min(timeout, tool.timeout)
             )
             
             execution_time = time.time() - start_time
             
-            # 解析工具输出 - 有些工具通过stderr输出结果
-            output_to_parse = result.stdout or ""
-            stdout_content = (result.stdout or "").strip()
-            stderr_content = (result.stderr or "").strip()
-            
-            if not stdout_content and stderr_content:
-                # 如果stdout为空但stderr有内容，且返回码为0，可能是通过stderr输出结果
-                if result.returncode == 0:
-                    output_to_parse = result.stderr
+            # 解析工具输出
+            output_to_parse = stdout or ""
+            if not stdout and stderr and success:
+                # 某些工具通过stderr输出结果
+                output_to_parse = stderr
             
             parsed_result = self._parse_basic_tool_output(
-                tool.name, output_to_parse, result.returncode)
+                tool.name, output_to_parse, 0 if success else 1)
             
-            # 工具执行成功的标准：返回码为0
-            # 某些工具（如pylint、eslint）在发现问题时会返回非零退出码，但这不算执行失败
-            # 127、126等系统级错误码表示真正的执行失败
-            is_success = result.returncode == 0 or (
-                result.returncode not in [126, 127, 2] and  # 避免系统级错误
+            # 工具执行成功的标准
+            is_success = success or (
                 parsed_result.get('issues_count', 0) >= 0  # 有有效的解析结果
             )
             
@@ -973,44 +709,37 @@ class ToolExecutor:
                 success=is_success,
                 result=parsed_result,
                 execution_time=execution_time,
-                stdout=result.stdout,
-                stderr=result.stderr,
-                return_code=result.returncode
+                stdout=stdout,
+                stderr=stderr,
+                return_code=0 if success else 1
             )
             
             if not tool_result.success:
-                tool_result.error = f"容器工具执行失败，退出码: {result.returncode}"
-                if result.stderr:
-                    tool_result.error += f"\n错误输出: {result.stderr[:500]}"
+                tool_result.error = f"容器工具执行失败"
+                if stderr:
+                    tool_result.error += f": {stderr[:500]}"
             
             logger.debug(f"容器工具 {tool.name} 执行完成: {'成功' if tool_result.success else '失败'}")
             return tool_result
             
-        except subprocess.TimeoutExpired:
-            execution_time = time.time() - start_time
-            logger.warning(f"容器工具 {tool.name} 执行超时: {timeout}s")
-            return ToolResult(
-                tool_name=tool.name,
-                status=ExecutionStatus.TIMEOUT,
-                success=False,
-                error=f"容器工具执行超时 ({timeout}s)",
-                execution_time=execution_time
-            )
-            
-        except subprocess.SubprocessError as e:
-            execution_time = time.time() - start_time
-            logger.error(f"容器工具 {tool.name} 执行错误: {e}")
-            return ToolResult(
-                tool_name=tool.name,
-                status=ExecutionStatus.FAILED,
-                success=False,
-                error=f"容器执行错误: {str(e)}",
-                execution_time=execution_time
-            )
-            
         except Exception as e:
             execution_time = time.time() - start_time
             logger.error(f"容器工具 {tool.name} 执行异常: {e}")
+            
+            # 尝试错误恢复
+            try:
+                from .container_manager import ContainerError
+                error_report = self.container_manager.create_error_report(
+                    e, tool_cmd if 'tool_cmd' in locals() else [tool.name], 
+                    {"tool": tool.name, "operation": "tool_execution"}
+                )
+                
+                if self.container_manager.attempt_recovery(error_report):
+                    logger.info(f"容器错误恢复成功，建议重试工具 {tool.name}")
+                
+            except Exception as recovery_error:
+                logger.debug(f"错误恢复尝试失败: {recovery_error}")
+            
             return ToolResult(
                 tool_name=tool.name,
                 status=ExecutionStatus.FAILED,
@@ -1028,7 +757,8 @@ class ToolExecutor:
         
         # 容器模式优先执行
         if self.docker_mode:
-            logger.info(f"🐳 容器模式执行: {tool.name} (引擎: {self.container_engine})")
+            engine = self.container_manager.primary_engine.value if self.container_manager.primary_engine else "unknown"
+            logger.info(f"🐳 容器模式执行: {tool.name} (引擎: {engine})")
             return self._run_tool_in_docker(tool, project_path, timeout, start_time)
         
         # 本地模式：首先检查工具是否真正可用
@@ -1066,13 +796,20 @@ class ToolExecutor:
             cmd = self.registry.create_tool_command(tool, project_path)
             
             # 执行命令
+            # 设置环境变量以确保UTF-8输出
+            env = os.environ.copy()
+            env['PYTHONIOENCODING'] = 'utf-8'
+            env['LC_ALL'] = 'C.UTF-8'
+
             result = subprocess.run(
                 cmd,
                 cwd=project_path,
                 capture_output=True,
                 text=True,
+                encoding='utf-8',
+                errors='replace',  # 替换无法解码的字符
                 timeout=min(timeout, tool.timeout),
-                env=os.environ.copy()
+                env=env
             )
             
             execution_time = time.time() - start_time

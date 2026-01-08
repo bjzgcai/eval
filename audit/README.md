@@ -70,6 +70,13 @@ export GEMINI_API_KEY="your-key"
 cp config.yaml.example config.yaml
 ```
 
+可选依赖安装（AI 功能）
+```bash
+pip install -e .[ai]
+# 开发环境：
+pip install -e .[dev,ai]
+```
+
 ## 📋 评估维度
 
 OSS Audit 2.0 评估 14 个关键维度：
@@ -104,8 +111,7 @@ OSS Audit 2.0 评估 14 个关键维度：
 
 ```bash
 # 环境设置
-pip install -r requirements-dev.txt
-pip install -e .
+pip install -e .[dev]
 
 # 运行测试
 pytest tests/ -v

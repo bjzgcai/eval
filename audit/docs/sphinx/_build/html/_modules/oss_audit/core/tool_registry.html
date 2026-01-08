@@ -1,0 +1,776 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>oss_audit.core.tool_registry &mdash; OSS Audit 2.0 API文档</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=a3f70f27" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=b15d7ad8"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/translations.js?v=beaddf03"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../../genindex.html" />
+    <link rel="search" title="搜索" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            OSS Audit 2.0
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">快速开始:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">安装指南</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API参考:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/core.html">核心模块 (oss_audit.core)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/agents.html">智能代理系统 (oss_audit.core.agents)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">核心模块</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.core.audit_runner.html">oss_audit.core.audit_runner</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.core.project_detector.html">oss_audit.core.project_detector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.core.tool_executor.html">oss_audit.core.tool_executor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.core.report_generator.html">oss_audit.core.report_generator</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">智能代理</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.core.decision_agent.html">oss_audit.core.decision_agent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.core.adaptive_agent.html">oss_audit.core.adaptive_agent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.core.recommendation_agent.html">oss_audit.core.recommendation_agent</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">工具和插件</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.utils.ai_analyzer.html">oss_audit.utils.ai_analyzer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.core.tool_registry.html">oss_audit.core.tool_registry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.plugins.html">oss_audit.plugins</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">OSS Audit 2.0</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">模块代码</a></li>
+      <li class="breadcrumb-item active">oss_audit.core.tool_registry</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>oss_audit.core.tool_registry 源代码</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Tool Registry - 工具注册表核心类</span>
+<span class="sd">负责加载和管理工具配置，替代硬编码的工具配置</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">yaml</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pathlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Set</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="ToolCategory">
+<a class="viewcode-back" href="../../../api/core.html#oss_audit.core.tool_registry.ToolCategory">[文档]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ToolCategory</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;工具分类枚举&quot;&quot;&quot;</span>
+    <span class="n">QUALITY</span> <span class="o">=</span> <span class="s2">&quot;quality&quot;</span>
+    <span class="n">SECURITY</span> <span class="o">=</span> <span class="s2">&quot;security&quot;</span>  
+    <span class="n">TEST</span> <span class="o">=</span> <span class="s2">&quot;testing&quot;</span>
+    <span class="n">FORMAT</span> <span class="o">=</span> <span class="s2">&quot;format&quot;</span>
+    <span class="n">DEPENDENCIES</span> <span class="o">=</span> <span class="s2">&quot;dependencies&quot;</span>
+    <span class="n">COVERAGE</span> <span class="o">=</span> <span class="s2">&quot;coverage&quot;</span>
+    <span class="n">STYLE</span> <span class="o">=</span> <span class="s2">&quot;style&quot;</span>
+    <span class="n">TYPING</span> <span class="o">=</span> <span class="s2">&quot;typing&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="Tool">
+<a class="viewcode-back" href="../../../api/core.html#oss_audit.core.tool_registry.Tool">[文档]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Tool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;工具配置数据类&quot;&quot;&quot;</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">command</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">args</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">language</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">install</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">priority</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">estimated_time</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">60</span>
+    <span class="n">categories</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">timeout</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">120</span>
+    <span class="n">output_format</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;text&quot;</span>
+    <span class="n">severity_levels</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">score_weights</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">requires_dependencies</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">requires_config</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">supports</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">categories</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">categories</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">severity_levels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">severity_levels</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">score_weights</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">score_weights</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">supports</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">supports</span> <span class="o">=</span> <span class="p">[]</span>
+    
+<div class="viewcode-block" id="Tool.get_info">
+<a class="viewcode-back" href="../../../api/core.html#oss_audit.core.tool_registry.Tool.get_info">[文档]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_info</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;获取工具信息&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="s1">&#39;language&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">language</span><span class="p">,</span>
+            <span class="s1">&#39;categories&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">categories</span><span class="p">,</span>
+            <span class="s1">&#39;estimated_time&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">estimated_time</span><span class="p">,</span>
+            <span class="s1">&#39;priority&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">priority</span><span class="p">,</span>
+            <span class="s1">&#39;output_format&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_format</span>
+        <span class="p">}</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="ToolRegistry">
+<a class="viewcode-back" href="../../../api/core.html#oss_audit.core.tool_registry.ToolRegistry">[文档]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ToolRegistry</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;工具注册表管理器&quot;&quot;&quot;</span>
+    
+<div class="viewcode-block" id="ToolRegistry.__init__">
+<a class="viewcode-back" href="../../../api/core.html#oss_audit.core.tool_registry.ToolRegistry.__init__">[文档]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">registry_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        初始化工具注册表</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            registry_path: 工具注册表配置文件路径</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">registry_path</span> <span class="o">=</span> <span class="n">registry_path</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_default_registry_path</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tools</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Tool</span><span class="p">]]]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">universal_tools</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Tool</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">installation_scripts</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_load_registry</span><span class="p">()</span></div>
+
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_default_registry_path</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;获取默认的工具注册表路径&quot;&quot;&quot;</span>
+        <span class="n">current_dir</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span>
+        <span class="n">config_dir</span> <span class="o">=</span> <span class="n">current_dir</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s1">&#39;config&#39;</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">config_dir</span> <span class="o">/</span> <span class="s1">&#39;tools_registry.yaml&#39;</span><span class="p">)</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_load_registry</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;加载工具注册表配置&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">registry_path</span><span class="p">):</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;工具注册表文件不存在: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">registry_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">return</span>
+            
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">registry_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">config</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">_parse_language_tools</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;languages&#39;</span><span class="p">,</span> <span class="p">{}))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_parse_universal_tools</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;universal_tools&#39;</span><span class="p">,</span> <span class="p">{}))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">installation_scripts</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;installation_scripts&#39;</span><span class="p">,</span> <span class="p">{})</span>
+            
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;成功加载工具注册表: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tools</span><span class="p">)</span><span class="si">}</span><span class="s2"> 种语言, </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">universal_tools</span><span class="p">)</span><span class="si">}</span><span class="s2"> 类通用工具&quot;</span><span class="p">)</span>
+            
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;加载工具注册表失败: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tools</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">universal_tools</span> <span class="o">=</span> <span class="p">{}</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_parse_language_tools</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">languages_config</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;解析语言特定工具配置&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">language</span><span class="p">,</span> <span class="n">lang_config</span> <span class="ow">in</span> <span class="n">languages_config</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tools</span><span class="p">[</span><span class="n">language</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+            
+            <span class="k">for</span> <span class="n">category</span><span class="p">,</span> <span class="n">tools_list</span> <span class="ow">in</span> <span class="n">lang_config</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tools_list</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                    <span class="k">continue</span>
+                    
+                <span class="bp">self</span><span class="o">.</span><span class="n">tools</span><span class="p">[</span><span class="n">language</span><span class="p">][</span><span class="n">category</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+                
+                <span class="k">for</span> <span class="n">tool_config</span> <span class="ow">in</span> <span class="n">tools_list</span><span class="p">:</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">tool</span> <span class="o">=</span> <span class="n">Tool</span><span class="p">(</span>
+                            <span class="n">name</span><span class="o">=</span><span class="n">tool_config</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span>
+                            <span class="n">command</span><span class="o">=</span><span class="n">tool_config</span><span class="p">[</span><span class="s1">&#39;command&#39;</span><span class="p">],</span>
+                            <span class="n">args</span><span class="o">=</span><span class="n">tool_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;args&#39;</span><span class="p">,</span> <span class="p">[]),</span>
+                            <span class="n">language</span><span class="o">=</span><span class="n">language</span><span class="p">,</span>
+                            <span class="n">install</span><span class="o">=</span><span class="n">tool_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;install&#39;</span><span class="p">,</span> <span class="p">[]),</span>
+                            <span class="n">priority</span><span class="o">=</span><span class="n">tool_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;priority&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                            <span class="n">estimated_time</span><span class="o">=</span><span class="n">tool_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;estimated_time&#39;</span><span class="p">,</span> <span class="mi">60</span><span class="p">),</span>
+                            <span class="n">categories</span><span class="o">=</span><span class="n">tool_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;categories&#39;</span><span class="p">,</span> <span class="p">[]),</span>
+                            <span class="n">timeout</span><span class="o">=</span><span class="n">tool_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;timeout&#39;</span><span class="p">,</span> <span class="mi">120</span><span class="p">),</span>
+                            <span class="n">output_format</span><span class="o">=</span><span class="n">tool_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;output_format&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">),</span>
+                            <span class="n">severity_levels</span><span class="o">=</span><span class="n">tool_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;severity_levels&#39;</span><span class="p">,</span> <span class="p">{}),</span>
+                            <span class="n">score_weights</span><span class="o">=</span><span class="n">tool_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;score_weights&#39;</span><span class="p">,</span> <span class="p">{}),</span>
+                            <span class="n">requires_dependencies</span><span class="o">=</span><span class="n">tool_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;requires_dependencies&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+                            <span class="n">requires_config</span><span class="o">=</span><span class="n">tool_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;requires_config&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+                        <span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">tools</span><span class="p">[</span><span class="n">language</span><span class="p">][</span><span class="n">category</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tool</span><span class="p">)</span>
+                    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;解析工具配置失败 </span><span class="si">{</span><span class="n">language</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">tool_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;unknown&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_parse_universal_tools</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">universal_config</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;解析通用工具配置&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">category</span><span class="p">,</span> <span class="n">tools_list</span> <span class="ow">in</span> <span class="n">universal_config</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">universal_tools</span><span class="p">[</span><span class="n">category</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            
+            <span class="k">for</span> <span class="n">tool_config</span> <span class="ow">in</span> <span class="n">tools_list</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">tool</span> <span class="o">=</span> <span class="n">Tool</span><span class="p">(</span>
+                        <span class="n">name</span><span class="o">=</span><span class="n">tool_config</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span>
+                        <span class="n">command</span><span class="o">=</span><span class="n">tool_config</span><span class="p">[</span><span class="s1">&#39;command&#39;</span><span class="p">],</span>
+                        <span class="n">args</span><span class="o">=</span><span class="n">tool_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;args&#39;</span><span class="p">,</span> <span class="p">[]),</span>
+                        <span class="n">language</span><span class="o">=</span><span class="s1">&#39;universal&#39;</span><span class="p">,</span>
+                        <span class="n">install</span><span class="o">=</span><span class="n">tool_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;install&#39;</span><span class="p">,</span> <span class="p">[]),</span>
+                        <span class="n">priority</span><span class="o">=</span><span class="n">tool_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;priority&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                        <span class="n">estimated_time</span><span class="o">=</span><span class="n">tool_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;estimated_time&#39;</span><span class="p">,</span> <span class="mi">60</span><span class="p">),</span>
+                        <span class="n">categories</span><span class="o">=</span><span class="n">tool_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;categories&#39;</span><span class="p">,</span> <span class="p">[]),</span>
+                        <span class="n">timeout</span><span class="o">=</span><span class="n">tool_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;timeout&#39;</span><span class="p">,</span> <span class="mi">120</span><span class="p">),</span>
+                        <span class="n">output_format</span><span class="o">=</span><span class="n">tool_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;output_format&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">),</span>
+                        <span class="n">severity_levels</span><span class="o">=</span><span class="n">tool_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;severity_levels&#39;</span><span class="p">,</span> <span class="p">{}),</span>
+                        <span class="n">score_weights</span><span class="o">=</span><span class="n">tool_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;score_weights&#39;</span><span class="p">,</span> <span class="p">{}),</span>
+                        <span class="n">supports</span><span class="o">=</span><span class="n">tool_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;supports&#39;</span><span class="p">,</span> <span class="p">[])</span>
+                    <span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">universal_tools</span><span class="p">[</span><span class="n">category</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tool</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;解析通用工具配置失败 </span><span class="si">{</span><span class="n">tool_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;unknown&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+<div class="viewcode-block" id="ToolRegistry.get_language_tools">
+<a class="viewcode-back" href="../../../api/core.html#oss_audit.core.tool_registry.ToolRegistry.get_language_tools">[文档]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_language_tools</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">language</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">category</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tool</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        获取指定语言的工具列表</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            language: 编程语言</span>
+<span class="sd">            category: 工具分类 (可选)</span>
+<span class="sd">            </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            工具列表</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">language</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tools</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[]</span>
+        
+        <span class="k">if</span> <span class="n">category</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">tools</span><span class="p">[</span><span class="n">language</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">category</span><span class="p">,</span> <span class="p">[])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># 返回该语言的所有工具</span>
+            <span class="n">all_tools</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">tools_list</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tools</span><span class="p">[</span><span class="n">language</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                <span class="n">all_tools</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">tools_list</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">all_tools</span></div>
+
+    
+<div class="viewcode-block" id="ToolRegistry.get_universal_tools">
+<a class="viewcode-back" href="../../../api/core.html#oss_audit.core.tool_registry.ToolRegistry.get_universal_tools">[文档]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_universal_tools</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">category</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> 
+                          <span class="n">language</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tool</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        获取通用工具列表</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            category: 工具分类 (可选)</span>
+<span class="sd">            language: 过滤支持的语言 (可选)</span>
+<span class="sd">            </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            工具列表</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">category</span><span class="p">:</span>
+            <span class="n">tools</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">universal_tools</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">category</span><span class="p">,</span> <span class="p">[])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">tools</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">tools_list</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">universal_tools</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                <span class="n">tools</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">tools_list</span><span class="p">)</span>
+        
+        <span class="c1"># 按语言过滤</span>
+        <span class="k">if</span> <span class="n">language</span><span class="p">:</span>
+            <span class="n">filtered_tools</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">tool</span> <span class="ow">in</span> <span class="n">tools</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">tool</span><span class="o">.</span><span class="n">supports</span> <span class="ow">or</span> <span class="n">language</span> <span class="ow">in</span> <span class="n">tool</span><span class="o">.</span><span class="n">supports</span> <span class="ow">or</span> <span class="s1">&#39;all&#39;</span> <span class="ow">in</span> <span class="n">tool</span><span class="o">.</span><span class="n">supports</span><span class="p">:</span>
+                    <span class="n">filtered_tools</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tool</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">filtered_tools</span>
+        
+        <span class="k">return</span> <span class="n">tools</span></div>
+
+    
+<div class="viewcode-block" id="ToolRegistry.get_all_tools_for_languages">
+<a class="viewcode-back" href="../../../api/core.html#oss_audit.core.tool_registry.ToolRegistry.get_all_tools_for_languages">[文档]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_all_tools_for_languages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">languages</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> 
+                                  <span class="n">include_universal</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tool</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        获取多种语言的所有适用工具</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            languages: 语言列表</span>
+<span class="sd">            include_universal: 是否包含通用工具</span>
+<span class="sd">            </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            工具列表</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">all_tools</span> <span class="o">=</span> <span class="p">[]</span>
+        
+        <span class="c1"># 添加语言特定工具</span>
+        <span class="k">for</span> <span class="n">language</span> <span class="ow">in</span> <span class="n">languages</span><span class="p">:</span>
+            <span class="n">all_tools</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_language_tools</span><span class="p">(</span><span class="n">language</span><span class="p">))</span>
+        
+        <span class="c1"># 添加通用工具</span>
+        <span class="k">if</span> <span class="n">include_universal</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">language</span> <span class="ow">in</span> <span class="n">languages</span><span class="p">:</span>
+                <span class="n">all_tools</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_universal_tools</span><span class="p">(</span><span class="n">language</span><span class="o">=</span><span class="n">language</span><span class="p">))</span>
+        
+        <span class="c1"># 去重并按优先级排序</span>
+        <span class="n">unique_tools</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">tool</span> <span class="ow">in</span> <span class="n">all_tools</span><span class="p">:</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">tool</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">tool</span><span class="o">.</span><span class="n">language</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">unique_tools</span> <span class="ow">or</span> <span class="n">tool</span><span class="o">.</span><span class="n">priority</span> <span class="o">&lt;</span> <span class="n">unique_tools</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">priority</span><span class="p">:</span>
+                <span class="n">unique_tools</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">tool</span>
+        
+        <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">unique_tools</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">priority</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">estimated_time</span><span class="p">))</span></div>
+
+    
+<div class="viewcode-block" id="ToolRegistry.get_tools_by_category">
+<a class="viewcode-back" href="../../../api/core.html#oss_audit.core.tool_registry.ToolRegistry.get_tools_by_category">[文档]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_tools_by_category</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">category</span><span class="p">:</span> <span class="n">ToolCategory</span><span class="p">,</span> 
+                            <span class="n">languages</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tool</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        按分类获取工具</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            category: 工具分类</span>
+<span class="sd">            languages: 限制的语言列表 (可选)</span>
+<span class="sd">            </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            工具列表</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tools</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">category_name</span> <span class="o">=</span> <span class="n">category</span><span class="o">.</span><span class="n">value</span>
+        
+        <span class="c1"># 获取语言特定工具</span>
+        <span class="k">if</span> <span class="n">languages</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">language</span> <span class="ow">in</span> <span class="n">languages</span><span class="p">:</span>
+                <span class="n">tools</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_language_tools</span><span class="p">(</span><span class="n">language</span><span class="p">,</span> <span class="n">category_name</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">language_tools</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tools</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                <span class="n">tools</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">language_tools</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">category_name</span><span class="p">,</span> <span class="p">[]))</span>
+        
+        <span class="c1"># 获取通用工具</span>
+        <span class="n">universal_tools</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_universal_tools</span><span class="p">(</span><span class="n">category_name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">languages</span><span class="p">:</span>
+            <span class="c1"># 过滤支持的语言</span>
+            <span class="k">for</span> <span class="n">tool</span> <span class="ow">in</span> <span class="n">universal_tools</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">tool</span><span class="o">.</span><span class="n">supports</span> <span class="ow">or</span> <span class="nb">any</span><span class="p">(</span><span class="n">lang</span> <span class="ow">in</span> <span class="n">tool</span><span class="o">.</span><span class="n">supports</span> <span class="k">for</span> <span class="n">lang</span> <span class="ow">in</span> <span class="n">languages</span><span class="p">)</span> <span class="ow">or</span> <span class="s1">&#39;all&#39;</span> <span class="ow">in</span> <span class="n">tool</span><span class="o">.</span><span class="n">supports</span><span class="p">:</span>
+                    <span class="n">tools</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tool</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">tools</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">universal_tools</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">tools</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">priority</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">estimated_time</span><span class="p">))</span></div>
+
+    
+<div class="viewcode-block" id="ToolRegistry.is_tool_available">
+<a class="viewcode-back" href="../../../api/core.html#oss_audit.core.tool_registry.ToolRegistry.is_tool_available">[文档]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_tool_available</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tool</span><span class="p">:</span> <span class="n">Tool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        检查工具是否可用</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            tool: 工具对象</span>
+<span class="sd">            </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            是否可用</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># 基本的命令可用性检查</span>
+            <span class="n">base_command</span> <span class="o">=</span> <span class="n">tool</span><span class="o">.</span><span class="n">command</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">tool</span><span class="o">.</span><span class="n">command</span> <span class="k">else</span> <span class="n">tool</span><span class="o">.</span><span class="n">name</span>
+            
+            <span class="c1"># 特殊处理一些工具</span>
+            <span class="k">if</span> <span class="n">tool</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;python&#39;</span><span class="p">,</span> <span class="s1">&#39;node&#39;</span><span class="p">,</span> <span class="s1">&#39;npm&#39;</span><span class="p">,</span> <span class="s1">&#39;java&#39;</span><span class="p">,</span> <span class="s1">&#39;javac&#39;</span><span class="p">,</span> <span class="s1">&#39;mvn&#39;</span><span class="p">,</span> <span class="s1">&#39;gradle&#39;</span><span class="p">,</span> <span class="s1">&#39;go&#39;</span><span class="p">,</span> <span class="s1">&#39;cargo&#39;</span><span class="p">,</span> <span class="s1">&#39;rustc&#39;</span><span class="p">]:</span>
+                <span class="c1"># 这些是基础命令，直接检查</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+                        <span class="p">[</span><span class="n">base_command</span><span class="p">,</span> <span class="s1">&#39;--version&#39;</span><span class="p">],</span>
+                        <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                        <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                        <span class="n">timeout</span><span class="o">=</span><span class="mi">5</span>
+                    <span class="p">)</span>
+                    <span class="n">available</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">returncode</span> <span class="o">==</span> <span class="mi">0</span>
+                    <span class="k">if</span> <span class="n">available</span><span class="p">:</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;基础工具可用: </span><span class="si">{</span><span class="n">tool</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="n">available</span>
+                <span class="k">except</span> <span class="p">(</span><span class="n">subprocess</span><span class="o">.</span><span class="n">TimeoutExpired</span><span class="p">,</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">SubprocessError</span><span class="p">,</span> <span class="ne">FileNotFoundError</span><span class="p">):</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;基础工具不可用: </span><span class="si">{</span><span class="n">tool</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="kc">False</span>
+            
+            <span class="c1"># Python模块工具检查</span>
+            <span class="k">if</span> <span class="n">tool</span><span class="o">.</span><span class="n">language</span> <span class="o">==</span> <span class="s1">&#39;python&#39;</span> <span class="ow">and</span> <span class="n">tool</span><span class="o">.</span><span class="n">command</span> <span class="ow">and</span> <span class="n">tool</span><span class="o">.</span><span class="n">command</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;python&#39;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tool</span><span class="o">.</span><span class="n">command</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">3</span> <span class="ow">and</span> <span class="n">tool</span><span class="o">.</span><span class="n">command</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;-m&#39;</span><span class="p">:</span>
+                    <span class="n">module_name</span> <span class="o">=</span> <span class="n">tool</span><span class="o">.</span><span class="n">command</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="c1"># 检查Python模块是否可导入</span>
+                        <span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+                            <span class="p">[</span><span class="s1">&#39;python&#39;</span><span class="p">,</span> <span class="s1">&#39;-c&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;import </span><span class="si">{</span><span class="n">module_name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">],</span>
+                            <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                            <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                            <span class="n">timeout</span><span class="o">=</span><span class="mi">5</span>
+                        <span class="p">)</span>
+                        <span class="n">available</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">returncode</span> <span class="o">==</span> <span class="mi">0</span>
+                        <span class="k">if</span> <span class="n">available</span><span class="p">:</span>
+                            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Python模块可用: </span><span class="si">{</span><span class="n">module_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Python模块不可用: </span><span class="si">{</span><span class="n">module_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                        <span class="k">return</span> <span class="n">available</span>
+                    <span class="k">except</span> <span class="p">(</span><span class="n">subprocess</span><span class="o">.</span><span class="n">TimeoutExpired</span><span class="p">,</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">SubprocessError</span><span class="p">,</span> <span class="ne">FileNotFoundError</span><span class="p">):</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Python模块检查失败: </span><span class="si">{</span><span class="n">module_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                        <span class="k">return</span> <span class="kc">False</span>
+            
+            <span class="c1"># NPX工具检查</span>
+            <span class="k">if</span> <span class="n">base_command</span> <span class="o">==</span> <span class="s1">&#39;npx&#39;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tool</span><span class="o">.</span><span class="n">command</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>
+                    <span class="n">npm_package</span> <span class="o">=</span> <span class="n">tool</span><span class="o">.</span><span class="n">command</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="c1"># 简单检查npx是否可用</span>
+                        <span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+                            <span class="p">[</span><span class="s1">&#39;npx&#39;</span><span class="p">,</span> <span class="s1">&#39;--version&#39;</span><span class="p">],</span>
+                            <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                            <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                            <span class="n">timeout</span><span class="o">=</span><span class="mi">5</span>
+                        <span class="p">)</span>
+                        <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">returncode</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;npx工具可能可用: </span><span class="si">{</span><span class="n">npm_package</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                            <span class="k">return</span> <span class="kc">True</span>  <span class="c1"># 假设npx包可以按需安装</span>
+                    <span class="k">except</span><span class="p">:</span>
+                        <span class="k">pass</span>
+            
+            <span class="c1"># 通用工具检查（semgrep, gitleaks等）</span>
+            <span class="k">if</span> <span class="n">tool</span><span class="o">.</span><span class="n">language</span> <span class="o">==</span> <span class="s1">&#39;universal&#39;</span><span class="p">:</span>
+                <span class="c1"># 对于通用工具，采用宽松的检查策略</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+                        <span class="p">[</span><span class="n">base_command</span><span class="p">,</span> <span class="s1">&#39;--version&#39;</span><span class="p">],</span>
+                        <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                        <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                        <span class="n">timeout</span><span class="o">=</span><span class="mi">5</span>
+                    <span class="p">)</span>
+                    <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">returncode</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;通用工具可用: </span><span class="si">{</span><span class="n">base_command</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                        <span class="k">return</span> <span class="kc">True</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="k">pass</span>
+                
+                <span class="c1"># 检查是否可以通过which/where找到</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">which_cmd</span> <span class="o">=</span> <span class="s1">&#39;where&#39;</span> <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;nt&#39;</span> <span class="k">else</span> <span class="s1">&#39;which&#39;</span>
+                    <span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+                        <span class="p">[</span><span class="n">which_cmd</span><span class="p">,</span> <span class="n">base_command</span><span class="p">],</span>
+                        <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                        <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                        <span class="n">timeout</span><span class="o">=</span><span class="mi">5</span>
+                    <span class="p">)</span>
+                    <span class="n">available</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">returncode</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                    <span class="k">if</span> <span class="n">available</span><span class="p">:</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;通过</span><span class="si">{</span><span class="n">which_cmd</span><span class="si">}</span><span class="s2">找到工具: </span><span class="si">{</span><span class="n">base_command</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="n">available</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="k">pass</span>
+            
+            <span class="c1"># 默认检查策略</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="c1"># 尝试运行命令检查可用性</span>
+                <span class="n">version_flags</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;--version&#39;</span><span class="p">,</span> <span class="s1">&#39;-v&#39;</span><span class="p">,</span> <span class="s1">&#39;--help&#39;</span><span class="p">]</span>
+                
+                <span class="k">for</span> <span class="n">flag</span> <span class="ow">in</span> <span class="n">version_flags</span><span class="p">:</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">test_cmd</span> <span class="o">=</span> <span class="p">[</span><span class="n">base_command</span><span class="p">,</span> <span class="n">flag</span><span class="p">]</span>
+                        <span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+                            <span class="n">test_cmd</span><span class="p">,</span>
+                            <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                            <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                            <span class="n">timeout</span><span class="o">=</span><span class="mi">5</span>
+                        <span class="p">)</span>
+                        
+                        <span class="c1"># 成功执行认为可用</span>
+                        <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">returncode</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;工具可用: </span><span class="si">{</span><span class="n">base_command</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">flag</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                            <span class="k">return</span> <span class="kc">True</span>
+                            
+                        <span class="c1"># 对于--help，返回码1但有输出也认为可用</span>
+                        <span class="k">if</span> <span class="n">flag</span> <span class="o">==</span> <span class="s1">&#39;--help&#39;</span> <span class="ow">and</span> <span class="n">result</span><span class="o">.</span><span class="n">stderr</span><span class="p">:</span>
+                            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;工具可用(通过help): </span><span class="si">{</span><span class="n">base_command</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                            <span class="k">return</span> <span class="kc">True</span>
+                            
+                    <span class="k">except</span> <span class="p">(</span><span class="n">subprocess</span><span class="o">.</span><span class="n">TimeoutExpired</span><span class="p">,</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">SubprocessError</span><span class="p">,</span> <span class="ne">FileNotFoundError</span><span class="p">):</span>
+                        <span class="k">continue</span>
+                
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;工具不可用: </span><span class="si">{</span><span class="n">base_command</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="kc">False</span>
+                
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;工具可用性检查异常: </span><span class="si">{</span><span class="n">base_command</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="kc">False</span>
+            
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;工具可用性检查失败 </span><span class="si">{</span><span class="n">tool</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+
+    
+<div class="viewcode-block" id="ToolRegistry.get_available_tools">
+<a class="viewcode-back" href="../../../api/core.html#oss_audit.core.tool_registry.ToolRegistry.get_available_tools">[文档]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_available_tools</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">languages</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tool</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        获取可用的工具列表</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            languages: 语言列表</span>
+<span class="sd">            </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            可用工具列表</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">all_tools</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_all_tools_for_languages</span><span class="p">(</span><span class="n">languages</span><span class="p">)</span>
+        <span class="n">available_tools</span> <span class="o">=</span> <span class="p">[]</span>
+        
+        <span class="k">for</span> <span class="n">tool</span> <span class="ow">in</span> <span class="n">all_tools</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_tool_available</span><span class="p">(</span><span class="n">tool</span><span class="p">):</span>
+                <span class="n">available_tools</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tool</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;工具不可用: </span><span class="si">{</span><span class="n">tool</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">available_tools</span></div>
+
+    
+<div class="viewcode-block" id="ToolRegistry.get_installation_script">
+<a class="viewcode-back" href="../../../api/core.html#oss_audit.core.tool_registry.ToolRegistry.get_installation_script">[文档]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_installation_script</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">script_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        获取工具安装脚本</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            script_name: 脚本名称</span>
+<span class="sd">            </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            安装命令列表</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">installation_scripts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">script_name</span><span class="p">,</span> <span class="p">[])</span></div>
+
+    
+<div class="viewcode-block" id="ToolRegistry.install_tool">
+<a class="viewcode-back" href="../../../api/core.html#oss_audit.core.tool_registry.ToolRegistry.install_tool">[文档]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">install_tool</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tool</span><span class="p">:</span> <span class="n">Tool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        安装工具</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            tool: 工具对象</span>
+<span class="sd">            </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            是否安装成功</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">tool</span><span class="o">.</span><span class="n">install</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;工具 </span><span class="si">{</span><span class="n">tool</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> 无需安装&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># 如果安装命令是脚本名称，则执行脚本</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tool</span><span class="o">.</span><span class="n">install</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">tool</span><span class="o">.</span><span class="n">install</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">installation_scripts</span><span class="p">:</span>
+                <span class="n">script_commands</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_installation_script</span><span class="p">(</span><span class="n">tool</span><span class="o">.</span><span class="n">install</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="k">for</span> <span class="n">cmd</span> <span class="ow">in</span> <span class="n">script_commands</span><span class="p">:</span>
+                    <span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">returncode</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;安装脚本执行失败: </span><span class="si">{</span><span class="n">cmd</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                        <span class="k">return</span> <span class="kc">False</span>
+                <span class="k">return</span> <span class="kc">True</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># 直接执行安装命令</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+                    <span class="n">tool</span><span class="o">.</span><span class="n">install</span><span class="p">,</span>
+                    <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">timeout</span><span class="o">=</span><span class="mi">300</span>  <span class="c1"># 5分钟超时</span>
+                <span class="p">)</span>
+                
+                <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">returncode</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;工具 </span><span class="si">{</span><span class="n">tool</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> 安装成功&quot;</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="kc">True</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;工具 </span><span class="si">{</span><span class="n">tool</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> 安装失败: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">stderr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="kc">False</span>
+                    
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;安装工具 </span><span class="si">{</span><span class="n">tool</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> 时发生异常: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+
+    
+<div class="viewcode-block" id="ToolRegistry.create_tool_command">
+<a class="viewcode-back" href="../../../api/core.html#oss_audit.core.tool_registry.ToolRegistry.create_tool_command">[文档]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_tool_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tool</span><span class="p">:</span> <span class="n">Tool</span><span class="p">,</span> <span class="n">project_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> 
+                          <span class="n">additional_args</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        创建工具执行命令</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            tool: 工具对象</span>
+<span class="sd">            project_path: 项目路径</span>
+<span class="sd">            additional_args: 额外参数</span>
+<span class="sd">            </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            完整的命令列表</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cmd</span> <span class="o">=</span> <span class="n">tool</span><span class="o">.</span><span class="n">command</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">cmd</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">tool</span><span class="o">.</span><span class="n">args</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">additional_args</span><span class="p">:</span>
+            <span class="n">cmd</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">additional_args</span><span class="p">)</span>
+        
+        <span class="c1"># 某些工具需要指定项目路径</span>
+        <span class="k">if</span> <span class="n">tool</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;pylint&#39;</span><span class="p">,</span> <span class="s1">&#39;flake8&#39;</span><span class="p">,</span> <span class="s1">&#39;bandit&#39;</span><span class="p">,</span> <span class="s1">&#39;mypy&#39;</span><span class="p">]:</span>
+            <span class="c1"># 这些工具通常以目录作为参数</span>
+            <span class="k">if</span> <span class="s1">&#39;.&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tool</span><span class="o">.</span><span class="n">args</span> <span class="ow">and</span> <span class="n">project_path</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cmd</span><span class="p">:</span>
+                <span class="n">cmd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">cmd</span></div>
+
+    
+<div class="viewcode-block" id="ToolRegistry.get_supported_languages">
+<a class="viewcode-back" href="../../../api/core.html#oss_audit.core.tool_registry.ToolRegistry.get_supported_languages">[文档]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_supported_languages</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;获取支持的编程语言列表&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tools</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
+
+    
+<div class="viewcode-block" id="ToolRegistry.get_tool_categories">
+<a class="viewcode-back" href="../../../api/core.html#oss_audit.core.tool_registry.ToolRegistry.get_tool_categories">[文档]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_tool_categories</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">language</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        获取工具分类列表</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            language: 指定语言 (可选)</span>
+<span class="sd">            </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            分类列表</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">categories</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        
+        <span class="k">if</span> <span class="n">language</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">language</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tools</span><span class="p">:</span>
+                <span class="n">categories</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tools</span><span class="p">[</span><span class="n">language</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">lang_tools</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tools</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                <span class="n">categories</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">lang_tools</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        
+        <span class="c1"># 添加通用工具分类</span>
+        <span class="n">categories</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">universal_tools</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        
+        <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">categories</span><span class="p">))</span></div>
+
+    
+<div class="viewcode-block" id="ToolRegistry.reload">
+<a class="viewcode-back" href="../../../api/core.html#oss_audit.core.tool_registry.ToolRegistry.reload">[文档]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">reload</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;重新加载工具注册表&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tools</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">universal_tools</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">installation_scripts</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_load_registry</span><span class="p">()</span></div>
+</div>
+
+
+
+<span class="c1"># 单例模式</span>
+<span class="n">_registry_instance</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ToolRegistry</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="get_tool_registry">
+<a class="viewcode-back" href="../../../api/core.html#oss_audit.core.tool_registry.get_tool_registry">[文档]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_tool_registry</span><span class="p">(</span><span class="n">registry_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ToolRegistry</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    获取工具注册表单例实例</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        registry_path: 注册表配置文件路径</span>
+<span class="sd">        </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        ToolRegistry实例</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">_registry_instance</span>
+    
+    <span class="k">if</span> <span class="n">_registry_instance</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">registry_path</span><span class="p">:</span>
+        <span class="n">_registry_instance</span> <span class="o">=</span> <span class="n">ToolRegistry</span><span class="p">(</span><span class="n">registry_path</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">_registry_instance</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2024, OSS Audit Team。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

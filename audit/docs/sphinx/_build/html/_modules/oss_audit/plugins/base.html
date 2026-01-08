@@ -1,0 +1,541 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>oss_audit.plugins.base &mdash; OSS Audit 2.0 API文档</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=a3f70f27" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=b15d7ad8"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/translations.js?v=beaddf03"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../../genindex.html" />
+    <link rel="search" title="搜索" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            OSS Audit 2.0
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">快速开始:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">安装指南</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API参考:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/core.html">核心模块 (oss_audit.core)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/agents.html">智能代理系统 (oss_audit.core.agents)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">核心模块</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.core.audit_runner.html">oss_audit.core.audit_runner</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.core.project_detector.html">oss_audit.core.project_detector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.core.tool_executor.html">oss_audit.core.tool_executor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.core.report_generator.html">oss_audit.core.report_generator</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">智能代理</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.core.decision_agent.html">oss_audit.core.decision_agent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.core.adaptive_agent.html">oss_audit.core.adaptive_agent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.core.recommendation_agent.html">oss_audit.core.recommendation_agent</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">工具和插件</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.utils.ai_analyzer.html">oss_audit.utils.ai_analyzer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.core.tool_registry.html">oss_audit.core.tool_registry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.plugins.html">oss_audit.plugins</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">OSS Audit 2.0</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">模块代码</a></li>
+      <li class="breadcrumb-item active">oss_audit.plugins.base</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>oss_audit.plugins.base 源代码</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Base classes for language-specific analysis plugins</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Set</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pathlib</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">..core.tool_registry</span><span class="w"> </span><span class="kn">import</span> <span class="n">Tool</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..core.tool_executor</span><span class="w"> </span><span class="kn">import</span> <span class="n">ToolResult</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..core.project_detector</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProjectInfo</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">PluginPriority</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plugin priority levels&quot;&quot;&quot;</span>
+    <span class="n">CRITICAL</span> <span class="o">=</span> <span class="mi">1</span>    <span class="c1"># Core language features, must run</span>
+    <span class="n">HIGH</span> <span class="o">=</span> <span class="mi">2</span>        <span class="c1"># Important quality checks</span>
+    <span class="n">MEDIUM</span> <span class="o">=</span> <span class="mi">3</span>      <span class="c1"># Standard analysis tools</span>
+    <span class="n">LOW</span> <span class="o">=</span> <span class="mi">4</span>         <span class="c1"># Optional/supplementary tools</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">PluginCategory</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plugin analysis categories&quot;&quot;&quot;</span>
+    <span class="n">SYNTAX</span> <span class="o">=</span> <span class="s2">&quot;syntax&quot;</span>           <span class="c1"># Syntax checking</span>
+    <span class="n">QUALITY</span> <span class="o">=</span> <span class="s2">&quot;quality&quot;</span>         <span class="c1"># Code quality analysis  </span>
+    <span class="n">SECURITY</span> <span class="o">=</span> <span class="s2">&quot;security&quot;</span>       <span class="c1"># Security vulnerability detection</span>
+    <span class="n">TESTING</span> <span class="o">=</span> <span class="s2">&quot;testing&quot;</span>         <span class="c1"># Test-related analysis</span>
+    <span class="n">FORMATTING</span> <span class="o">=</span> <span class="s2">&quot;formatting&quot;</span>   <span class="c1"># Code formatting and style</span>
+    <span class="n">DEPENDENCIES</span> <span class="o">=</span> <span class="s2">&quot;dependencies&quot;</span>  <span class="c1"># Dependency analysis</span>
+    <span class="n">PERFORMANCE</span> <span class="o">=</span> <span class="s2">&quot;performance&quot;</span>    <span class="c1"># Performance analysis</span>
+    <span class="n">DOCUMENTATION</span> <span class="o">=</span> <span class="s2">&quot;documentation&quot;</span>  <span class="c1"># Documentation analysis</span>
+
+
+<div class="viewcode-block" id="PluginError">
+<a class="viewcode-back" href="../../../_autosummary/oss_audit.plugins.html#oss_audit.plugins.PluginError">[文档]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PluginError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plugin-specific error with isolation context&quot;&quot;&quot;</span>
+    <span class="n">plugin_name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">error_type</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">message</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">recoverable</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">details</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">plugin_name</span><span class="si">}</span><span class="s2">] </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">error_type</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="si">}</span><span class="s2">&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="PluginResult">
+<a class="viewcode-back" href="../../../_autosummary/oss_audit.plugins.html#oss_audit.plugins.PluginResult">[文档]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PluginResult</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Result from plugin analysis&quot;&quot;&quot;</span>
+    <span class="n">plugin_name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">language</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">success</span><span class="p">:</span> <span class="nb">bool</span>
+    <span class="n">execution_time</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
+    
+    <span class="c1"># Analysis results</span>
+    <span class="n">tool_results</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ToolResult</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
+    <span class="n">quality_score</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">issues_found</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+    
+    <span class="c1"># Metadata</span>
+    <span class="n">tools_executed</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
+    <span class="n">tools_skipped</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
+    <span class="n">errors</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PluginError</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
+    
+    <span class="c1"># Plugin-specific data</span>
+    <span class="n">plugin_data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
+    
+<div class="viewcode-block" id="PluginResult.add_error">
+<a class="viewcode-back" href="../../../_autosummary/oss_audit.plugins.html#oss_audit.plugins.PluginResult.add_error">[文档]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="n">PluginError</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add error to result&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">error</span><span class="o">.</span><span class="n">recoverable</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">success</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+    
+<div class="viewcode-block" id="PluginResult.to_dict">
+<a class="viewcode-back" href="../../../_autosummary/oss_audit.plugins.html#oss_audit.plugins.PluginResult.to_dict">[文档]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert to dictionary for reporting&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s1">&#39;plugin_name&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">plugin_name</span><span class="p">,</span>
+            <span class="s1">&#39;language&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">language</span><span class="p">,</span>
+            <span class="s1">&#39;success&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">success</span><span class="p">,</span>
+            <span class="s1">&#39;execution_time&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">execution_time</span><span class="p">,</span>
+            <span class="s1">&#39;quality_score&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">quality_score</span><span class="p">,</span>
+            <span class="s1">&#39;issues_found&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">issues_found</span><span class="p">,</span>
+            <span class="s1">&#39;tools_executed&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">tools_executed</span><span class="p">,</span>
+            <span class="s1">&#39;tools_skipped&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">tools_skipped</span><span class="p">,</span>
+            <span class="s1">&#39;tool_results&#39;</span><span class="p">:</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="n">result</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">result</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tool_results</span><span class="o">.</span><span class="n">items</span><span class="p">()},</span>
+            <span class="s1">&#39;errors&#39;</span><span class="p">:</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">error</span><span class="p">)</span> <span class="k">for</span> <span class="n">error</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">errors</span><span class="p">],</span>
+            <span class="s1">&#39;plugin_data&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">plugin_data</span>
+        <span class="p">}</span></div>
+</div>
+
+
+
+<span class="nd">@dataclass</span> 
+<span class="k">class</span><span class="w"> </span><span class="nc">PluginCapability</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Describes what a plugin can analyze&quot;&quot;&quot;</span>
+    <span class="n">languages</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>                    <span class="c1"># Supported languages</span>
+    <span class="n">file_extensions</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>              <span class="c1"># File extensions it can handle</span>
+    <span class="n">categories</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="n">PluginCategory</span><span class="p">]</span>        <span class="c1"># Analysis categories</span>
+    <span class="n">required_tools</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>              <span class="c1"># Tools that must be available</span>
+    <span class="n">optional_tools</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>              <span class="c1"># Tools that enhance analysis</span>
+    <span class="n">min_confidence_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span>  <span class="c1"># Minimum language confidence to run</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">can_analyze</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_info</span><span class="p">:</span> <span class="n">ProjectInfo</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if plugin can analyze this project&quot;&quot;&quot;</span>
+        <span class="c1"># Check if any supported language is in project</span>
+        <span class="n">project_languages</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">project_info</span><span class="o">.</span><span class="n">languages</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">languages</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">project_languages</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+            
+        <span class="c1"># Check confidence threshold</span>
+        <span class="n">max_confidence</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">project_info</span><span class="o">.</span><span class="n">languages</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">lang</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">lang</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">languages</span><span class="p">),</span>
+            <span class="n">default</span><span class="o">=</span><span class="mi">0</span>
+        <span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">max_confidence</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_confidence_threshold</span>
+
+
+<div class="viewcode-block" id="LanguagePlugin">
+<a class="viewcode-back" href="../../../_autosummary/oss_audit.plugins.html#oss_audit.plugins.LanguagePlugin">[文档]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">LanguagePlugin</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base class for language-specific analysis plugins</span>
+<span class="sd">    </span>
+<span class="sd">    Each plugin handles analysis for one or more programming languages,</span>
+<span class="sd">    providing tool selection, execution, and result interpretation.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+<div class="viewcode-block" id="LanguagePlugin.__init__">
+<a class="viewcode-back" href="../../../_autosummary/oss_audit.plugins.html#oss_audit.plugins.LanguagePlugin.__init__">[文档]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize plugin</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            name: Plugin identifier name</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;plugin.</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+    
+    <span class="nd">@property</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">capability</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PluginCapability</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return plugin capabilities&quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+    
+    <span class="nd">@property</span>  
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">priority</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PluginPriority</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return plugin priority level&quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+    
+<div class="viewcode-block" id="LanguagePlugin.initialize">
+<a class="viewcode-back" href="../../../_autosummary/oss_audit.plugins.html#oss_audit.plugins.LanguagePlugin.initialize">[文档]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize plugin (called once during registration)</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            True if initialization successful</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_do_initialization</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Plugin </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> initialized successfully&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Plugin </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> initialization failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_do_initialization</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Override this method for plugin-specific initialization&quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+    
+<div class="viewcode-block" id="LanguagePlugin.can_analyze">
+<a class="viewcode-back" href="../../../_autosummary/oss_audit.plugins.html#oss_audit.plugins.LanguagePlugin.can_analyze">[文档]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">can_analyze</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_info</span><span class="p">:</span> <span class="n">ProjectInfo</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check if this plugin can analyze the given project</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            project_info: Project information</span>
+<span class="sd">            </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            True if plugin can analyze this project</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">capability</span><span class="o">.</span><span class="n">can_analyze</span><span class="p">(</span><span class="n">project_info</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="LanguagePlugin.analyze">
+<a class="viewcode-back" href="../../../_autosummary/oss_audit.plugins.html#oss_audit.plugins.LanguagePlugin.analyze">[文档]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">analyze</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">project_info</span><span class="p">:</span> <span class="n">ProjectInfo</span><span class="p">,</span> 
+               <span class="n">available_tools</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tool</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">PluginResult</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Perform language-specific analysis</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            project_path: Path to project directory</span>
+<span class="sd">            project_info: Project information from detection</span>
+<span class="sd">            available_tools: Available analysis tools</span>
+<span class="sd">            </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            Analysis results</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">PluginError</span><span class="p">(</span>
+                <span class="n">plugin_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="n">error_type</span><span class="o">=</span><span class="s2">&quot;NotInitialized&quot;</span><span class="p">,</span>
+                <span class="n">message</span><span class="o">=</span><span class="s2">&quot;Plugin not initialized&quot;</span><span class="p">,</span>
+                <span class="n">recoverable</span><span class="o">=</span><span class="kc">False</span>
+            <span class="p">)</span>
+        
+        <span class="n">result</span> <span class="o">=</span> <span class="n">PluginResult</span><span class="p">(</span>
+            <span class="n">plugin_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">language</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_primary_language</span><span class="p">(</span><span class="n">project_info</span><span class="p">),</span>
+            <span class="n">success</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+        
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+            <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+            
+            <span class="c1"># Select tools for this analysis</span>
+            <span class="n">selected_tools</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">select_tools</span><span class="p">(</span><span class="n">project_info</span><span class="p">,</span> <span class="n">available_tools</span><span class="p">)</span>
+            
+            <span class="c1"># Execute analysis</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_execute_analysis</span><span class="p">(</span><span class="n">project_path</span><span class="p">,</span> <span class="n">project_info</span><span class="p">,</span> <span class="n">selected_tools</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+            
+            <span class="c1"># Calculate execution time</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">execution_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span>
+            
+            <span class="c1"># Post-process results</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_post_process_results</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">project_info</span><span class="p">)</span>
+            
+            <span class="c1"># Validate and standardize results</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_and_standardize_result</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+            
+        <span class="k">except</span> <span class="n">PluginError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">add_error</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Plugin error in </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">error</span> <span class="o">=</span> <span class="n">PluginError</span><span class="p">(</span>
+                <span class="n">plugin_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="n">error_type</span><span class="o">=</span><span class="s2">&quot;UnexpectedError&quot;</span><span class="p">,</span>
+                <span class="n">message</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),</span>
+                <span class="n">recoverable</span><span class="o">=</span><span class="kc">False</span>
+            <span class="p">)</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">add_error</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unexpected error in </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">result</span></div>
+
+    
+<div class="viewcode-block" id="LanguagePlugin.select_tools">
+<a class="viewcode-back" href="../../../_autosummary/oss_audit.plugins.html#oss_audit.plugins.LanguagePlugin.select_tools">[文档]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">select_tools</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_info</span><span class="p">:</span> <span class="n">ProjectInfo</span><span class="p">,</span> <span class="n">available_tools</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tool</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tool</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Select tools for analysis based on project characteristics</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            project_info: Project information</span>
+<span class="sd">            available_tools: Available tools</span>
+<span class="sd">            </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            Selected tools for this plugin</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Filter tools that match plugin languages</span>
+        <span class="n">plugin_languages</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">capability</span><span class="o">.</span><span class="n">languages</span>
+        <span class="n">compatible_tools</span> <span class="o">=</span> <span class="p">[]</span>
+        
+        <span class="k">for</span> <span class="n">tool</span> <span class="ow">in</span> <span class="n">available_tools</span><span class="p">:</span>
+            <span class="c1"># Tool matches plugin language</span>
+            <span class="k">if</span> <span class="n">tool</span><span class="o">.</span><span class="n">language</span> <span class="ow">in</span> <span class="n">plugin_languages</span><span class="p">:</span>
+                <span class="n">compatible_tools</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tool</span><span class="p">)</span>
+            <span class="c1"># Universal tool that supports plugin languages  </span>
+            <span class="k">elif</span> <span class="p">(</span><span class="n">tool</span><span class="o">.</span><span class="n">language</span> <span class="o">==</span> <span class="s1">&#39;universal&#39;</span> <span class="ow">and</span> 
+                  <span class="p">(</span><span class="ow">not</span> <span class="n">tool</span><span class="o">.</span><span class="n">supports</span> <span class="ow">or</span> 
+                   <span class="nb">any</span><span class="p">(</span><span class="n">lang</span> <span class="ow">in</span> <span class="n">tool</span><span class="o">.</span><span class="n">supports</span> <span class="k">for</span> <span class="n">lang</span> <span class="ow">in</span> <span class="n">plugin_languages</span><span class="p">)</span> <span class="ow">or</span>
+                   <span class="s1">&#39;all&#39;</span> <span class="ow">in</span> <span class="n">tool</span><span class="o">.</span><span class="n">supports</span><span class="p">)):</span>
+                <span class="n">compatible_tools</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tool</span><span class="p">)</span>
+        
+        <span class="c1"># Use smart tool selector for optimal selection</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">..core.smart_tool_selector</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_smart_tool_selector</span>
+            <span class="n">smart_selector</span> <span class="o">=</span> <span class="n">create_smart_tool_selector</span><span class="p">()</span>
+            <span class="n">selected</span> <span class="o">=</span> <span class="n">smart_selector</span><span class="o">.</span><span class="n">select_optimal_tools</span><span class="p">(</span>
+                <span class="n">compatible_tools</span><span class="p">,</span> 
+                <span class="n">project_info</span><span class="p">,</span> 
+                <span class="n">max_tools_per_dimension</span><span class="o">=</span><span class="mi">1</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Smart selection: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">selected</span><span class="p">)</span><span class="si">}</span><span class="s2"> tools from </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">compatible_tools</span><span class="p">)</span><span class="si">}</span><span class="s2"> compatible tools for </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="c1"># Fallback to basic selection on any error</span>
+            <span class="n">selected</span> <span class="o">=</span> <span class="n">compatible_tools</span>
+            <span class="n">selected</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">priority</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">estimated_time</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Basic selection (fallback): </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">selected</span><span class="p">)</span><span class="si">}</span><span class="s2"> tools for </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">selected</span></div>
+
+    
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_execute_analysis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">project_info</span><span class="p">:</span> <span class="n">ProjectInfo</span><span class="p">,</span> 
+                         <span class="n">tools</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tool</span><span class="p">],</span> <span class="n">result</span><span class="p">:</span> <span class="n">PluginResult</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Execute the actual analysis (implemented by each plugin)</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            project_path: Project directory path</span>
+<span class="sd">            project_info: Project information </span>
+<span class="sd">            tools: Selected tools to run</span>
+<span class="sd">            result: Result object to populate</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_post_process_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span> <span class="n">PluginResult</span><span class="p">,</span> <span class="n">project_info</span><span class="p">:</span> <span class="n">ProjectInfo</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Post-process analysis results (can be overridden)</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            result: Analysis results</span>
+<span class="sd">            project_info: Project information</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Calculate overall quality score</span>
+        <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">tool_results</span><span class="p">:</span>
+            <span class="n">scores</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">tool_result</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">tool_results</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">tool_result</span><span class="o">.</span><span class="n">success</span> <span class="ow">and</span> <span class="n">tool_result</span><span class="o">.</span><span class="n">result</span><span class="p">:</span>
+                    <span class="n">tool_score</span> <span class="o">=</span> <span class="n">tool_result</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;score&#39;</span><span class="p">,</span> <span class="mi">60</span><span class="p">)</span>
+                    <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tool_score</span><span class="p">)</span>
+            
+            <span class="n">result</span><span class="o">.</span><span class="n">quality_score</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span> <span class="k">if</span> <span class="n">scores</span> <span class="k">else</span> <span class="mf">50.0</span>
+        <span class="k">elif</span> <span class="n">result</span><span class="o">.</span><span class="n">quality_score</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>  <span class="c1"># Only set default if not already set</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">quality_score</span> <span class="o">=</span> <span class="mf">50.0</span>  <span class="c1"># Neutral score if no tools ran</span>
+        
+        <span class="c1"># Count total issues</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">issues_found</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span>
+            <span class="n">tool_result</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;issues_count&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">tool_result</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">tool_results</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">tool_result</span><span class="o">.</span><span class="n">success</span> <span class="ow">and</span> <span class="n">tool_result</span><span class="o">.</span><span class="n">result</span>
+        <span class="p">)</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_primary_language</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_info</span><span class="p">:</span> <span class="n">ProjectInfo</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the primary language this plugin handles for this project&quot;&quot;&quot;</span>
+        <span class="n">plugin_languages</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">capability</span><span class="o">.</span><span class="n">languages</span>
+        
+        <span class="c1"># Find the highest confidence language that this plugin supports</span>
+        <span class="n">best_lang</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">best_confidence</span> <span class="o">=</span> <span class="mi">0</span>
+        
+        <span class="k">for</span> <span class="n">lang</span><span class="p">,</span> <span class="n">confidence</span> <span class="ow">in</span> <span class="n">project_info</span><span class="o">.</span><span class="n">languages</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">lang</span> <span class="ow">in</span> <span class="n">plugin_languages</span> <span class="ow">and</span> <span class="n">confidence</span> <span class="o">&gt;</span> <span class="n">best_confidence</span><span class="p">:</span>
+                <span class="n">best_lang</span> <span class="o">=</span> <span class="n">lang</span>
+                <span class="n">best_confidence</span> <span class="o">=</span> <span class="n">confidence</span>
+        
+        <span class="k">return</span> <span class="n">best_lang</span> <span class="ow">or</span> <span class="nb">list</span><span class="p">(</span><span class="n">plugin_languages</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_validate_and_standardize_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span> <span class="n">PluginResult</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PluginResult</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate and standardize plugin result&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">.result_validator</span><span class="w"> </span><span class="kn">import</span> <span class="n">validate_and_standardize_result</span>
+            
+            <span class="n">standardized_result</span><span class="p">,</span> <span class="n">validation_errors</span> <span class="o">=</span> <span class="n">validate_and_standardize_result</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+            
+            <span class="c1"># Log validation errors</span>
+            <span class="k">for</span> <span class="n">error</span> <span class="ow">in</span> <span class="n">validation_errors</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">error</span><span class="o">.</span><span class="n">severity</span> <span class="o">==</span> <span class="s2">&quot;error&quot;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Result validation error in </span><span class="si">{</span><span class="n">error</span><span class="o">.</span><span class="n">field</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">error</span><span class="o">.</span><span class="n">message</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Result validation warning in </span><span class="si">{</span><span class="n">error</span><span class="o">.</span><span class="n">field</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">error</span><span class="o">.</span><span class="n">message</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            
+            <span class="k">return</span> <span class="n">standardized_result</span>
+            
+        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Result validator not available, skipping validation&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">result</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Result validation failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">result</span>
+    
+<div class="viewcode-block" id="LanguagePlugin.cleanup">
+<a class="viewcode-back" href="../../../_autosummary/oss_audit.plugins.html#oss_audit.plugins.LanguagePlugin.cleanup">[文档]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">cleanup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Cleanup plugin resources (override if needed)&quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+    
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">)&quot;</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(name=&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;, &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;languages=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">capability</span><span class="o">.</span><span class="n">languages</span><span class="si">}</span><span class="s2">, &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;priority=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">priority</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2024, OSS Audit Team。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

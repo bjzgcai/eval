@@ -20,7 +20,7 @@
     "build_tools": [],
     "confidence": 0.8
   },
-  "timestamp": "2026-01-08 15:24:13",
+  "timestamp": "2026-01-08 15:34:31",
   "overall_score": 57.3611111111111,
   "overall_status": "NEEDS_IMPROVEMENT",
   "summary": {
@@ -35,7 +35,7 @@
     "project_type": "data_science",
     "adaptive_scoring": {
       "confidence_level": 0.5,
-      "model_version": "adapted_1767857053",
+      "model_version": "adapted_1767857671",
       "weights_adjusted": true
     },
     "intelligent_recommendations": {
@@ -58,7 +58,7 @@
       "status": "WARN",
       "tools_used": [
         "pylint",
-        "semgrep"
+        "sonarqube-scanner"
       ],
       "issues_count": 0,
       "details": {
@@ -194,7 +194,7 @@
       "status": "WARN",
       "tools_used": [
         "bandit",
-        "semgrep"
+        "sonarqube-scanner"
       ],
       "issues_count": 0,
       "details": {
@@ -275,8 +275,8 @@
       "score": 65.0,
       "status": "WARN",
       "tools_used": [
-        "semgrep",
-        "sonarqube-scanner"
+        "sonarqube-scanner",
+        "semgrep"
       ],
       "issues_count": 0,
       "details": {
@@ -351,7 +351,7 @@
       "status": "WARN",
       "tools_used": [
         "bandit",
-        "semgrep"
+        "sonarqube-scanner"
       ],
       "issues_count": 0,
       "details": {
@@ -372,7 +372,7 @@
       "status": "WARN",
       "tools_used": [
         "bandit",
-        "semgrep"
+        "sonarqube-scanner"
       ],
       "issues_count": 0,
       "details": {
@@ -408,42 +408,42 @@
   "tool_results": {
     "pylint": {
       "success": false,
-      "execution_time": 0.061255455017089844,
-      "issues_count": 0
-    },
-    "semgrep": {
-      "success": false,
-      "execution_time": 0.10591626167297363,
+      "execution_time": 0.06212425231933594,
       "issues_count": 0
     },
     "sonarqube-scanner": {
       "success": false,
-      "execution_time": 0.10582518577575684,
+      "execution_time": 0.11216545104980469,
+      "issues_count": 0
+    },
+    "semgrep": {
+      "success": false,
+      "execution_time": 0.11281895637512207,
       "issues_count": 0
     },
     "bandit": {
       "success": false,
-      "execution_time": 0.05970430374145508,
+      "execution_time": 0.05868077278137207,
       "issues_count": 0
     },
     "pytest": {
       "success": false,
-      "execution_time": 0.059204816818237305,
+      "execution_time": 0.05992484092712402,
       "issues_count": 0
     },
     "coverage": {
       "success": false,
-      "execution_time": 0.057215213775634766,
+      "execution_time": 0.05871772766113281,
       "issues_count": 0
     },
     "python_plugin_pylint": {
       "success": false,
-      "execution_time": 2.86102294921875e-06,
+      "execution_time": 3.337860107421875e-06,
       "issues_count": 0
     },
     "python_plugin_flake8": {
       "success": false,
-      "execution_time": 1.9073486328125e-06,
+      "execution_time": 1.430511474609375e-06,
       "issues_count": 0
     },
     "python_plugin_mypy": {
@@ -453,27 +453,27 @@
     },
     "python_plugin_bandit": {
       "success": false,
-      "execution_time": 9.5367431640625e-07,
+      "execution_time": 7.152557373046875e-07,
       "issues_count": 0
     },
     "python_plugin_safety": {
       "success": false,
-      "execution_time": 9.5367431640625e-07,
+      "execution_time": 7.152557373046875e-07,
       "issues_count": 0
     },
     "python_plugin_black": {
       "success": false,
-      "execution_time": 9.5367431640625e-07,
+      "execution_time": 7.152557373046875e-07,
       "issues_count": 0
     },
     "python_plugin_isort": {
       "success": false,
-      "execution_time": 9.5367431640625e-07,
+      "execution_time": 4.76837158203125e-07,
       "issues_count": 0
     },
     "python_plugin_pytest": {
       "success": false,
-      "execution_time": 7.152557373046875e-07,
+      "execution_time": 4.76837158203125e-07,
       "issues_count": 0
     },
     "python_plugin_coverage": {
@@ -483,27 +483,27 @@
     },
     "python_plugin_syft": {
       "success": false,
-      "execution_time": 4.76837158203125e-07,
+      "execution_time": 9.5367431640625e-07,
       "issues_count": 0
     },
     "python_plugin_semgrep": {
       "success": false,
-      "execution_time": 4.76837158203125e-07,
+      "execution_time": 7.152557373046875e-07,
       "issues_count": 0
     },
     "python_plugin_sonarqube-scanner": {
       "success": false,
-      "execution_time": 4.76837158203125e-07,
+      "execution_time": 7.152557373046875e-07,
       "issues_count": 0
     },
     "python_plugin_gitleaks": {
       "success": false,
-      "execution_time": 2.384185791015625e-07,
+      "execution_time": 7.152557373046875e-07,
       "issues_count": 0
     },
     "python_plugin_trivy": {
       "success": false,
-      "execution_time": 4.76837158203125e-07,
+      "execution_time": 7.152557373046875e-07,
       "issues_count": 0
     }
   },
@@ -511,7 +511,7 @@
     "total_tools": 20,
     "successful_tools": 0,
     "failed_tools": 20,
-    "total_time": 0.44913411140441895
+    "total_time": 0.4644451141357422
   },
   "report_version": "OSS Audit 2.0 智能增强版",
   "features_used": [

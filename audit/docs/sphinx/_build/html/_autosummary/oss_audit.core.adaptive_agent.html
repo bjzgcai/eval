@@ -1,0 +1,493 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>oss_audit.core.adaptive_agent &mdash; OSS Audit 2.0 API文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=a3f70f27" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=b15d7ad8"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=beaddf03"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="oss_audit.core.recommendation_agent" href="oss_audit.core.recommendation_agent.html" />
+    <link rel="prev" title="oss_audit.core.decision_agent" href="oss_audit.core.decision_agent.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            OSS Audit 2.0
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">快速开始:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">安装指南</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API参考:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/core.html">核心模块 (oss_audit.core)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/agents.html">智能代理系统 (oss_audit.core.agents)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">核心模块</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="oss_audit.core.audit_runner.html">oss_audit.core.audit_runner</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oss_audit.core.project_detector.html">oss_audit.core.project_detector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oss_audit.core.tool_executor.html">oss_audit.core.tool_executor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oss_audit.core.report_generator.html">oss_audit.core.report_generator</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">智能代理</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="oss_audit.core.decision_agent.html">oss_audit.core.decision_agent</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">oss_audit.core.adaptive_agent</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#oss_audit.core.adaptive_agent.AdaptationLevel"><code class="docutils literal notranslate"><span class="pre">AdaptationLevel</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.adaptive_agent.AdaptationLevel.MINIMAL"><code class="docutils literal notranslate"><span class="pre">AdaptationLevel.MINIMAL</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.adaptive_agent.AdaptationLevel.MODERATE"><code class="docutils literal notranslate"><span class="pre">AdaptationLevel.MODERATE</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.adaptive_agent.AdaptationLevel.AGGRESSIVE"><code class="docutils literal notranslate"><span class="pre">AdaptationLevel.AGGRESSIVE</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#oss_audit.core.adaptive_agent.ScoringModel"><code class="docutils literal notranslate"><span class="pre">ScoringModel</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.adaptive_agent.ScoringModel.weights"><code class="docutils literal notranslate"><span class="pre">ScoringModel.weights</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.adaptive_agent.ScoringModel.quality_adjustments"><code class="docutils literal notranslate"><span class="pre">ScoringModel.quality_adjustments</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.adaptive_agent.ScoringModel.historical_adjustments"><code class="docutils literal notranslate"><span class="pre">ScoringModel.historical_adjustments</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.adaptive_agent.ScoringModel.confidence_level"><code class="docutils literal notranslate"><span class="pre">ScoringModel.confidence_level</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.adaptive_agent.ScoringModel.model_version"><code class="docutils literal notranslate"><span class="pre">ScoringModel.model_version</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.adaptive_agent.ScoringModel.created_time"><code class="docutils literal notranslate"><span class="pre">ScoringModel.created_time</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.adaptive_agent.ScoringModel.__init__"><code class="docutils literal notranslate"><span class="pre">ScoringModel.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#oss_audit.core.adaptive_agent.OptimizationActions"><code class="docutils literal notranslate"><span class="pre">OptimizationActions</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.adaptive_agent.OptimizationActions.additional_tools"><code class="docutils literal notranslate"><span class="pre">OptimizationActions.additional_tools</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.adaptive_agent.OptimizationActions.arbitration_tools"><code class="docutils literal notranslate"><span class="pre">OptimizationActions.arbitration_tools</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.adaptive_agent.OptimizationActions.supplementary_analysis"><code class="docutils literal notranslate"><span class="pre">OptimizationActions.supplementary_analysis</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.adaptive_agent.OptimizationActions.weight_adjustments"><code class="docutils literal notranslate"><span class="pre">OptimizationActions.weight_adjustments</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.adaptive_agent.OptimizationActions.time_budget_adjustment"><code class="docutils literal notranslate"><span class="pre">OptimizationActions.time_budget_adjustment</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.adaptive_agent.OptimizationActions.priority_changes"><code class="docutils literal notranslate"><span class="pre">OptimizationActions.priority_changes</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.adaptive_agent.OptimizationActions.__init__"><code class="docutils literal notranslate"><span class="pre">OptimizationActions.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#oss_audit.core.adaptive_agent.AdaptiveAgent"><code class="docutils literal notranslate"><span class="pre">AdaptiveAgent</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.adaptive_agent.AdaptiveAgent.__init__"><code class="docutils literal notranslate"><span class="pre">AdaptiveAgent.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.adaptive_agent.AdaptiveAgent.adapt_scoring_model"><code class="docutils literal notranslate"><span class="pre">AdaptiveAgent.adapt_scoring_model()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.adaptive_agent.AdaptiveAgent.optimize_analysis_process"><code class="docutils literal notranslate"><span class="pre">AdaptiveAgent.optimize_analysis_process()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.adaptive_agent.AdaptiveAgent.get_adaptation_stats"><code class="docutils literal notranslate"><span class="pre">AdaptiveAgent.get_adaptation_stats()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#oss_audit.core.adaptive_agent.BenchmarkDatabase"><code class="docutils literal notranslate"><span class="pre">BenchmarkDatabase</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.adaptive_agent.BenchmarkDatabase.__init__"><code class="docutils literal notranslate"><span class="pre">BenchmarkDatabase.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oss_audit.core.adaptive_agent.BenchmarkDatabase.find_similar_projects"><code class="docutils literal notranslate"><span class="pre">BenchmarkDatabase.find_similar_projects()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#oss_audit.core.adaptive_agent.create_adaptive_agent"><code class="docutils literal notranslate"><span class="pre">create_adaptive_agent()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="oss_audit.core.recommendation_agent.html">oss_audit.core.recommendation_agent</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">工具和插件</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="oss_audit.utils.ai_analyzer.html">oss_audit.utils.ai_analyzer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oss_audit.core.tool_registry.html">oss_audit.core.tool_registry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oss_audit.plugins.html">oss_audit.plugins</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">OSS Audit 2.0</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">oss_audit.core.adaptive_agent</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/_autosummary/oss_audit.core.adaptive_agent.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-oss_audit.core.adaptive_agent">
+<span id="oss-audit-core-adaptive-agent"></span><h1>oss_audit.core.adaptive_agent<a class="headerlink" href="#module-oss_audit.core.adaptive_agent" title="Link to this heading"></a></h1>
+<p>Adaptive Agent - 自适应评分优化代理
+动态评分模型适配和分析过程优化</p>
+<p class="rubric">Functions</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api/agents.html#oss_audit.core.adaptive_agent.create_adaptive_agent" title="oss_audit.core.adaptive_agent.create_adaptive_agent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_adaptive_agent</span></code></a>()</p></td>
+<td><p>创建自适应代理实例</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">dataclass</span></code>([cls, init, repr, eq, order, ...])</p></td>
+<td><p>Add dunder methods based on the fields defined in the class.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">field</span></code>(*[, default, default_factory, init, ...])</p></td>
+<td><p>Return an object to identify dataclass fields.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Classes</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api/agents.html#oss_audit.core.adaptive_agent.AdaptationLevel" title="oss_audit.core.adaptive_agent.AdaptationLevel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AdaptationLevel</span></code></a>(*values)</p></td>
+<td><p>自适应程度</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../api/agents.html#oss_audit.core.adaptive_agent.AdaptiveAgent" title="oss_audit.core.adaptive_agent.AdaptiveAgent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AdaptiveAgent</span></code></a>()</p></td>
+<td><p>自适应Agent - 动态评分优化和持续改进</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Any</span></code>(*args, **kwargs)</p></td>
+<td><p>Special type indicating an unconstrained type.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../api/agents.html#oss_audit.core.adaptive_agent.BenchmarkDatabase" title="oss_audit.core.adaptive_agent.BenchmarkDatabase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BenchmarkDatabase</span></code></a>()</p></td>
+<td><p>基准数据库 - 存储项目基准数据</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Enum</span></code>(new_class_name, /, names, *[, module, ...])</p></td>
+<td><p>Create a collection of name/value pairs.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../api/agents.html#oss_audit.core.adaptive_agent.OptimizationActions" title="oss_audit.core.adaptive_agent.OptimizationActions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OptimizationActions</span></code></a>(additional_tools, ...)</p></td>
+<td><p>优化建议</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">ProjectInfo</span></code>(path, name, languages, float] =, ...)</p></td>
+<td><p>项目信息数据模型</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">ProjectType</span></code>(*values)</p></td>
+<td><p>项目类型</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api/agents.html#oss_audit.core.adaptive_agent.ScoringModel" title="oss_audit.core.adaptive_agent.ScoringModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ScoringModel</span></code></a>(weights, float], ...)</p></td>
+<td><p>评分模型</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">StructureType</span></code>(*values)</p></td>
+<td><p>项目结构类型</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tool</span></code>(name, command, args, language, install)</p></td>
+<td><p>工具配置数据类</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">defaultdict</span></code></p></td>
+<td><p>defaultdict(default_factory=None, /, [...]) --&gt; dict with default factory</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="oss_audit.core.adaptive_agent.AdaptationLevel">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oss_audit.core.adaptive_agent.</span></span><span class="sig-name descname"><span class="pre">AdaptationLevel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oss_audit/core/adaptive_agent.html#AdaptationLevel"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.adaptive_agent.AdaptationLevel" title="Link to this definition"></a></dt>
+<dd><p>自适应程度</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.adaptive_agent.AdaptationLevel.MINIMAL">
+<span class="sig-name descname"><span class="pre">MINIMAL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'minimal'</span></em><a class="headerlink" href="#oss_audit.core.adaptive_agent.AdaptationLevel.MINIMAL" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.adaptive_agent.AdaptationLevel.MODERATE">
+<span class="sig-name descname"><span class="pre">MODERATE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'moderate'</span></em><a class="headerlink" href="#oss_audit.core.adaptive_agent.AdaptationLevel.MODERATE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.adaptive_agent.AdaptationLevel.AGGRESSIVE">
+<span class="sig-name descname"><span class="pre">AGGRESSIVE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'aggressive'</span></em><a class="headerlink" href="#oss_audit.core.adaptive_agent.AdaptationLevel.AGGRESSIVE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="oss_audit.core.adaptive_agent.ScoringModel">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oss_audit.core.adaptive_agent.</span></span><span class="sig-name descname"><span class="pre">ScoringModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">weights:</span> <span class="pre">~typing.Dict[str,</span> <span class="pre">float],</span> <span class="pre">quality_adjustments:</span> <span class="pre">~typing.Dict[str,</span> <span class="pre">float],</span> <span class="pre">historical_adjustments:</span> <span class="pre">~typing.Dict[str,</span> <span class="pre">float],</span> <span class="pre">confidence_level:</span> <span class="pre">float,</span> <span class="pre">model_version:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">'1.0',</span> <span class="pre">created_time:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="（在 Python v3.13）"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/oss_audit/core/adaptive_agent.html#ScoringModel"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.adaptive_agent.ScoringModel" title="Link to this definition"></a></dt>
+<dd><p>评分模型</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>weights</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</span>)</p></li>
+<li><p><strong>quality_adjustments</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</span>)</p></li>
+<li><p><strong>historical_adjustments</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</span>)</p></li>
+<li><p><strong>confidence_level</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>)</p></li>
+<li><p><strong>model_version</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>created_time</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.adaptive_agent.ScoringModel.weights">
+<span class="sig-name descname"><span class="pre">weights</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a><span class="pre">,</span> <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#oss_audit.core.adaptive_agent.ScoringModel.weights" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.adaptive_agent.ScoringModel.quality_adjustments">
+<span class="sig-name descname"><span class="pre">quality_adjustments</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a><span class="pre">,</span> <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#oss_audit.core.adaptive_agent.ScoringModel.quality_adjustments" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.adaptive_agent.ScoringModel.historical_adjustments">
+<span class="sig-name descname"><span class="pre">historical_adjustments</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a><span class="pre">,</span> <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#oss_audit.core.adaptive_agent.ScoringModel.historical_adjustments" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.adaptive_agent.ScoringModel.confidence_level">
+<span class="sig-name descname"><span class="pre">confidence_level</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></em><a class="headerlink" href="#oss_audit.core.adaptive_agent.ScoringModel.confidence_level" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.adaptive_agent.ScoringModel.model_version">
+<span class="sig-name descname"><span class="pre">model_version</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'1.0'</span></em><a class="headerlink" href="#oss_audit.core.adaptive_agent.ScoringModel.model_version" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.adaptive_agent.ScoringModel.created_time">
+<span class="sig-name descname"><span class="pre">created_time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></em><a class="headerlink" href="#oss_audit.core.adaptive_agent.ScoringModel.created_time" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oss_audit.core.adaptive_agent.ScoringModel.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">weights:</span> <span class="pre">~typing.Dict[str,</span> <span class="pre">float],</span> <span class="pre">quality_adjustments:</span> <span class="pre">~typing.Dict[str,</span> <span class="pre">float],</span> <span class="pre">historical_adjustments:</span> <span class="pre">~typing.Dict[str,</span> <span class="pre">float],</span> <span class="pre">confidence_level:</span> <span class="pre">float,</span> <span class="pre">model_version:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">'1.0',</span> <span class="pre">created_time:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="（在 Python v3.13）"><span class="pre">None</span></a></span></span><a class="headerlink" href="#oss_audit.core.adaptive_agent.ScoringModel.__init__" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>weights</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</span>)</p></li>
+<li><p><strong>quality_adjustments</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</span>)</p></li>
+<li><p><strong>historical_adjustments</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</span>)</p></li>
+<li><p><strong>confidence_level</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>)</p></li>
+<li><p><strong>model_version</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>created_time</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">返回类型<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="oss_audit.core.adaptive_agent.OptimizationActions">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oss_audit.core.adaptive_agent.</span></span><span class="sig-name descname"><span class="pre">OptimizationActions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">additional_tools:</span> <span class="pre">~typing.List[~oss_audit.core.tool_registry.Tool]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arbitration_tools:</span> <span class="pre">~typing.List[~oss_audit.core.tool_registry.Tool]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">supplementary_analysis:</span> <span class="pre">~typing.List[str]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight_adjustments:</span> <span class="pre">~typing.Dict[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">float]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_budget_adjustment:</span> <span class="pre">int</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">priority_changes:</span> <span class="pre">~typing.Dict[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">int]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="（在 Python v3.13）"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/oss_audit/core/adaptive_agent.html#OptimizationActions"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.adaptive_agent.OptimizationActions" title="Link to this definition"></a></dt>
+<dd><p>优化建议</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>additional_tools</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="../api/core.html#oss_audit.core.tool_registry.Tool" title="oss_audit.core.tool_registry.Tool"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tool</span></code></a>]</span>)</p></li>
+<li><p><strong>arbitration_tools</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="../api/core.html#oss_audit.core.tool_registry.Tool" title="oss_audit.core.tool_registry.Tool"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tool</span></code></a>]</span>)</p></li>
+<li><p><strong>supplementary_analysis</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>)</p></li>
+<li><p><strong>weight_adjustments</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</span>)</p></li>
+<li><p><strong>time_budget_adjustment</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="（在 Python v3.13）"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]</span>)</p></li>
+<li><p><strong>priority_changes</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]</span>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.adaptive_agent.OptimizationActions.additional_tools">
+<span class="sig-name descname"><span class="pre">additional_tools</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a><span class="pre">[</span><a class="reference internal" href="../api/core.html#oss_audit.core.tool_registry.Tool" title="oss_audit.core.tool_registry.Tool"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tool</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#oss_audit.core.adaptive_agent.OptimizationActions.additional_tools" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.adaptive_agent.OptimizationActions.arbitration_tools">
+<span class="sig-name descname"><span class="pre">arbitration_tools</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a><span class="pre">[</span><a class="reference internal" href="../api/core.html#oss_audit.core.tool_registry.Tool" title="oss_audit.core.tool_registry.Tool"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tool</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#oss_audit.core.adaptive_agent.OptimizationActions.arbitration_tools" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.adaptive_agent.OptimizationActions.supplementary_analysis">
+<span class="sig-name descname"><span class="pre">supplementary_analysis</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#oss_audit.core.adaptive_agent.OptimizationActions.supplementary_analysis" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.adaptive_agent.OptimizationActions.weight_adjustments">
+<span class="sig-name descname"><span class="pre">weight_adjustments</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a><span class="pre">,</span> <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#oss_audit.core.adaptive_agent.OptimizationActions.weight_adjustments" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.adaptive_agent.OptimizationActions.time_budget_adjustment">
+<span class="sig-name descname"><span class="pre">time_budget_adjustment</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="（在 Python v3.13）"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a><span class="pre">]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#oss_audit.core.adaptive_agent.OptimizationActions.time_budget_adjustment" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="oss_audit.core.adaptive_agent.OptimizationActions.priority_changes">
+<span class="sig-name descname"><span class="pre">priority_changes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a><span class="pre">,</span> <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#oss_audit.core.adaptive_agent.OptimizationActions.priority_changes" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oss_audit.core.adaptive_agent.OptimizationActions.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">additional_tools:</span> <span class="pre">~typing.List[~oss_audit.core.tool_registry.Tool]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arbitration_tools:</span> <span class="pre">~typing.List[~oss_audit.core.tool_registry.Tool]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">supplementary_analysis:</span> <span class="pre">~typing.List[str]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight_adjustments:</span> <span class="pre">~typing.Dict[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">float]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_budget_adjustment:</span> <span class="pre">int</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">priority_changes:</span> <span class="pre">~typing.Dict[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">int]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="（在 Python v3.13）"><span class="pre">None</span></a></span></span><a class="headerlink" href="#oss_audit.core.adaptive_agent.OptimizationActions.__init__" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>additional_tools</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="../api/core.html#oss_audit.core.tool_registry.Tool" title="oss_audit.core.tool_registry.Tool"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tool</span></code></a>]</span>)</p></li>
+<li><p><strong>arbitration_tools</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="../api/core.html#oss_audit.core.tool_registry.Tool" title="oss_audit.core.tool_registry.Tool"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tool</span></code></a>]</span>)</p></li>
+<li><p><strong>supplementary_analysis</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>)</p></li>
+<li><p><strong>weight_adjustments</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</span>)</p></li>
+<li><p><strong>time_budget_adjustment</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="（在 Python v3.13）"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]</span>)</p></li>
+<li><p><strong>priority_changes</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]</span>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">返回类型<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="oss_audit.core.adaptive_agent.AdaptiveAgent">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oss_audit.core.adaptive_agent.</span></span><span class="sig-name descname"><span class="pre">AdaptiveAgent</span></span><a class="reference internal" href="../_modules/oss_audit/core/adaptive_agent.html#AdaptiveAgent"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.adaptive_agent.AdaptiveAgent" title="Link to this definition"></a></dt>
+<dd><p>自适应Agent - 动态评分优化和持续改进</p>
+<p>核心功能:
+- 动态评分模型适配
+- 项目类型权重调整
+- 分析过程优化
+- 历史数据学习</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="oss_audit.core.adaptive_agent.AdaptiveAgent.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oss_audit/core/adaptive_agent.html#AdaptiveAgent.__init__"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.adaptive_agent.AdaptiveAgent.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oss_audit.core.adaptive_agent.AdaptiveAgent.adapt_scoring_model">
+<span class="sig-name descname"><span class="pre">adapt_scoring_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../api/core.html#oss_audit.core.project_detector.ProjectInfo" title="oss_audit.core.project_detector.ProjectInfo"><span class="pre">ProjectInfo</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">tool_results</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="（在 Python v3.13）"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../api/agents.html#oss_audit.core.adaptive_agent.ScoringModel" title="oss_audit.core.adaptive_agent.ScoringModel"><span class="pre">ScoringModel</span></a></span></span><a class="reference internal" href="../_modules/oss_audit/core/adaptive_agent.html#AdaptiveAgent.adapt_scoring_model"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.adaptive_agent.AdaptiveAgent.adapt_scoring_model" title="Link to this definition"></a></dt>
+<dd><p>根据项目特征自适应评分模型</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>project_info</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../api/core.html#oss_audit.core.project_detector.ProjectInfo" title="oss_audit.core.project_detector.ProjectInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProjectInfo</span></code></a></span>) -- 项目信息</p></li>
+<li><p><strong>tool_results</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="（在 Python v3.13）"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span>) -- 工具执行结果</p></li>
+</ul>
+</dd>
+<dt class="field-even">返回类型<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../api/agents.html#oss_audit.core.adaptive_agent.ScoringModel" title="oss_audit.core.adaptive_agent.ScoringModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">ScoringModel</span></code></a></span></p>
+</dd>
+<dt class="field-odd">返回<span class="colon">:</span></dt>
+<dd class="field-odd"><p>适配后的评分模型</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oss_audit.core.adaptive_agent.AdaptiveAgent.optimize_analysis_process">
+<span class="sig-name descname"><span class="pre">optimize_analysis_process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">current_results</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="（在 Python v3.13）"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../api/core.html#oss_audit.core.project_detector.ProjectInfo" title="oss_audit.core.project_detector.ProjectInfo"><span class="pre">ProjectInfo</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../api/agents.html#oss_audit.core.adaptive_agent.OptimizationActions" title="oss_audit.core.adaptive_agent.OptimizationActions"><span class="pre">OptimizationActions</span></a></span></span><a class="reference internal" href="../_modules/oss_audit/core/adaptive_agent.html#AdaptiveAgent.optimize_analysis_process"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.adaptive_agent.AdaptiveAgent.optimize_analysis_process" title="Link to this definition"></a></dt>
+<dd><p>基于当前结果优化分析过程</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>current_results</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="（在 Python v3.13）"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span>)</p></li>
+<li><p><strong>project_info</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../api/core.html#oss_audit.core.project_detector.ProjectInfo" title="oss_audit.core.project_detector.ProjectInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProjectInfo</span></code></a></span>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">返回类型<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../api/agents.html#oss_audit.core.adaptive_agent.OptimizationActions" title="oss_audit.core.adaptive_agent.OptimizationActions"><code class="xref py py-class docutils literal notranslate"><span class="pre">OptimizationActions</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oss_audit.core.adaptive_agent.AdaptiveAgent.get_adaptation_stats">
+<span class="sig-name descname"><span class="pre">get_adaptation_stats</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="（在 Python v3.13）"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oss_audit/core/adaptive_agent.html#AdaptiveAgent.get_adaptation_stats"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.adaptive_agent.AdaptiveAgent.get_adaptation_stats" title="Link to this definition"></a></dt>
+<dd><p>获取适配统计信息</p>
+<dl class="field-list simple">
+<dt class="field-odd">返回类型<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="（在 Python v3.13）"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="oss_audit.core.adaptive_agent.BenchmarkDatabase">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oss_audit.core.adaptive_agent.</span></span><span class="sig-name descname"><span class="pre">BenchmarkDatabase</span></span><a class="reference internal" href="../_modules/oss_audit/core/adaptive_agent.html#BenchmarkDatabase"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.adaptive_agent.BenchmarkDatabase" title="Link to this definition"></a></dt>
+<dd><p>基准数据库 - 存储项目基准数据</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="oss_audit.core.adaptive_agent.BenchmarkDatabase.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/oss_audit/core/adaptive_agent.html#BenchmarkDatabase.__init__"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.adaptive_agent.BenchmarkDatabase.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oss_audit.core.adaptive_agent.BenchmarkDatabase.find_similar_projects">
+<span class="sig-name descname"><span class="pre">find_similar_projects</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../api/core.html#oss_audit.core.project_detector.ProjectInfo" title="oss_audit.core.project_detector.ProjectInfo"><span class="pre">ProjectInfo</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="（在 Python v3.13）"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/oss_audit/core/adaptive_agent.html#BenchmarkDatabase.find_similar_projects"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.adaptive_agent.BenchmarkDatabase.find_similar_projects" title="Link to this definition"></a></dt>
+<dd><p>查找相似项目</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>project_info</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../api/core.html#oss_audit.core.project_detector.ProjectInfo" title="oss_audit.core.project_detector.ProjectInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProjectInfo</span></code></a></span>)</p></li>
+<li><p><strong>limit</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">返回类型<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="（在 Python v3.13）"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="（在 Python v3.13）"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="oss_audit.core.adaptive_agent.create_adaptive_agent">
+<span class="sig-prename descclassname"><span class="pre">oss_audit.core.adaptive_agent.</span></span><span class="sig-name descname"><span class="pre">create_adaptive_agent</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../api/agents.html#oss_audit.core.adaptive_agent.AdaptiveAgent" title="oss_audit.core.adaptive_agent.AdaptiveAgent"><span class="pre">AdaptiveAgent</span></a></span></span><a class="reference internal" href="../_modules/oss_audit/core/adaptive_agent.html#create_adaptive_agent"><span class="viewcode-link"><span class="pre">[源代码]</span></span></a><a class="headerlink" href="#oss_audit.core.adaptive_agent.create_adaptive_agent" title="Link to this definition"></a></dt>
+<dd><p>创建自适应代理实例</p>
+<dl class="field-list simple">
+<dt class="field-odd">返回类型<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../api/agents.html#oss_audit.core.adaptive_agent.AdaptiveAgent" title="oss_audit.core.adaptive_agent.AdaptiveAgent"><code class="xref py py-class docutils literal notranslate"><span class="pre">AdaptiveAgent</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="oss_audit.core.decision_agent.html" class="btn btn-neutral float-left" title="oss_audit.core.decision_agent" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="oss_audit.core.recommendation_agent.html" class="btn btn-neutral float-right" title="oss_audit.core.recommendation_agent" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2024, OSS Audit Team。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,4 +1,3 @@
-# OSS Audit 2.0 Docker Compose 配置
 version: '3.8'
 
 services:
@@ -9,67 +8,14 @@ services:
     image: oss-audit:tools-2.0
     container_name: oss-audit-tools
     volumes:
-      # 允许主程序调用Docker容器工具
       - "/var/run/docker.sock:/var/run/docker.sock"
     environment:
       - PYTHONIOENCODING=utf-8
-    # 保持容器运行，等待工具调用
     stdin_open: true
     tty: true
     restart: unless-stopped
-    
-  # 可选：SonarQube服务（用于更高级的代码分析）
-  sonarqube:
-    image: sonarqube:10.3-community
-    container_name: oss-audit-sonarqube
-    ports:
-      - "9000:9000"
-    environment:
-      - SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true
-    volumes:
-      - sonarqube_data:/opt/sonarqube/data
-      - sonarqube_logs:/opt/sonarqube/logs
-      - sonarqube_extensions:/opt/sonarqube/extensions
-    profiles:
-      - advanced  # 使用 --profile advanced 启用
-      
-  # 可选：Dependency-Track服务（用于依赖安全分析）
-  dependency-track:
-    image: dependencytrack/bundled:4.9.1
-    container_name: oss-audit-dtrack
-    ports:
-      - "8081:8080"
-    volumes:
-      - dtrack_data:/data
-    environment:
-      - ALPINE_DATABASE_MODE=external
-      - ALPINE_DATABASE_URL=jdbc:postgresql://dtrack-postgres:5432/dtrack
-      - ALPINE_DATABASE_DRIVER=org.postgresql.Driver
-      - ALPINE_DATABASE_USERNAME=dtrack
-      - ALPINE_DATABASE_PASSWORD=dtrack
-    profiles:
-      - advanced
-      
-  # PostgreSQL for Dependency-Track
-  dtrack-postgres:
-    image: postgres:15-alpine
-    container_name: oss-audit-postgres
-    environment:
-      - POSTGRES_DB=dtrack
-      - POSTGRES_USER=dtrack
-      - POSTGRES_PASSWORD=dtrack
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    profiles:
-      - advanced
-
-volumes:
-  sonarqube_data:
-  sonarqube_logs:
-  sonarqube_extensions:
-  dtrack_data:
-  postgres_data:
 
 networks:
   default:
     name: oss-audit-network
+

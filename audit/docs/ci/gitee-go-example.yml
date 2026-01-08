@@ -1,0 +1,39 @@
+# Gitee Go (示例) — 请在 Gitee Go 控制台创建流水线并粘贴/改造此内容
+# 说明：不同企业空间/运行器的 YAML 字段可能略有差异，以下为通用示例。
+# 目标：最小化安装、执行质量检查与测试、产出覆盖率报告与构建产物。
+
+version: '1.0'
+name: OSS Audit CI
+
+stages:
+  - lint
+  - test
+  - package
+
+jobs:
+  - name: Lint & Test
+    stage: test
+    image: python:3.11
+    caches:
+      - path: ~/.cache/pip
+    script:
+      - python -m pip install --upgrade pip
+      - pip install -e .[dev]
+      - make quick-check   # format + lint + test
+    artifacts:
+      - path: htmlcov/**
+        when: always
+
+  - name: Build Package
+    stage: package
+    image: python:3.11
+    script:
+      - python -m pip install --upgrade pip build
+      - python -m build
+    artifacts:
+      - path: dist/**
+        when: on_success
+
+# 可选：启用 AI 能力（同时在流水线变量中配置 OPENAI_API_KEY/GEMINI_API_KEY）
+#  - pip install -e .[dev,ai]
+

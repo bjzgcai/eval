@@ -1,0 +1,19 @@
+{
+  "evaluator_data_science": {
+    "cpu_baseline": 1.1666666666666667,
+    "memory_baseline": 38114645,
+    "execution_time_baseline": 0.0,
+    "io_baseline": {
+      "disk_read_mb": 5.453125,
+      "disk_write_mb": 0.0
+    },
+    "created_at": "2026-01-08T15:34:31.047481",
+    "project_characteristics": {
+      "project_name": "evaluator",
+      "project_type": "data_science",
+      "files_count": 0,
+      "languages_count": 0,
+      "tools_executed": 20
+    }
+  }
+}

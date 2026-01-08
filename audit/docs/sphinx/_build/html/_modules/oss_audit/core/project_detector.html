@@ -1,0 +1,887 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>oss_audit.core.project_detector &mdash; OSS Audit 2.0 API文档</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=a3f70f27" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=b15d7ad8"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/translations.js?v=beaddf03"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../../genindex.html" />
+    <link rel="search" title="搜索" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            OSS Audit 2.0
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">快速开始:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">安装指南</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API参考:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/core.html">核心模块 (oss_audit.core)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/agents.html">智能代理系统 (oss_audit.core.agents)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">核心模块</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.core.audit_runner.html">oss_audit.core.audit_runner</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.core.project_detector.html">oss_audit.core.project_detector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.core.tool_executor.html">oss_audit.core.tool_executor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.core.report_generator.html">oss_audit.core.report_generator</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">智能代理</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.core.decision_agent.html">oss_audit.core.decision_agent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.core.adaptive_agent.html">oss_audit.core.adaptive_agent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.core.recommendation_agent.html">oss_audit.core.recommendation_agent</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">工具和插件</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.utils.ai_analyzer.html">oss_audit.utils.ai_analyzer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.core.tool_registry.html">oss_audit.core.tool_registry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.plugins.html">oss_audit.plugins</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">OSS Audit 2.0</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">模块代码</a></li>
+      <li class="breadcrumb-item active">oss_audit.core.project_detector</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>oss_audit.core.project_detector 源代码</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Project Detector - 项目检测器</span>
+<span class="sd">负责智能检测项目语言组成、结构类型和项目类型</span>
+<span class="sd">支持单项目、多项目和Monorepo结构</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pathlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">yaml</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">glob</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">fnmatch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Set</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="StructureType">
+<a class="viewcode-back" href="../../../api/core.html#oss_audit.core.project_detector.StructureType">[文档]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">StructureType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;项目结构类型&quot;&quot;&quot;</span>
+    <span class="n">SINGLE_PROJECT</span> <span class="o">=</span> <span class="s2">&quot;single_project&quot;</span>    <span class="c1"># 单一项目</span>
+    <span class="n">MULTI_PROJECT</span> <span class="o">=</span> <span class="s2">&quot;multi_project&quot;</span>      <span class="c1"># 多项目仓库  </span>
+    <span class="n">MONOREPO</span> <span class="o">=</span> <span class="s2">&quot;monorepo&quot;</span>               <span class="c1"># Monorepo结构</span>
+    <span class="n">UNKNOWN</span> <span class="o">=</span> <span class="s2">&quot;unknown&quot;</span>                 <span class="c1"># 未知结构</span></div>
+
+
+
+<div class="viewcode-block" id="ProjectType">
+<a class="viewcode-back" href="../../../api/core.html#oss_audit.core.project_detector.ProjectType">[文档]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ProjectType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;项目类型&quot;&quot;&quot;</span>
+    <span class="n">WEB_APPLICATION</span> <span class="o">=</span> <span class="s2">&quot;web_application&quot;</span>
+    <span class="n">LIBRARY</span> <span class="o">=</span> <span class="s2">&quot;library&quot;</span>
+    <span class="n">CLI_TOOL</span> <span class="o">=</span> <span class="s2">&quot;cli_tool&quot;</span>
+    <span class="n">DATA_SCIENCE</span> <span class="o">=</span> <span class="s2">&quot;data_science&quot;</span>
+    <span class="n">MOBILE_APP</span> <span class="o">=</span> <span class="s2">&quot;mobile_app&quot;</span>
+    <span class="n">DESKTOP_APP</span> <span class="o">=</span> <span class="s2">&quot;desktop_app&quot;</span>
+    <span class="n">GAME</span> <span class="o">=</span> <span class="s2">&quot;game&quot;</span>
+    <span class="n">UNKNOWN</span> <span class="o">=</span> <span class="s2">&quot;unknown&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="SizeMetrics">
+<a class="viewcode-back" href="../../../api/core.html#oss_audit.core.project_detector.SizeMetrics">[文档]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SizeMetrics</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;项目规模指标&quot;&quot;&quot;</span>
+    <span class="n">total_files</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">total_lines</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">code_files</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">code_lines</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">test_files</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">test_lines</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">doc_files</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">doc_lines</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+    
+<div class="viewcode-block" id="SizeMetrics.get_size_category">
+<a class="viewcode-back" href="../../../api/core.html#oss_audit.core.project_detector.SizeMetrics.get_size_category">[文档]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_size_category</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;获取项目规模分类&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">code_lines</span> <span class="o">&lt;</span> <span class="mi">100</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;tiny&quot;</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">code_lines</span> <span class="o">&lt;</span> <span class="mi">1000</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;small&quot;</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">code_lines</span> <span class="o">&lt;</span> <span class="mi">10000</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;medium&quot;</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">code_lines</span> <span class="o">&lt;</span> <span class="mi">100000</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;large&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;huge&quot;</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="ProjectInfo">
+<a class="viewcode-back" href="../../../api/core.html#oss_audit.core.project_detector.ProjectInfo">[文档]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ProjectInfo</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;项目信息数据模型&quot;&quot;&quot;</span>
+    <span class="n">path</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">languages</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>      <span class="c1"># 语言名称 -&gt; 占比</span>
+    <span class="n">structure_type</span><span class="p">:</span> <span class="n">StructureType</span> <span class="o">=</span> <span class="n">StructureType</span><span class="o">.</span><span class="n">UNKNOWN</span>
+    <span class="n">project_type</span><span class="p">:</span> <span class="n">ProjectType</span> <span class="o">=</span> <span class="n">ProjectType</span><span class="o">.</span><span class="n">UNKNOWN</span>
+    <span class="n">dependencies</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>  <span class="c1"># 语言 -&gt; 依赖列表</span>
+    <span class="n">size_metrics</span><span class="p">:</span> <span class="n">SizeMetrics</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">SizeMetrics</span><span class="p">)</span>
+    <span class="n">build_tools</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>           <span class="c1"># 检测到的构建工具</span>
+    <span class="n">subprojects</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>  <span class="c1"># 子项目信息（多项目/monorepo）</span>
+    <span class="n">confidence</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>                                        <span class="c1"># 检测置信度</span>
+    
+<div class="viewcode-block" id="ProjectInfo.get_primary_language">
+<a class="viewcode-back" href="../../../api/core.html#oss_audit.core.project_detector.ProjectInfo.get_primary_language">[文档]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_primary_language</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;获取主要编程语言&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">languages</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">languages</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span></div>
+
+    
+<div class="viewcode-block" id="ProjectInfo.has_database_access">
+<a class="viewcode-back" href="../../../api/core.html#oss_audit.core.project_detector.ProjectInfo.has_database_access">[文档]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">has_database_access</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;检查是否有数据库访问&quot;&quot;&quot;</span>
+        <span class="n">db_indicators</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s1">&#39;sqlalchemy&#39;</span><span class="p">,</span> <span class="s1">&#39;django&#39;</span><span class="p">,</span> <span class="s1">&#39;psycopg2&#39;</span><span class="p">,</span> <span class="s1">&#39;pymongo&#39;</span><span class="p">,</span> <span class="s1">&#39;redis&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;mysql&#39;</span><span class="p">,</span> <span class="s1">&#39;postgresql&#39;</span><span class="p">,</span> <span class="s1">&#39;sqlite&#39;</span><span class="p">,</span> <span class="s1">&#39;mongodb&#39;</span><span class="p">,</span> <span class="s1">&#39;cassandra&#39;</span>
+        <span class="p">]</span>
+        <span class="k">for</span> <span class="n">deps</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dependencies</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">db</span> <span class="ow">in</span> <span class="n">dep</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">dep</span> <span class="ow">in</span> <span class="n">deps</span> <span class="k">for</span> <span class="n">db</span> <span class="ow">in</span> <span class="n">db_indicators</span><span class="p">):</span>
+                <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="ProjectDetector">
+<a class="viewcode-back" href="../../../api/core.html#oss_audit.core.project_detector.ProjectDetector">[文档]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ProjectDetector</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;项目检测器 - 负责智能检测项目特征&quot;&quot;&quot;</span>
+    
+<div class="viewcode-block" id="ProjectDetector.__init__">
+<a class="viewcode-back" href="../../../api/core.html#oss_audit.core.project_detector.ProjectDetector.__init__">[文档]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">language_config_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        初始化项目检测器</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            language_config_path: 语言检测配置文件路径</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config_path</span> <span class="o">=</span> <span class="n">language_config_path</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_default_config_path</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_language_config</span><span class="p">()</span></div>
+
+        
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_default_config_path</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;获取默认配置文件路径&quot;&quot;&quot;</span>
+        <span class="n">current_dir</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span>
+        <span class="n">config_dir</span> <span class="o">=</span> <span class="n">current_dir</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s1">&#39;config&#39;</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">config_dir</span> <span class="o">/</span> <span class="s1">&#39;language_detection.yaml&#39;</span><span class="p">)</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_load_language_config</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;加载语言检测配置&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config_path</span><span class="p">):</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;语言检测配置文件不存在: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">config_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="p">{}</span>
+            
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">config</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+            
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;成功加载语言检测配置: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;languages&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{}))</span><span class="si">}</span><span class="s2"> 种语言&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">config</span>
+            
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;加载语言检测配置失败: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">{}</span>
+    
+<div class="viewcode-block" id="ProjectDetector.detect_project_info">
+<a class="viewcode-back" href="../../../api/core.html#oss_audit.core.project_detector.ProjectDetector.detect_project_info">[文档]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">detect_project_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ProjectInfo</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        检测项目完整信息</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            project_path: 项目路径</span>
+<span class="sd">            </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            ProjectInfo对象</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">project_path</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;项目路径不存在: </span><span class="si">{</span><span class="n">project_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">ProjectInfo</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">project_path</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">path</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;开始检测项目: </span><span class="si">{</span><span class="n">project_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="c1"># 基本信息</span>
+        <span class="n">project_name</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">name</span> <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">name</span> <span class="k">else</span> <span class="s2">&quot;unknown&quot;</span>
+        <span class="n">project_info</span> <span class="o">=</span> <span class="n">ProjectInfo</span><span class="p">(</span>
+            <span class="n">path</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="p">),</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">project_name</span>
+        <span class="p">)</span>
+        
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># 1. 检测语言组成</span>
+            <span class="n">project_info</span><span class="o">.</span><span class="n">languages</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_detect_languages</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;检测到语言: </span><span class="si">{</span><span class="n">project_info</span><span class="o">.</span><span class="n">languages</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            
+            <span class="c1"># 2. 检测项目结构类型</span>
+            <span class="n">project_info</span><span class="o">.</span><span class="n">structure_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_detect_structure_type</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;项目结构类型: </span><span class="si">{</span><span class="n">project_info</span><span class="o">.</span><span class="n">structure_type</span><span class="o">.</span><span class="n">value</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nb">hasattr</span><span class="p">(</span><span class="n">project_info</span><span class="o">.</span><span class="n">structure_type</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;value&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="nb">str</span><span class="p">(</span><span class="n">project_info</span><span class="o">.</span><span class="n">structure_type</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            
+            <span class="c1"># 3. 推断项目类型</span>
+            <span class="n">project_info</span><span class="o">.</span><span class="n">project_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_infer_project_type</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">project_info</span><span class="o">.</span><span class="n">languages</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;项目类型: </span><span class="si">{</span><span class="n">project_info</span><span class="o">.</span><span class="n">project_type</span><span class="o">.</span><span class="n">value</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nb">hasattr</span><span class="p">(</span><span class="n">project_info</span><span class="o">.</span><span class="n">project_type</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;value&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="nb">str</span><span class="p">(</span><span class="n">project_info</span><span class="o">.</span><span class="n">project_type</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            
+            <span class="c1"># 4. 分析依赖</span>
+            <span class="n">project_info</span><span class="o">.</span><span class="n">dependencies</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_analyze_dependencies</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">project_info</span><span class="o">.</span><span class="n">languages</span><span class="p">)</span>
+            
+            <span class="c1"># 5. 计算规模指标</span>
+            <span class="n">project_info</span><span class="o">.</span><span class="n">size_metrics</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calculate_size_metrics</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">project_info</span><span class="o">.</span><span class="n">languages</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;项目规模: </span><span class="si">{</span><span class="n">project_info</span><span class="o">.</span><span class="n">size_metrics</span><span class="o">.</span><span class="n">get_size_category</span><span class="p">()</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">project_info</span><span class="o">.</span><span class="n">size_metrics</span><span class="o">.</span><span class="n">code_lines</span><span class="si">}</span><span class="s2"> 行代码)&quot;</span><span class="p">)</span>
+            
+            <span class="c1"># 6. 检测构建工具</span>
+            <span class="n">project_info</span><span class="o">.</span><span class="n">build_tools</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_detect_build_tools</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">project_info</span><span class="o">.</span><span class="n">languages</span><span class="p">)</span>
+            
+            <span class="c1"># 7. 如果是多项目结构，分析子项目</span>
+            <span class="k">if</span> <span class="n">project_info</span><span class="o">.</span><span class="n">structure_type</span> <span class="ow">in</span> <span class="p">[</span><span class="n">StructureType</span><span class="o">.</span><span class="n">MULTI_PROJECT</span><span class="p">,</span> <span class="n">StructureType</span><span class="o">.</span><span class="n">MONOREPO</span><span class="p">]:</span>
+                <span class="n">project_info</span><span class="o">.</span><span class="n">subprojects</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_analyze_subprojects</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+            
+            <span class="c1"># 8. 计算检测置信度</span>
+            <span class="n">project_info</span><span class="o">.</span><span class="n">confidence</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calculate_confidence</span><span class="p">(</span><span class="n">project_info</span><span class="p">)</span>
+            
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;检测项目信息时发生错误: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">project_info</span><span class="o">.</span><span class="n">confidence</span> <span class="o">=</span> <span class="mf">0.0</span>
+        
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;项目检测完成，置信度: </span><span class="si">{</span><span class="n">project_info</span><span class="o">.</span><span class="n">confidence</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">project_info</span></div>
+
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_detect_languages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_path</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;检测项目语言组成&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s1">&#39;languages&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{}</span>
+        
+        <span class="n">language_files</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># 语言 -&gt; 文件数量</span>
+        <span class="n">total_files</span> <span class="o">=</span> <span class="mi">0</span>
+        
+        <span class="c1"># 获取检测设置</span>
+        <span class="n">settings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;detection_settings&#39;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="n">max_files</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;max_files_scan&#39;</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)</span>
+        <span class="n">max_depth</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;max_depth&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+        <span class="n">ignore_dirs</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ignore_directories&#39;</span><span class="p">,</span> <span class="p">[]))</span>
+        <span class="n">ignore_patterns</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ignore_file_patterns&#39;</span><span class="p">,</span> <span class="p">[])</span>
+        
+        <span class="c1"># 扫描文件</span>
+        <span class="n">scanned_files</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">root</span><span class="p">,</span> <span class="n">dirs</span><span class="p">,</span> <span class="n">files</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">project_path</span><span class="p">):</span>
+            <span class="c1"># 限制扫描深度</span>
+            <span class="n">level</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">project_path</span><span class="p">),</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">level</span> <span class="o">&gt;=</span> <span class="n">max_depth</span><span class="p">:</span>
+                <span class="n">dirs</span><span class="p">[:]</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">continue</span>
+            
+            <span class="c1"># 过滤忽略的目录</span>
+            <span class="n">dirs</span><span class="p">[:]</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dirs</span> <span class="k">if</span> <span class="n">d</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ignore_dirs</span><span class="p">]</span>
+            
+            <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">scanned_files</span> <span class="o">&gt;=</span> <span class="n">max_files</span><span class="p">:</span>
+                    <span class="k">break</span>
+                
+                <span class="c1"># 检查是否匹配忽略模式</span>
+                <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">fnmatch</span><span class="o">.</span><span class="n">fnmatch</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">pattern</span><span class="p">)</span> <span class="k">for</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="n">ignore_patterns</span><span class="p">):</span>
+                    <span class="k">continue</span>
+                
+                <span class="n">file_path</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">root</span><span class="p">)</span> <span class="o">/</span> <span class="n">file</span>
+                <span class="n">extension</span> <span class="o">=</span> <span class="n">file_path</span><span class="o">.</span><span class="n">suffix</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                
+                <span class="c1"># 检查每种语言</span>
+                <span class="k">for</span> <span class="n">language</span><span class="p">,</span> <span class="n">lang_config</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;languages&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="n">extensions</span> <span class="o">=</span> <span class="n">lang_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;file_extensions&#39;</span><span class="p">,</span> <span class="p">[])</span>
+                    <span class="k">if</span> <span class="n">extension</span> <span class="ow">in</span> <span class="n">extensions</span><span class="p">:</span>
+                        <span class="n">language_files</span><span class="p">[</span><span class="n">language</span><span class="p">]</span> <span class="o">=</span> <span class="n">language_files</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">language</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+                        <span class="n">total_files</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="k">break</span>
+                
+                <span class="n">scanned_files</span> <span class="o">+=</span> <span class="mi">1</span>
+            
+            <span class="k">if</span> <span class="n">scanned_files</span> <span class="o">&gt;=</span> <span class="n">max_files</span><span class="p">:</span>
+                <span class="k">break</span>
+        
+        <span class="c1"># 计算权重文件数（考虑关键文件）</span>
+        <span class="n">weighted_files</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">language</span><span class="p">,</span> <span class="n">lang_config</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;languages&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">base_files</span> <span class="o">=</span> <span class="n">language_files</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">language</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="n">weight_multiplier</span> <span class="o">=</span> <span class="n">lang_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;weight_multiplier&#39;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+            
+            <span class="c1"># 检查关键文件</span>
+            <span class="n">key_files</span> <span class="o">=</span> <span class="n">lang_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;key_files&#39;</span><span class="p">,</span> <span class="p">[])</span>
+            <span class="n">key_file_bonus</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">key_file</span> <span class="ow">in</span> <span class="n">key_files</span><span class="p">:</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">project_path</span> <span class="o">/</span> <span class="n">key_file</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                    <span class="n">key_file_bonus</span> <span class="o">+=</span> <span class="mi">10</span>  <span class="c1"># 关键文件权重</span>
+            
+            <span class="c1"># 检查关键目录</span>
+            <span class="n">key_dirs</span> <span class="o">=</span> <span class="n">lang_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;key_directories&#39;</span><span class="p">,</span> <span class="p">[])</span>
+            <span class="n">key_dir_bonus</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">key_dir</span> <span class="ow">in</span> <span class="n">key_dirs</span><span class="p">:</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">project_path</span> <span class="o">/</span> <span class="n">key_dir</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                    <span class="n">key_dir_bonus</span> <span class="o">+=</span> <span class="mi">5</span>  <span class="c1"># 关键目录权重</span>
+            
+            <span class="n">weighted_files</span><span class="p">[</span><span class="n">language</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">base_files</span> <span class="o">+</span> <span class="n">key_file_bonus</span> <span class="o">+</span> <span class="n">key_dir_bonus</span><span class="p">)</span> <span class="o">*</span> <span class="n">weight_multiplier</span>
+        
+        <span class="c1"># 过滤低于阈值的语言</span>
+        <span class="n">min_threshold</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;language_thresholds&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;min_percentage&#39;</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span>
+        <span class="n">total_weighted</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">weighted_files</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        
+        <span class="k">if</span> <span class="n">total_weighted</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{}</span>
+        
+        <span class="c1"># 计算百分比并过滤</span>
+        <span class="n">language_percentages</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">language</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">weighted_files</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">percentage</span> <span class="o">=</span> <span class="n">count</span> <span class="o">/</span> <span class="n">total_weighted</span>
+            <span class="k">if</span> <span class="n">percentage</span> <span class="o">&gt;=</span> <span class="n">min_threshold</span><span class="p">:</span>
+                <span class="n">language_percentages</span><span class="p">[</span><span class="n">language</span><span class="p">]</span> <span class="o">=</span> <span class="n">percentage</span>
+        
+        <span class="c1"># 重新归一化</span>
+        <span class="n">total_percentage</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">language_percentages</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="k">if</span> <span class="n">total_percentage</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">language_percentages</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="n">lang</span><span class="p">:</span> <span class="n">pct</span> <span class="o">/</span> <span class="n">total_percentage</span> 
+                <span class="k">for</span> <span class="n">lang</span><span class="p">,</span> <span class="n">pct</span> <span class="ow">in</span> <span class="n">language_percentages</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="p">}</span>
+        
+        <span class="k">return</span> <span class="n">language_percentages</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_detect_structure_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_path</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StructureType</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;检测项目结构类型&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s1">&#39;structure_detection&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">StructureType</span><span class="o">.</span><span class="n">SINGLE_PROJECT</span>
+        
+        <span class="n">structure_config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;structure_detection&#39;</span><span class="p">]</span>
+        
+        <span class="c1"># 检查Monorepo标志</span>
+        <span class="n">monorepo_config</span> <span class="o">=</span> <span class="n">structure_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;monorepo_indicators&#39;</span><span class="p">,</span> <span class="p">{})</span>
+        
+        <span class="c1"># 检查Monorepo标志文件</span>
+        <span class="n">monorepo_files</span> <span class="o">=</span> <span class="n">monorepo_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;files&#39;</span><span class="p">,</span> <span class="p">[])</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">((</span><span class="n">project_path</span> <span class="o">/</span> <span class="n">file</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">monorepo_files</span><span class="p">):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;检测到Monorepo标志文件&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">StructureType</span><span class="o">.</span><span class="n">MONOREPO</span>
+        
+        <span class="c1"># 检查Monorepo目录模式</span>
+        <span class="n">monorepo_patterns</span> <span class="o">=</span> <span class="n">monorepo_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;directory_patterns&#39;</span><span class="p">,</span> <span class="p">[])</span>
+        <span class="k">for</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="n">monorepo_patterns</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">list</span><span class="p">(</span><span class="n">project_path</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">pattern</span><span class="p">)):</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;检测到Monorepo目录模式: </span><span class="si">{</span><span class="n">pattern</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">StructureType</span><span class="o">.</span><span class="n">MONOREPO</span>
+        
+        <span class="c1"># 检查package.json数量阈值</span>
+        <span class="n">package_json_files</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">project_path</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="s1">&#39;package.json&#39;</span><span class="p">))</span>
+        <span class="n">package_threshold</span> <span class="o">=</span> <span class="n">monorepo_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;package_json_threshold&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">package_json_files</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">package_threshold</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;检测到 </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">package_json_files</span><span class="p">)</span><span class="si">}</span><span class="s2"> 个package.json文件，超过阈值&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">StructureType</span><span class="o">.</span><span class="n">MONOREPO</span>
+        
+        <span class="c1"># 检查多项目标志</span>
+        <span class="n">multi_config</span> <span class="o">=</span> <span class="n">structure_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;multi_project_indicators&#39;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="n">file_patterns</span> <span class="o">=</span> <span class="n">multi_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;file_patterns&#39;</span><span class="p">,</span> <span class="p">[])</span>
+        <span class="n">max_depth</span> <span class="o">=</span> <span class="n">multi_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;max_search_depth&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="n">min_project_count</span> <span class="o">=</span> <span class="n">multi_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;min_project_count&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        
+        <span class="n">project_indicators</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="n">file_patterns</span><span class="p">:</span>
+            <span class="n">matches</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">depth</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_depth</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">depth_pattern</span> <span class="o">=</span> <span class="s1">&#39;/&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;*&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">depth</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">pattern</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">matches</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">project_path</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">depth_pattern</span><span class="p">))</span>
+            
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">matches</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">min_project_count</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;检测到多项目模式: </span><span class="si">{</span><span class="n">pattern</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">matches</span><span class="p">)</span><span class="si">}</span><span class="s2"> 个匹配)&quot;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">StructureType</span><span class="o">.</span><span class="n">MULTI_PROJECT</span>
+        
+        <span class="c1"># 检查单项目标志</span>
+        <span class="n">single_config</span> <span class="o">=</span> <span class="n">structure_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;single_project_indicators&#39;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="n">root_files</span> <span class="o">=</span> <span class="n">single_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;root_files&#39;</span><span class="p">,</span> <span class="p">[])</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">((</span><span class="n">project_path</span> <span class="o">/</span> <span class="n">file</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">root_files</span><span class="p">):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;检测到单项目根文件&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">StructureType</span><span class="o">.</span><span class="n">SINGLE_PROJECT</span>
+        
+        <span class="c1"># 默认为单项目</span>
+        <span class="k">return</span> <span class="n">StructureType</span><span class="o">.</span><span class="n">SINGLE_PROJECT</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_infer_project_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_path</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span> 
+                           <span class="n">languages</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">ProjectType</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;推断项目类型&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s1">&#39;project_type_inference&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ProjectType</span><span class="o">.</span><span class="n">UNKNOWN</span>
+        
+        <span class="n">type_scores</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">inference_config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;project_type_inference&#39;</span><span class="p">]</span>
+        
+        <span class="k">for</span> <span class="n">project_type</span><span class="p">,</span> <span class="n">type_config</span> <span class="ow">in</span> <span class="n">inference_config</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">score</span> <span class="o">=</span> <span class="mf">0.0</span>
+            <span class="n">weight</span> <span class="o">=</span> <span class="n">type_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;weight&#39;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+            
+            <span class="n">indicators</span> <span class="o">=</span> <span class="n">type_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;indicators&#39;</span><span class="p">,</span> <span class="p">{})</span>
+            
+            <span class="c1"># 检查文件指示器</span>
+            <span class="n">files</span> <span class="o">=</span> <span class="n">indicators</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;files&#39;</span><span class="p">,</span> <span class="p">[])</span>
+            <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">project_path</span> <span class="o">/</span> <span class="n">file</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                    <span class="n">score</span> <span class="o">+=</span> <span class="mi">10</span>
+            
+            <span class="c1"># 检查目录指示器</span>
+            <span class="n">directories</span> <span class="o">=</span> <span class="n">indicators</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;directories&#39;</span><span class="p">,</span> <span class="p">[])</span>
+            <span class="k">for</span> <span class="n">directory</span> <span class="ow">in</span> <span class="n">directories</span><span class="p">:</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">project_path</span> <span class="o">/</span> <span class="n">directory</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                    <span class="n">score</span> <span class="o">+=</span> <span class="mi">8</span>
+            
+            <span class="c1"># 检查依赖指示器</span>
+            <span class="n">dependencies</span> <span class="o">=</span> <span class="n">indicators</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;dependencies&#39;</span><span class="p">,</span> <span class="p">{})</span>
+            <span class="k">for</span> <span class="n">language</span><span class="p">,</span> <span class="n">deps</span> <span class="ow">in</span> <span class="n">dependencies</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">language</span> <span class="ow">in</span> <span class="n">languages</span><span class="p">:</span>
+                    <span class="n">language_weight</span> <span class="o">=</span> <span class="n">languages</span><span class="p">[</span><span class="n">language</span><span class="p">]</span>
+                    <span class="c1"># 这里简化处理，实际应该解析依赖文件</span>
+                    <span class="n">score</span> <span class="o">+=</span> <span class="n">language_weight</span> <span class="o">*</span> <span class="mi">5</span>
+            
+            <span class="n">type_scores</span><span class="p">[</span><span class="n">project_type</span><span class="p">]</span> <span class="o">=</span> <span class="n">score</span> <span class="o">*</span> <span class="n">weight</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">type_scores</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ProjectType</span><span class="o">.</span><span class="n">UNKNOWN</span>
+        
+        <span class="c1"># 返回得分最高的项目类型</span>
+        <span class="n">best_type</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">type_scores</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">best_type</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">ProjectType</span><span class="p">(</span><span class="n">best_type</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">ProjectType</span><span class="o">.</span><span class="n">UNKNOWN</span>
+        
+        <span class="k">return</span> <span class="n">ProjectType</span><span class="o">.</span><span class="n">UNKNOWN</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_analyze_dependencies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_path</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span> 
+                            <span class="n">languages</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;分析项目依赖&quot;&quot;&quot;</span>
+        <span class="n">dependencies</span> <span class="o">=</span> <span class="p">{}</span>
+        
+        <span class="k">for</span> <span class="n">language</span> <span class="ow">in</span> <span class="n">languages</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">deps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_analyze_language_dependencies</span><span class="p">(</span><span class="n">project_path</span><span class="p">,</span> <span class="n">language</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">deps</span><span class="p">:</span>
+                <span class="n">dependencies</span><span class="p">[</span><span class="n">language</span><span class="p">]</span> <span class="o">=</span> <span class="n">deps</span>
+        
+        <span class="k">return</span> <span class="n">dependencies</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_analyze_language_dependencies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_path</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span> 
+                                     <span class="n">language</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;分析特定语言的依赖&quot;&quot;&quot;</span>
+        <span class="n">deps</span> <span class="o">=</span> <span class="p">[]</span>
+        
+        <span class="k">if</span> <span class="n">language</span> <span class="o">==</span> <span class="s1">&#39;python&#39;</span><span class="p">:</span>
+            <span class="c1"># 分析Python依赖</span>
+            <span class="n">dep_files</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="s1">&#39;requirements.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;requirements-dev.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;requirements-prod.txt&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;setup.py&#39;</span><span class="p">,</span> <span class="s1">&#39;pyproject.toml&#39;</span><span class="p">,</span> <span class="s1">&#39;Pipfile&#39;</span>
+            <span class="p">]</span>
+            
+            <span class="k">for</span> <span class="n">dep_file</span> <span class="ow">in</span> <span class="n">dep_files</span><span class="p">:</span>
+                <span class="n">file_path</span> <span class="o">=</span> <span class="n">project_path</span> <span class="o">/</span> <span class="n">dep_file</span>
+                <span class="k">if</span> <span class="n">file_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">dep_file</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;requirements&#39;</span><span class="p">):</span>
+                            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                                <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+                                    <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                                    <span class="k">if</span> <span class="n">line</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;#&#39;</span><span class="p">):</span>
+                                        <span class="c1"># 提取包名（去除版本信息）</span>
+                                        <span class="n">pkg_name</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;==&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;&gt;=&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;&lt;=&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;&gt;&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;&lt;&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;~=&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                                        <span class="k">if</span> <span class="n">pkg_name</span><span class="p">:</span>
+                                            <span class="n">deps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pkg_name</span><span class="p">)</span>
+                        <span class="k">elif</span> <span class="n">dep_file</span> <span class="o">==</span> <span class="s1">&#39;setup.py&#39;</span><span class="p">:</span>
+                            <span class="c1"># 简化处理setup.py</span>
+                            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                                <span class="n">content</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+                                <span class="k">if</span> <span class="s1">&#39;install_requires&#39;</span> <span class="ow">in</span> <span class="n">content</span><span class="p">:</span>
+                                    <span class="n">deps</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="s1">&#39;setuptools&#39;</span><span class="p">])</span>  <span class="c1"># 占位符</span>
+                        <span class="k">elif</span> <span class="n">dep_file</span> <span class="o">==</span> <span class="s1">&#39;pyproject.toml&#39;</span><span class="p">:</span>
+                            <span class="n">deps</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="s1">&#39;poetry&#39;</span><span class="p">])</span>  <span class="c1"># 占位符</span>
+                    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;解析依赖文件失败 </span><span class="si">{</span><span class="n">dep_file</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="k">elif</span> <span class="n">language</span> <span class="o">==</span> <span class="s1">&#39;javascript&#39;</span> <span class="ow">or</span> <span class="n">language</span> <span class="o">==</span> <span class="s1">&#39;typescript&#39;</span><span class="p">:</span>
+            <span class="c1"># 分析JavaScript/TypeScript依赖</span>
+            <span class="n">package_json</span> <span class="o">=</span> <span class="n">project_path</span> <span class="o">/</span> <span class="s1">&#39;package.json&#39;</span>
+            <span class="k">if</span> <span class="n">package_json</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">package_json</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+                    
+                    <span class="c1"># 获取依赖</span>
+                    <span class="k">for</span> <span class="n">dep_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;dependencies&#39;</span><span class="p">,</span> <span class="s1">&#39;devDependencies&#39;</span><span class="p">]:</span>
+                        <span class="k">if</span> <span class="n">dep_type</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+                            <span class="n">deps</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">dep_type</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;解析package.json失败: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="k">elif</span> <span class="n">language</span> <span class="o">==</span> <span class="s1">&#39;java&#39;</span><span class="p">:</span>
+            <span class="c1"># 分析Java依赖（简化处理）</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">project_path</span> <span class="o">/</span> <span class="s1">&#39;pom.xml&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                <span class="n">deps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;maven&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">project_path</span> <span class="o">/</span> <span class="s1">&#39;build.gradle&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                <span class="n">deps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;gradle&#39;</span><span class="p">)</span>
+        
+        <span class="k">elif</span> <span class="n">language</span> <span class="o">==</span> <span class="s1">&#39;go&#39;</span><span class="p">:</span>
+            <span class="c1"># 分析Go依赖</span>
+            <span class="n">go_mod</span> <span class="o">=</span> <span class="n">project_path</span> <span class="o">/</span> <span class="s1">&#39;go.mod&#39;</span>
+            <span class="k">if</span> <span class="n">go_mod</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">go_mod</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+                            <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                            <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;require &#39;</span><span class="p">):</span>
+                                <span class="c1"># 提取模块名</span>
+                                <span class="n">parts</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>
+                                    <span class="n">module</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                                    <span class="n">deps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">module</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;解析go.mod失败: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="k">elif</span> <span class="n">language</span> <span class="o">==</span> <span class="s1">&#39;rust&#39;</span><span class="p">:</span>
+            <span class="c1"># 分析Rust依赖</span>
+            <span class="n">cargo_toml</span> <span class="o">=</span> <span class="n">project_path</span> <span class="o">/</span> <span class="s1">&#39;Cargo.toml&#39;</span>
+            <span class="k">if</span> <span class="n">cargo_toml</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">cargo_toml</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                        <span class="n">content</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+                        <span class="c1"># 简化处理，实际应该用TOML解析器</span>
+                        <span class="k">if</span> <span class="s1">&#39;[dependencies]&#39;</span> <span class="ow">in</span> <span class="n">content</span><span class="p">:</span>
+                            <span class="n">in_deps</span> <span class="o">=</span> <span class="kc">False</span>
+                            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">content</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">):</span>
+                                <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                                <span class="k">if</span> <span class="n">line</span> <span class="o">==</span> <span class="s1">&#39;[dependencies]&#39;</span><span class="p">:</span>
+                                    <span class="n">in_deps</span> <span class="o">=</span> <span class="kc">True</span>
+                                <span class="k">elif</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;[&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">line</span> <span class="o">!=</span> <span class="s1">&#39;[dependencies]&#39;</span><span class="p">:</span>
+                                    <span class="n">in_deps</span> <span class="o">=</span> <span class="kc">False</span>
+                                <span class="k">elif</span> <span class="n">in_deps</span> <span class="ow">and</span> <span class="s1">&#39;=&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                                    <span class="n">dep_name</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;=&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                                    <span class="k">if</span> <span class="n">dep_name</span><span class="p">:</span>
+                                        <span class="n">deps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dep_name</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;解析Cargo.toml失败: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">deps</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_calculate_size_metrics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_path</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span> 
+                              <span class="n">languages</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">SizeMetrics</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;计算项目规模指标&quot;&quot;&quot;</span>
+        <span class="n">metrics</span> <span class="o">=</span> <span class="n">SizeMetrics</span><span class="p">()</span>
+        
+        <span class="c1"># 获取检测设置</span>
+        <span class="n">settings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;detection_settings&#39;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="n">max_files</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;max_files_scan&#39;</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)</span>
+        <span class="n">max_file_size</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;max_file_size&#39;</span><span class="p">,</span> <span class="mi">1048576</span><span class="p">)</span>  <span class="c1"># 1MB</span>
+        <span class="n">ignore_dirs</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ignore_directories&#39;</span><span class="p">,</span> <span class="p">[]))</span>
+        <span class="n">ignore_patterns</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ignore_file_patterns&#39;</span><span class="p">,</span> <span class="p">[])</span>
+        
+        <span class="c1"># 定义文件类型</span>
+        <span class="n">code_extensions</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="n">test_patterns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;test_*.py&#39;</span><span class="p">,</span> <span class="s1">&#39;*_test.py&#39;</span><span class="p">,</span> <span class="s1">&#39;*.test.js&#39;</span><span class="p">,</span> <span class="s1">&#39;*.spec.js&#39;</span><span class="p">,</span> <span class="s1">&#39;*.test.ts&#39;</span><span class="p">,</span> <span class="s1">&#39;*.spec.ts&#39;</span><span class="p">]</span>
+        <span class="n">doc_extensions</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;.md&#39;</span><span class="p">,</span> <span class="s1">&#39;.rst&#39;</span><span class="p">,</span> <span class="s1">&#39;.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;.doc&#39;</span><span class="p">,</span> <span class="s1">&#39;.docx&#39;</span><span class="p">}</span>
+        
+        <span class="c1"># 收集代码文件扩展名 - 从检测到的语言中收集</span>
+        <span class="k">if</span> <span class="s1">&#39;languages&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">lang_name</span><span class="p">,</span> <span class="n">lang_config</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;languages&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="c1"># 只收集检测到的语言的扩展名</span>
+                <span class="k">if</span> <span class="n">lang_name</span> <span class="ow">in</span> <span class="n">languages</span><span class="p">:</span>
+                    <span class="n">extensions</span> <span class="o">=</span> <span class="n">lang_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;file_extensions&#39;</span><span class="p">,</span> <span class="p">[])</span>
+                    <span class="n">code_extensions</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">extensions</span><span class="p">)</span>
+        
+        <span class="c1"># 如果没有收集到扩展名，添加默认的常见代码扩展名</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">code_extensions</span><span class="p">:</span>
+            <span class="n">code_extensions</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;.py&#39;</span><span class="p">,</span> <span class="s1">&#39;.js&#39;</span><span class="p">,</span> <span class="s1">&#39;.ts&#39;</span><span class="p">,</span> <span class="s1">&#39;.java&#39;</span><span class="p">,</span> <span class="s1">&#39;.go&#39;</span><span class="p">,</span> <span class="s1">&#39;.rs&#39;</span><span class="p">,</span> <span class="s1">&#39;.cpp&#39;</span><span class="p">,</span> <span class="s1">&#39;.c&#39;</span><span class="p">,</span> <span class="s1">&#39;.h&#39;</span><span class="p">,</span> <span class="s1">&#39;.hpp&#39;</span><span class="p">}</span>
+        
+        <span class="n">scanned_files</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">root</span><span class="p">,</span> <span class="n">dirs</span><span class="p">,</span> <span class="n">files</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">project_path</span><span class="p">):</span>
+            <span class="c1"># 过滤忽略的目录</span>
+            <span class="n">dirs</span><span class="p">[:]</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dirs</span> <span class="k">if</span> <span class="n">d</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ignore_dirs</span><span class="p">]</span>
+            
+            <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">scanned_files</span> <span class="o">&gt;=</span> <span class="n">max_files</span><span class="p">:</span>
+                    <span class="k">break</span>
+                
+                <span class="c1"># 检查忽略模式</span>
+                <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">fnmatch</span><span class="o">.</span><span class="n">fnmatch</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">pattern</span><span class="p">)</span> <span class="k">for</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="n">ignore_patterns</span><span class="p">):</span>
+                    <span class="k">continue</span>
+                
+                <span class="n">file_path</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">root</span><span class="p">)</span> <span class="o">/</span> <span class="n">file</span>
+                
+                <span class="c1"># 检查文件大小</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">file_path</span><span class="o">.</span><span class="n">stat</span><span class="p">()</span><span class="o">.</span><span class="n">st_size</span> <span class="o">&gt;</span> <span class="n">max_file_size</span><span class="p">:</span>
+                        <span class="k">continue</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                
+                <span class="n">extension</span> <span class="o">=</span> <span class="n">file_path</span><span class="o">.</span><span class="n">suffix</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                <span class="n">file_name</span> <span class="o">=</span> <span class="n">file_path</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                
+                <span class="c1"># 统计总文件数</span>
+                <span class="n">metrics</span><span class="o">.</span><span class="n">total_files</span> <span class="o">+=</span> <span class="mi">1</span>
+                
+                <span class="c1"># 计算行数</span>
+                <span class="n">line_count</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                        <span class="n">line_count</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">f</span><span class="p">)</span>
+                    <span class="n">metrics</span><span class="o">.</span><span class="n">total_lines</span> <span class="o">+=</span> <span class="n">line_count</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                
+                <span class="c1"># 分类文件</span>
+                <span class="k">if</span> <span class="n">extension</span> <span class="ow">in</span> <span class="n">code_extensions</span><span class="p">:</span>
+                    <span class="c1"># 判断是否为测试文件</span>
+                    <span class="n">is_test</span> <span class="o">=</span> <span class="nb">any</span><span class="p">(</span><span class="n">fnmatch</span><span class="o">.</span><span class="n">fnmatch</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">pattern</span><span class="p">)</span> <span class="k">for</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="n">test_patterns</span><span class="p">)</span>
+                    <span class="c1"># 只检查相对于项目根目录的路径，避免项目名称影响判断</span>
+                    <span class="n">relative_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">relpath</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">project_path</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                    <span class="n">is_test</span> <span class="o">=</span> <span class="n">is_test</span> <span class="ow">or</span> <span class="p">(</span><span class="s1">&#39;test&#39;</span> <span class="ow">in</span> <span class="n">relative_path</span> <span class="ow">and</span> <span class="n">relative_path</span> <span class="o">!=</span> <span class="s1">&#39;.&#39;</span><span class="p">)</span>
+                    
+                    
+                    <span class="k">if</span> <span class="n">is_test</span><span class="p">:</span>
+                        <span class="n">metrics</span><span class="o">.</span><span class="n">test_files</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="n">metrics</span><span class="o">.</span><span class="n">test_lines</span> <span class="o">+=</span> <span class="n">line_count</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">metrics</span><span class="o">.</span><span class="n">code_files</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="n">metrics</span><span class="o">.</span><span class="n">code_lines</span> <span class="o">+=</span> <span class="n">line_count</span>
+                        
+                <span class="k">elif</span> <span class="n">extension</span> <span class="ow">in</span> <span class="n">doc_extensions</span><span class="p">:</span>
+                    <span class="n">metrics</span><span class="o">.</span><span class="n">doc_files</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="n">metrics</span><span class="o">.</span><span class="n">doc_lines</span> <span class="o">+=</span> <span class="n">line_count</span>
+                
+                <span class="n">scanned_files</span> <span class="o">+=</span> <span class="mi">1</span>
+            
+            <span class="k">if</span> <span class="n">scanned_files</span> <span class="o">&gt;=</span> <span class="n">max_files</span><span class="p">:</span>
+                <span class="k">break</span>
+        
+        <span class="k">return</span> <span class="n">metrics</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_detect_build_tools</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_path</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span> 
+                          <span class="n">languages</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;检测构建工具&quot;&quot;&quot;</span>
+        <span class="n">build_tools</span> <span class="o">=</span> <span class="p">[]</span>
+        
+        <span class="c1"># 通用构建工具</span>
+        <span class="n">build_files</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;Dockerfile&#39;</span><span class="p">:</span> <span class="s1">&#39;Docker&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;docker-compose.yml&#39;</span><span class="p">:</span> <span class="s1">&#39;Docker Compose&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;docker-compose.yaml&#39;</span><span class="p">:</span> <span class="s1">&#39;Docker Compose&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;Makefile&#39;</span><span class="p">:</span> <span class="s1">&#39;Make&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;makefile&#39;</span><span class="p">:</span> <span class="s1">&#39;Make&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;GNUmakefile&#39;</span><span class="p">:</span> <span class="s1">&#39;Make&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;CMakeLists.txt&#39;</span><span class="p">:</span> <span class="s1">&#39;CMake&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;configure.ac&#39;</span><span class="p">:</span> <span class="s1">&#39;Autotools&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;configure.in&#39;</span><span class="p">:</span> <span class="s1">&#39;Autotools&#39;</span>
+        <span class="p">}</span>
+        
+        <span class="k">for</span> <span class="n">file</span><span class="p">,</span> <span class="n">tool</span> <span class="ow">in</span> <span class="n">build_files</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">project_path</span> <span class="o">/</span> <span class="n">file</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                <span class="n">build_tools</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tool</span><span class="p">)</span>
+        
+        <span class="c1"># 语言特定构建工具</span>
+        <span class="k">for</span> <span class="n">language</span> <span class="ow">in</span> <span class="n">languages</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">language</span> <span class="o">==</span> <span class="s1">&#39;python&#39;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">project_path</span> <span class="o">/</span> <span class="s1">&#39;setup.py&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                    <span class="n">build_tools</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;setuptools&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">project_path</span> <span class="o">/</span> <span class="s1">&#39;pyproject.toml&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                    <span class="n">build_tools</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;Poetry/PEP518&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">project_path</span> <span class="o">/</span> <span class="s1">&#39;tox.ini&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                    <span class="n">build_tools</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;tox&#39;</span><span class="p">)</span>
+            
+            <span class="k">elif</span> <span class="n">language</span> <span class="o">==</span> <span class="s1">&#39;javascript&#39;</span> <span class="ow">or</span> <span class="n">language</span> <span class="o">==</span> <span class="s1">&#39;typescript&#39;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">project_path</span> <span class="o">/</span> <span class="s1">&#39;package.json&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                    <span class="n">build_tools</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;npm&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">project_path</span> <span class="o">/</span> <span class="s1">&#39;yarn.lock&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                    <span class="n">build_tools</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;Yarn&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">project_path</span> <span class="o">/</span> <span class="s1">&#39;webpack.config.js&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                    <span class="n">build_tools</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;Webpack&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">project_path</span> <span class="o">/</span> <span class="s1">&#39;rollup.config.js&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                    <span class="n">build_tools</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;Rollup&#39;</span><span class="p">)</span>
+            
+            <span class="k">elif</span> <span class="n">language</span> <span class="o">==</span> <span class="s1">&#39;java&#39;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">project_path</span> <span class="o">/</span> <span class="s1">&#39;pom.xml&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                    <span class="n">build_tools</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;Maven&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">project_path</span> <span class="o">/</span> <span class="s1">&#39;build.gradle&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                    <span class="n">build_tools</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;Gradle&#39;</span><span class="p">)</span>
+            
+            <span class="k">elif</span> <span class="n">language</span> <span class="o">==</span> <span class="s1">&#39;go&#39;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">project_path</span> <span class="o">/</span> <span class="s1">&#39;go.mod&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                    <span class="n">build_tools</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;Go Modules&#39;</span><span class="p">)</span>
+            
+            <span class="k">elif</span> <span class="n">language</span> <span class="o">==</span> <span class="s1">&#39;rust&#39;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">project_path</span> <span class="o">/</span> <span class="s1">&#39;Cargo.toml&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                    <span class="n">build_tools</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;Cargo&#39;</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">build_tools</span><span class="p">))</span>  <span class="c1"># 去重</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_analyze_subprojects</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_path</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;分析子项目（用于多项目和monorepo结构）&quot;&quot;&quot;</span>
+        <span class="n">subprojects</span> <span class="o">=</span> <span class="p">[]</span>
+        
+        <span class="c1"># 常见的子项目目录</span>
+        <span class="n">subproject_dirs</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s1">&#39;packages&#39;</span><span class="p">,</span> <span class="s1">&#39;apps&#39;</span><span class="p">,</span> <span class="s1">&#39;projects&#39;</span><span class="p">,</span> <span class="s1">&#39;modules&#39;</span><span class="p">,</span> 
+            <span class="s1">&#39;workspaces&#39;</span><span class="p">,</span> <span class="s1">&#39;libs&#39;</span><span class="p">,</span> <span class="s1">&#39;components&#39;</span><span class="p">,</span> <span class="s1">&#39;services&#39;</span>
+        <span class="p">]</span>
+        
+        <span class="k">for</span> <span class="n">subdir_name</span> <span class="ow">in</span> <span class="n">subproject_dirs</span><span class="p">:</span>
+            <span class="n">subdir</span> <span class="o">=</span> <span class="n">project_path</span> <span class="o">/</span> <span class="n">subdir_name</span>
+            <span class="k">if</span> <span class="n">subdir</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="ow">and</span> <span class="n">subdir</span><span class="o">.</span><span class="n">is_dir</span><span class="p">():</span>
+                <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">subdir</span><span class="o">.</span><span class="n">iterdir</span><span class="p">():</span>
+                    <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">is_dir</span><span class="p">():</span>
+                        <span class="c1"># 检查是否包含项目标志文件</span>
+                        <span class="n">project_files</span> <span class="o">=</span> <span class="p">[</span>
+                            <span class="s1">&#39;package.json&#39;</span><span class="p">,</span> <span class="s1">&#39;setup.py&#39;</span><span class="p">,</span> <span class="s1">&#39;pom.xml&#39;</span><span class="p">,</span> 
+                            <span class="s1">&#39;Cargo.toml&#39;</span><span class="p">,</span> <span class="s1">&#39;go.mod&#39;</span><span class="p">,</span> <span class="s1">&#39;pyproject.toml&#39;</span>
+                        <span class="p">]</span>
+                        
+                        <span class="k">if</span> <span class="nb">any</span><span class="p">((</span><span class="n">item</span> <span class="o">/</span> <span class="n">pf</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="k">for</span> <span class="n">pf</span> <span class="ow">in</span> <span class="n">project_files</span><span class="p">):</span>
+                            <span class="k">try</span><span class="p">:</span>
+                                <span class="c1"># 简化检测子项目信息</span>
+                                <span class="n">sub_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">detect_project_info</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">item</span><span class="p">))</span>
+                                <span class="n">subprojects</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                                    <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">item</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                                    <span class="s1">&#39;path&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">relative_to</span><span class="p">(</span><span class="n">project_path</span><span class="p">)),</span>
+                                    <span class="s1">&#39;languages&#39;</span><span class="p">:</span> <span class="n">sub_info</span><span class="o">.</span><span class="n">languages</span><span class="p">,</span>
+                                    <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="n">sub_info</span><span class="o">.</span><span class="n">project_type</span><span class="o">.</span><span class="n">value</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">sub_info</span><span class="o">.</span><span class="n">project_type</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">sub_info</span><span class="o">.</span><span class="n">project_type</span><span class="p">),</span>
+                                    <span class="s1">&#39;size&#39;</span><span class="p">:</span> <span class="n">sub_info</span><span class="o">.</span><span class="n">size_metrics</span><span class="o">.</span><span class="n">get_size_category</span><span class="p">()</span>
+                                <span class="p">})</span>
+                            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;分析子项目失败 </span><span class="si">{</span><span class="n">item</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">subprojects</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_calculate_confidence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_info</span><span class="p">:</span> <span class="n">ProjectInfo</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;计算检测置信度&quot;&quot;&quot;</span>
+        <span class="n">confidence</span> <span class="o">=</span> <span class="mf">0.0</span>
+        
+        <span class="c1"># 基于语言检测结果</span>
+        <span class="k">if</span> <span class="n">project_info</span><span class="o">.</span><span class="n">languages</span><span class="p">:</span>
+            <span class="n">primary_lang_pct</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">project_info</span><span class="o">.</span><span class="n">languages</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+            <span class="n">confidence</span> <span class="o">+=</span> <span class="n">primary_lang_pct</span> <span class="o">*</span> <span class="mf">0.4</span>  <span class="c1"># 最高40%权重</span>
+        
+        <span class="c1"># 基于项目规模</span>
+        <span class="k">if</span> <span class="n">project_info</span><span class="o">.</span><span class="n">size_metrics</span><span class="o">.</span><span class="n">code_files</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">confidence</span> <span class="o">+=</span> <span class="mf">0.2</span>  <span class="c1"># 有代码文件加20%</span>
+        
+        <span class="c1"># 基于构建工具</span>
+        <span class="k">if</span> <span class="n">project_info</span><span class="o">.</span><span class="n">build_tools</span><span class="p">:</span>
+            <span class="n">confidence</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">project_info</span><span class="o">.</span><span class="n">build_tools</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.1</span>  <span class="c1"># 每个构建工具10%</span>
+        
+        <span class="c1"># 基于依赖分析</span>
+        <span class="k">if</span> <span class="n">project_info</span><span class="o">.</span><span class="n">dependencies</span><span class="p">:</span>
+            <span class="n">confidence</span> <span class="o">+=</span> <span class="mf">0.1</span>  <span class="c1"># 有依赖加10%</span>
+        
+        <span class="c1"># 基于结构类型检测</span>
+        <span class="k">if</span> <span class="n">project_info</span><span class="o">.</span><span class="n">structure_type</span> <span class="o">!=</span> <span class="n">StructureType</span><span class="o">.</span><span class="n">SINGLE_PROJECT</span><span class="p">:</span>
+            <span class="n">confidence</span> <span class="o">+=</span> <span class="mf">0.1</span>  <span class="c1"># 复杂结构加10%</span>
+        
+        <span class="c1"># 基于项目类型推断</span>
+        <span class="k">if</span> <span class="n">project_info</span><span class="o">.</span><span class="n">project_type</span> <span class="o">!=</span> <span class="n">ProjectType</span><span class="o">.</span><span class="n">UNKNOWN</span><span class="p">:</span>
+            <span class="n">confidence</span> <span class="o">+=</span> <span class="mf">0.1</span>  <span class="c1"># 识别出项目类型加10%</span>
+        
+        <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="n">confidence</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>  <span class="c1"># 最大1.0</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2024, OSS Audit Team。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

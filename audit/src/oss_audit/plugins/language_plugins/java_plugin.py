@@ -84,14 +84,16 @@ class JavaPlugin(LanguagePlugin):
         
         # Check Java environment
         try:
-            result = subprocess.run(['java', '-version'], capture_output=True, text=True)
+            result = subprocess.run(['java', '-version'], capture_output=True, text=True, timeout=5)
             if result.returncode == 0:
                 java_version = result.stderr.split('\n')[0] if result.stderr else result.stdout.split('\n')[0]
                 self.logger.debug(f"Java version: {java_version}")
             else:
-                self.logger.warning("Java not found in PATH")
+                self.logger.info("Java not found in PATH - Java analysis will be limited")
+        except FileNotFoundError:
+            self.logger.info("Java not installed - Java analysis will be limited to basic file checks")
         except Exception as e:
-            self.logger.warning(f"Could not check Java version: {e}")
+            self.logger.debug(f"Java environment check failed: {e}")
         
         # Check Maven
         try:

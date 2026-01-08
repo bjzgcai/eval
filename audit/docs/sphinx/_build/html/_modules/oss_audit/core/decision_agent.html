@@ -1,0 +1,1139 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>oss_audit.core.decision_agent &mdash; OSS Audit 2.0 API文档</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=a3f70f27" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=b15d7ad8"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/translations.js?v=beaddf03"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../../genindex.html" />
+    <link rel="search" title="搜索" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            OSS Audit 2.0
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">快速开始:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">安装指南</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API参考:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/core.html">核心模块 (oss_audit.core)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/agents.html">智能代理系统 (oss_audit.core.agents)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">核心模块</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.core.audit_runner.html">oss_audit.core.audit_runner</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.core.project_detector.html">oss_audit.core.project_detector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.core.tool_executor.html">oss_audit.core.tool_executor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.core.report_generator.html">oss_audit.core.report_generator</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">智能代理</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.core.decision_agent.html">oss_audit.core.decision_agent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.core.adaptive_agent.html">oss_audit.core.adaptive_agent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.core.recommendation_agent.html">oss_audit.core.recommendation_agent</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">工具和插件</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.utils.ai_analyzer.html">oss_audit.utils.ai_analyzer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.core.tool_registry.html">oss_audit.core.tool_registry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/oss_audit.plugins.html">oss_audit.plugins</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">OSS Audit 2.0</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">模块代码</a></li>
+      <li class="breadcrumb-item active">oss_audit.core.decision_agent</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>oss_audit.core.decision_agent 源代码</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Decision Agent - 智能决策代理</span>
+<span class="sd">基于项目特征和可用工具，智能制定工具选择和执行策略</span>
+
+<span class="sd">核心特性:</span>
+<span class="sd">- 集成 ToolKnowledgeBase 工具知识库</span>
+<span class="sd">- 集成 StrategyEngine 策略引擎  </span>
+<span class="sd">- 集成 SimpleMLModel 简单学习模型</span>
+<span class="sd">- 工具效果预测和资源需求分析</span>
+<span class="sd">- 智能降级策略和超时处理</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Set</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.project_detector</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProjectInfo</span><span class="p">,</span> <span class="n">ProjectType</span><span class="p">,</span> <span class="n">StructureType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.tool_registry</span><span class="w"> </span><span class="kn">import</span> <span class="n">Tool</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.tool_knowledge_base</span><span class="w"> </span><span class="kn">import</span> <span class="n">ToolKnowledgeBase</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.strategy_engine</span><span class="w"> </span><span class="kn">import</span> <span class="n">StrategyEngine</span><span class="p">,</span> <span class="n">StrategyType</span><span class="p">,</span> <span class="n">ToolSelectionStrategy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.simple_ml_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleMLModel</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="ComplexityLevel">
+<a class="viewcode-back" href="../../../api/agents.html#oss_audit.core.decision_agent.ComplexityLevel">[文档]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ComplexityLevel</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;项目复杂度等级&quot;&quot;&quot;</span>
+    <span class="n">LOW</span> <span class="o">=</span> <span class="s2">&quot;low&quot;</span>           <span class="c1"># 简单项目 (&lt;1K LOC)</span>
+    <span class="n">MEDIUM</span> <span class="o">=</span> <span class="s2">&quot;medium&quot;</span>     <span class="c1"># 中等项目 (1K-10K LOC)</span>
+    <span class="n">HIGH</span> <span class="o">=</span> <span class="s2">&quot;high&quot;</span>         <span class="c1"># 复杂项目 (10K-100K LOC)</span>
+    <span class="n">VERY_HIGH</span> <span class="o">=</span> <span class="s2">&quot;very_high&quot;</span>  <span class="c1"># 极高复杂度 (&gt;100K LOC)</span></div>
+
+
+
+<div class="viewcode-block" id="RiskFactor">
+<a class="viewcode-back" href="../../../api/agents.html#oss_audit.core.decision_agent.RiskFactor">[文档]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">RiskFactor</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;风险因素枚举&quot;&quot;&quot;</span>
+    <span class="n">SECURITY</span> <span class="o">=</span> <span class="s2">&quot;security&quot;</span>               <span class="c1"># 安全风险</span>
+    <span class="n">WEB_SECURITY</span> <span class="o">=</span> <span class="s2">&quot;web_security&quot;</span>       <span class="c1"># Web安全风险</span>
+    <span class="n">SQL_INJECTION</span> <span class="o">=</span> <span class="s2">&quot;sql_injection&quot;</span>     <span class="c1"># SQL注入风险</span>
+    <span class="n">XSS</span> <span class="o">=</span> <span class="s2">&quot;xss&quot;</span>                        <span class="c1"># XSS风险</span>
+    <span class="n">DEPENDENCY_RISK</span> <span class="o">=</span> <span class="s2">&quot;dependency_risk&quot;</span> <span class="c1"># 依赖风险</span>
+    <span class="n">PERFORMANCE</span> <span class="o">=</span> <span class="s2">&quot;performance&quot;</span>         <span class="c1"># 性能风险</span>
+    <span class="n">DATA_PRIVACY</span> <span class="o">=</span> <span class="s2">&quot;data_privacy&quot;</span>       <span class="c1"># 数据隐私风险</span>
+    <span class="n">LICENSE_RISK</span> <span class="o">=</span> <span class="s2">&quot;license_risk&quot;</span>       <span class="c1"># 许可证风险</span>
+    <span class="n">BUILD_COMPLEXITY</span> <span class="o">=</span> <span class="s2">&quot;build_complexity&quot;</span> <span class="c1"># 构建复杂性</span>
+    <span class="n">MULTI_LANGUAGE</span> <span class="o">=</span> <span class="s2">&quot;multi_language&quot;</span>   <span class="c1"># 多语言项目风险</span></div>
+
+
+
+<div class="viewcode-block" id="ExecutionMode">
+<a class="viewcode-back" href="../../../api/agents.html#oss_audit.core.decision_agent.ExecutionMode">[文档]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ExecutionMode</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;执行模式&quot;&quot;&quot;</span>
+    <span class="n">PARALLEL</span> <span class="o">=</span> <span class="s2">&quot;parallel&quot;</span>     <span class="c1"># 并行执行</span>
+    <span class="n">SEQUENTIAL</span> <span class="o">=</span> <span class="s2">&quot;sequential&quot;</span> <span class="c1"># 串行执行</span>
+    <span class="n">HYBRID</span> <span class="o">=</span> <span class="s2">&quot;hybrid&quot;</span>         <span class="c1"># 混合执行</span></div>
+
+
+
+<div class="viewcode-block" id="ToolPriority">
+<a class="viewcode-back" href="../../../api/agents.html#oss_audit.core.decision_agent.ToolPriority">[文档]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ToolPriority</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;工具优先级&quot;&quot;&quot;</span>
+    <span class="n">CRITICAL</span> <span class="o">=</span> <span class="mi">1</span>    <span class="c1"># 关键工具，必须执行</span>
+    <span class="n">HIGH</span> <span class="o">=</span> <span class="mi">2</span>        <span class="c1"># 高优先级</span>
+    <span class="n">MEDIUM</span> <span class="o">=</span> <span class="mi">3</span>      <span class="c1"># 中等优先级</span>
+    <span class="n">LOW</span> <span class="o">=</span> <span class="mi">4</span>         <span class="c1"># 低优先级</span>
+    <span class="n">OPTIONAL</span> <span class="o">=</span> <span class="mi">5</span>    <span class="c1"># 可选工具</span></div>
+
+
+
+<div class="viewcode-block" id="ExecutionPhase">
+<a class="viewcode-back" href="../../../api/agents.html#oss_audit.core.decision_agent.ExecutionPhase">[文档]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ExecutionPhase</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;执行阶段定义&quot;&quot;&quot;</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">tools</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tool</span><span class="p">]</span>
+    <span class="n">mode</span><span class="p">:</span> <span class="n">ExecutionMode</span>
+    <span class="n">timeout</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">300</span>  <span class="c1"># 阶段超时时间（秒）</span>
+    <span class="n">dependencies</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>  <span class="c1"># 依赖的阶段名称</span>
+    <span class="n">allow_failure</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># 是否允许工具执行失败</span></div>
+
+
+
+<div class="viewcode-block" id="ExecutionPlan">
+<a class="viewcode-back" href="../../../api/agents.html#oss_audit.core.decision_agent.ExecutionPlan">[文档]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ExecutionPlan</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;执行计划&quot;&quot;&quot;</span>
+    <span class="n">phases</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ExecutionPhase</span><span class="p">]</span>
+    <span class="n">total_estimated_time</span><span class="p">:</span> <span class="nb">int</span>  <span class="c1"># 预估总执行时间</span>
+    <span class="n">max_parallel_tools</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span>  <span class="c1"># 最大并行工具数</span>
+    <span class="n">early_termination_conditions</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
+    <span class="n">fallback_strategy</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;continue&quot;</span>  <span class="c1"># 失败时的降级策略</span>
+    
+<div class="viewcode-block" id="ExecutionPlan.get_total_tools">
+<a class="viewcode-back" href="../../../api/agents.html#oss_audit.core.decision_agent.ExecutionPlan.get_total_tools">[文档]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_total_tools</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;获取总工具数量&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">phase</span><span class="o">.</span><span class="n">tools</span><span class="p">)</span> <span class="k">for</span> <span class="n">phase</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">phases</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="ProjectComplexityMetrics">
+<a class="viewcode-back" href="../../../api/agents.html#oss_audit.core.decision_agent.ProjectComplexityMetrics">[文档]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ProjectComplexityMetrics</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;项目复杂度指标&quot;&quot;&quot;</span>
+    <span class="n">code_lines</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">file_count</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">directory_depth</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">language_count</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">dependency_count</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">build_files_count</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">config_files_count</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">complexity_score</span><span class="p">:</span> <span class="nb">float</span>  <span class="c1"># 综合复杂度分数 0-100</span></div>
+
+
+
+<div class="viewcode-block" id="RiskAssessment">
+<a class="viewcode-back" href="../../../api/agents.html#oss_audit.core.decision_agent.RiskAssessment">[文档]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">RiskAssessment</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;风险评估结果&quot;&quot;&quot;</span>
+    <span class="n">risk_factors</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">RiskFactor</span><span class="p">]</span>
+    <span class="n">risk_score</span><span class="p">:</span> <span class="nb">float</span>  <span class="c1"># 风险分数 0-100</span>
+    <span class="n">high_risk_areas</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">recommended_security_tools</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">risk_mitigation_priority</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">RiskFactor</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span>  <span class="c1"># 风险缓解优先级</span></div>
+
+
+
+<div class="viewcode-block" id="DecisionAgent">
+<a class="viewcode-back" href="../../../api/agents.html#oss_audit.core.decision_agent.DecisionAgent">[文档]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">DecisionAgent</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    决策Agent - 智能工具选择和执行策略制定</span>
+<span class="sd">    </span>
+<span class="sd">    核心特性：</span>
+<span class="sd">    1. 集成工具知识库进行效果预测</span>
+<span class="sd">    2. 使用策略引擎制定最优策略</span>
+<span class="sd">    3. 基于ML模型预测工具表现</span>
+<span class="sd">    4. 智能资源需求分析和超时策略</span>
+<span class="sd">    5. 完整的降级和错误处理机制</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+<div class="viewcode-block" id="DecisionAgent.__init__">
+<a class="viewcode-back" href="../../../api/agents.html#oss_audit.core.decision_agent.DecisionAgent.__init__">[文档]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">knowledge_base_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+        
+        <span class="c1"># 智能代理核心组件</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">knowledge_base</span> <span class="o">=</span> <span class="n">ToolKnowledgeBase</span><span class="p">(</span><span class="n">knowledge_base_path</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">strategy_engine</span> <span class="o">=</span> <span class="n">StrategyEngine</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">learning_model</span> <span class="o">=</span> <span class="n">SimpleMLModel</span><span class="p">()</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">_initialize_decision_rules</span><span class="p">()</span></div>
+
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_initialize_decision_rules</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;初始化决策规则&quot;&quot;&quot;</span>
+        <span class="c1"># 项目类型到推荐工具类型的映射</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">project_type_tool_preferences</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">ProjectType</span><span class="o">.</span><span class="n">WEB_APPLICATION</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;security&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;bandit&#39;</span><span class="p">,</span> <span class="s1">&#39;semgrep&#39;</span><span class="p">,</span> <span class="s1">&#39;gitleaks&#39;</span><span class="p">,</span> <span class="s1">&#39;npm-audit&#39;</span><span class="p">],</span>
+                <span class="s1">&#39;quality&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;pylint&#39;</span><span class="p">,</span> <span class="s1">&#39;eslint&#39;</span><span class="p">,</span> <span class="s1">&#39;sonarqube-scanner&#39;</span><span class="p">],</span>
+                <span class="s1">&#39;testing&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;pytest&#39;</span><span class="p">,</span> <span class="s1">&#39;jest&#39;</span><span class="p">,</span> <span class="s1">&#39;coverage&#39;</span><span class="p">]</span>
+            <span class="p">},</span>
+            <span class="n">ProjectType</span><span class="o">.</span><span class="n">LIBRARY</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;quality&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;pylint&#39;</span><span class="p">,</span> <span class="s1">&#39;eslint&#39;</span><span class="p">,</span> <span class="s1">&#39;checkstyle&#39;</span><span class="p">,</span> <span class="s1">&#39;mypy&#39;</span><span class="p">],</span>
+                <span class="s1">&#39;testing&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;pytest&#39;</span><span class="p">,</span> <span class="s1">&#39;jest&#39;</span><span class="p">,</span> <span class="s1">&#39;junit&#39;</span><span class="p">,</span> <span class="s1">&#39;coverage&#39;</span><span class="p">],</span>
+                <span class="s1">&#39;documentation&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;sphinx&#39;</span><span class="p">,</span> <span class="s1">&#39;jsdoc&#39;</span><span class="p">]</span>
+            <span class="p">},</span>
+            <span class="n">ProjectType</span><span class="o">.</span><span class="n">CLI_TOOL</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;quality&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;pylint&#39;</span><span class="p">,</span> <span class="s1">&#39;go-vet&#39;</span><span class="p">,</span> <span class="s1">&#39;clippy&#39;</span><span class="p">],</span>
+                <span class="s1">&#39;testing&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;pytest&#39;</span><span class="p">,</span> <span class="s1">&#39;go-test&#39;</span><span class="p">,</span> <span class="s1">&#39;cargo-test&#39;</span><span class="p">],</span>
+                <span class="s1">&#39;build&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="s1">&#39;gofmt&#39;</span><span class="p">,</span> <span class="s1">&#39;rustfmt&#39;</span><span class="p">]</span>
+            <span class="p">},</span>
+            <span class="n">ProjectType</span><span class="o">.</span><span class="n">DATA_SCIENCE</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;security&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;bandit&#39;</span><span class="p">,</span> <span class="s1">&#39;safety&#39;</span><span class="p">],</span>
+                <span class="s1">&#39;quality&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;pylint&#39;</span><span class="p">,</span> <span class="s1">&#39;flake8&#39;</span><span class="p">],</span>
+                <span class="s1">&#39;dependencies&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;safety&#39;</span><span class="p">,</span> <span class="s1">&#39;pip-audit&#39;</span><span class="p">]</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        
+        <span class="c1"># 复杂度等级到工具选择策略的映射</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">complexity_strategies</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">ComplexityLevel</span><span class="o">.</span><span class="n">LOW</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;max_tools_per_category&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                <span class="s1">&#39;prefer_fast_tools&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                <span class="s1">&#39;max_execution_time&#39;</span><span class="p">:</span> <span class="mi">300</span>  <span class="c1"># 5分钟</span>
+            <span class="p">},</span>
+            <span class="n">ComplexityLevel</span><span class="o">.</span><span class="n">MEDIUM</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;max_tools_per_category&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+                <span class="s1">&#39;prefer_fast_tools&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                <span class="s1">&#39;max_execution_time&#39;</span><span class="p">:</span> <span class="mi">600</span>  <span class="c1"># 10分钟</span>
+            <span class="p">},</span>
+            <span class="n">ComplexityLevel</span><span class="o">.</span><span class="n">HIGH</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;max_tools_per_category&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+                <span class="s1">&#39;prefer_fast_tools&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                <span class="s1">&#39;max_execution_time&#39;</span><span class="p">:</span> <span class="mi">1200</span>  <span class="c1"># 20分钟</span>
+            <span class="p">},</span>
+            <span class="n">ComplexityLevel</span><span class="o">.</span><span class="n">VERY_HIGH</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;max_tools_per_category&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+                <span class="s1">&#39;prefer_fast_tools&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                <span class="s1">&#39;max_execution_time&#39;</span><span class="p">:</span> <span class="mi">1800</span>  <span class="c1"># 30分钟</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    
+<div class="viewcode-block" id="DecisionAgent.analyze_project_complexity">
+<a class="viewcode-back" href="../../../api/agents.html#oss_audit.core.decision_agent.DecisionAgent.analyze_project_complexity">[文档]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">analyze_project_complexity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_info</span><span class="p">:</span> <span class="n">ProjectInfo</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ProjectComplexityMetrics</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        分析项目复杂度</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            project_info: 项目信息</span>
+<span class="sd">            </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            项目复杂度指标</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">metrics</span> <span class="o">=</span> <span class="n">ProjectComplexityMetrics</span><span class="p">(</span>
+                <span class="n">code_lines</span><span class="o">=</span><span class="n">project_info</span><span class="o">.</span><span class="n">size_metrics</span><span class="o">.</span><span class="n">code_lines</span><span class="p">,</span>
+                <span class="n">file_count</span><span class="o">=</span><span class="n">project_info</span><span class="o">.</span><span class="n">size_metrics</span><span class="o">.</span><span class="n">total_files</span><span class="p">,</span>
+                <span class="n">directory_depth</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_calculate_directory_depth</span><span class="p">(</span><span class="n">project_info</span><span class="o">.</span><span class="n">path</span><span class="p">),</span>
+                <span class="n">language_count</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">project_info</span><span class="o">.</span><span class="n">languages</span><span class="p">),</span>
+                <span class="n">dependency_count</span><span class="o">=</span><span class="nb">sum</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">deps</span><span class="p">)</span> <span class="k">for</span> <span class="n">deps</span> <span class="ow">in</span> <span class="n">project_info</span><span class="o">.</span><span class="n">dependencies</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span>
+                <span class="n">build_files_count</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">project_info</span><span class="o">.</span><span class="n">build_tools</span><span class="p">),</span>
+                <span class="n">config_files_count</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_count_config_files</span><span class="p">(</span><span class="n">project_info</span><span class="o">.</span><span class="n">path</span><span class="p">),</span>
+                <span class="n">complexity_score</span><span class="o">=</span><span class="mf">0.0</span>
+            <span class="p">)</span>
+            
+            <span class="c1"># 计算综合复杂度分数</span>
+            <span class="n">complexity_score</span> <span class="o">=</span> <span class="mf">0.0</span>
+            
+            <span class="c1"># 代码行数权重 (40%)</span>
+            <span class="k">if</span> <span class="n">metrics</span><span class="o">.</span><span class="n">code_lines</span> <span class="o">&lt;</span> <span class="mi">1000</span><span class="p">:</span>
+                <span class="n">complexity_score</span> <span class="o">+=</span> <span class="mi">10</span>
+            <span class="k">elif</span> <span class="n">metrics</span><span class="o">.</span><span class="n">code_lines</span> <span class="o">&lt;</span> <span class="mi">10000</span><span class="p">:</span>
+                <span class="n">complexity_score</span> <span class="o">+=</span> <span class="mi">30</span>
+            <span class="k">elif</span> <span class="n">metrics</span><span class="o">.</span><span class="n">code_lines</span> <span class="o">&lt;</span> <span class="mi">100000</span><span class="p">:</span>
+                <span class="n">complexity_score</span> <span class="o">+=</span> <span class="mi">60</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">complexity_score</span> <span class="o">+=</span> <span class="mi">90</span>
+            
+            <span class="c1"># 语言数量权重 (20%)</span>
+            <span class="k">if</span> <span class="n">metrics</span><span class="o">.</span><span class="n">language_count</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">complexity_score</span> <span class="o">+=</span> <span class="mi">0</span>
+            <span class="k">elif</span> <span class="n">metrics</span><span class="o">.</span><span class="n">language_count</span> <span class="o">&lt;=</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="n">complexity_score</span> <span class="o">+=</span> <span class="mi">5</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">complexity_score</span> <span class="o">+=</span> <span class="mi">15</span>
+            
+            <span class="c1"># 依赖数量权重 (20%)</span>
+            <span class="k">if</span> <span class="n">metrics</span><span class="o">.</span><span class="n">dependency_count</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
+                <span class="n">complexity_score</span> <span class="o">+=</span> <span class="mi">0</span>
+            <span class="k">elif</span> <span class="n">metrics</span><span class="o">.</span><span class="n">dependency_count</span> <span class="o">&lt;</span> <span class="mi">50</span><span class="p">:</span>
+                <span class="n">complexity_score</span> <span class="o">+=</span> <span class="mi">5</span>
+            <span class="k">elif</span> <span class="n">metrics</span><span class="o">.</span><span class="n">dependency_count</span> <span class="o">&lt;</span> <span class="mi">100</span><span class="p">:</span>
+                <span class="n">complexity_score</span> <span class="o">+=</span> <span class="mi">10</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">complexity_score</span> <span class="o">+=</span> <span class="mi">15</span>
+            
+            <span class="c1"># 项目结构权重 (10%)</span>
+            <span class="k">if</span> <span class="n">project_info</span><span class="o">.</span><span class="n">structure_type</span> <span class="o">==</span> <span class="n">StructureType</span><span class="o">.</span><span class="n">MONOREPO</span><span class="p">:</span>
+                <span class="n">complexity_score</span> <span class="o">+=</span> <span class="mi">8</span>
+            <span class="k">elif</span> <span class="n">project_info</span><span class="o">.</span><span class="n">structure_type</span> <span class="o">==</span> <span class="n">StructureType</span><span class="o">.</span><span class="n">MULTI_PROJECT</span><span class="p">:</span>
+                <span class="n">complexity_score</span> <span class="o">+=</span> <span class="mi">5</span>
+            
+            <span class="c1"># 构建复杂度权重 (10%)</span>
+            <span class="n">complexity_score</span> <span class="o">+=</span> <span class="nb">min</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">build_files_count</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+            
+            <span class="n">metrics</span><span class="o">.</span><span class="n">complexity_score</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">complexity_score</span><span class="p">,</span> <span class="mf">100.0</span><span class="p">)</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;项目复杂度分析完成: 分数=</span><span class="si">{</span><span class="n">metrics</span><span class="o">.</span><span class="n">complexity_score</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">, &quot;</span>
+                            <span class="sa">f</span><span class="s2">&quot;代码行数=</span><span class="si">{</span><span class="n">metrics</span><span class="o">.</span><span class="n">code_lines</span><span class="si">}</span><span class="s2">, 语言数=</span><span class="si">{</span><span class="n">metrics</span><span class="o">.</span><span class="n">language_count</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            
+            <span class="k">return</span> <span class="n">metrics</span>
+            
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;项目复杂度分析失败: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="c1"># 返回默认的中等复杂度指标</span>
+            <span class="k">return</span> <span class="n">ProjectComplexityMetrics</span><span class="p">(</span>
+                <span class="n">code_lines</span><span class="o">=</span><span class="n">project_info</span><span class="o">.</span><span class="n">size_metrics</span><span class="o">.</span><span class="n">code_lines</span> <span class="ow">or</span> <span class="mi">5000</span><span class="p">,</span>
+                <span class="n">file_count</span><span class="o">=</span><span class="n">project_info</span><span class="o">.</span><span class="n">size_metrics</span><span class="o">.</span><span class="n">total_files</span> <span class="ow">or</span> <span class="mi">50</span><span class="p">,</span>
+                <span class="n">directory_depth</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                <span class="n">language_count</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">project_info</span><span class="o">.</span><span class="n">languages</span><span class="p">)</span> <span class="ow">or</span> <span class="mi">1</span><span class="p">,</span>
+                <span class="n">dependency_count</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+                <span class="n">build_files_count</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                <span class="n">config_files_count</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                <span class="n">complexity_score</span><span class="o">=</span><span class="mf">50.0</span>
+            <span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="DecisionAgent.assess_project_risks">
+<a class="viewcode-back" href="../../../api/agents.html#oss_audit.core.decision_agent.DecisionAgent.assess_project_risks">[文档]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">assess_project_risks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_info</span><span class="p">:</span> <span class="n">ProjectInfo</span><span class="p">,</span> 
+                           <span class="n">complexity_metrics</span><span class="p">:</span> <span class="n">ProjectComplexityMetrics</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RiskAssessment</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        评估项目风险</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            project_info: 项目信息</span>
+<span class="sd">            complexity_metrics: 复杂度指标</span>
+<span class="sd">            </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            风险评估结果</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">risk_factors</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">high_risk_areas</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">recommended_security_tools</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">risk_score</span> <span class="o">=</span> <span class="mf">0.0</span>
+        
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># 基于项目类型识别风险</span>
+            <span class="n">project_type</span> <span class="o">=</span> <span class="n">project_info</span><span class="o">.</span><span class="n">project_type</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">project_type</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">):</span>
+                <span class="n">project_type_value</span> <span class="o">=</span> <span class="n">project_type</span><span class="o">.</span><span class="n">value</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">project_type_value</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">project_type</span><span class="p">)</span>
+            
+            <span class="k">if</span> <span class="n">project_type_value</span> <span class="o">==</span> <span class="s1">&#39;web_application&#39;</span><span class="p">:</span>
+                <span class="n">risk_factors</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">RiskFactor</span><span class="o">.</span><span class="n">SECURITY</span><span class="p">,</span> <span class="n">RiskFactor</span><span class="o">.</span><span class="n">WEB_SECURITY</span><span class="p">,</span> <span class="n">RiskFactor</span><span class="o">.</span><span class="n">XSS</span><span class="p">])</span>
+                <span class="n">high_risk_areas</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="s1">&#39;Web安全&#39;</span><span class="p">,</span> <span class="s1">&#39;API安全&#39;</span><span class="p">,</span> <span class="s1">&#39;用户输入验证&#39;</span><span class="p">])</span>
+                <span class="n">recommended_security_tools</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="s1">&#39;bandit&#39;</span><span class="p">,</span> <span class="s1">&#39;semgrep&#39;</span><span class="p">,</span> <span class="s1">&#39;npm-audit&#39;</span><span class="p">])</span>
+                <span class="n">risk_score</span> <span class="o">+=</span> <span class="mi">30</span>
+            
+            <span class="k">elif</span> <span class="n">project_type_value</span> <span class="o">==</span> <span class="s1">&#39;data_science&#39;</span><span class="p">:</span>
+                <span class="n">risk_factors</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">RiskFactor</span><span class="o">.</span><span class="n">DATA_PRIVACY</span><span class="p">,</span> <span class="n">RiskFactor</span><span class="o">.</span><span class="n">DEPENDENCY_RISK</span><span class="p">])</span>
+                <span class="n">high_risk_areas</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="s1">&#39;数据隐私&#39;</span><span class="p">,</span> <span class="s1">&#39;敏感数据处理&#39;</span><span class="p">])</span>
+                <span class="n">recommended_security_tools</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="s1">&#39;bandit&#39;</span><span class="p">,</span> <span class="s1">&#39;safety&#39;</span><span class="p">])</span>
+                <span class="n">risk_score</span> <span class="o">+=</span> <span class="mi">20</span>
+            
+            <span class="c1"># 基于依赖数量评估风险</span>
+            <span class="k">if</span> <span class="n">complexity_metrics</span><span class="o">.</span><span class="n">dependency_count</span> <span class="o">&gt;</span> <span class="mi">100</span><span class="p">:</span>
+                <span class="n">risk_factors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">RiskFactor</span><span class="o">.</span><span class="n">DEPENDENCY_RISK</span><span class="p">)</span>
+                <span class="n">high_risk_areas</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;大量第三方依赖&#39;</span><span class="p">)</span>
+                <span class="n">recommended_security_tools</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="s1">&#39;safety&#39;</span><span class="p">,</span> <span class="s1">&#39;npm-audit&#39;</span><span class="p">,</span> <span class="s1">&#39;trivy&#39;</span><span class="p">])</span>
+                <span class="n">risk_score</span> <span class="o">+=</span> <span class="mi">15</span>
+            <span class="k">elif</span> <span class="n">complexity_metrics</span><span class="o">.</span><span class="n">dependency_count</span> <span class="o">&gt;</span> <span class="mi">50</span><span class="p">:</span>
+                <span class="n">risk_factors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">RiskFactor</span><span class="o">.</span><span class="n">DEPENDENCY_RISK</span><span class="p">)</span>
+                <span class="n">risk_score</span> <span class="o">+=</span> <span class="mi">10</span>
+            
+            <span class="c1"># 多语言项目风险</span>
+            <span class="k">if</span> <span class="n">complexity_metrics</span><span class="o">.</span><span class="n">language_count</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="n">risk_factors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">RiskFactor</span><span class="o">.</span><span class="n">MULTI_LANGUAGE</span><span class="p">)</span>
+                <span class="n">high_risk_areas</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;多语言项目复杂性&#39;</span><span class="p">)</span>
+                <span class="n">risk_score</span> <span class="o">+=</span> <span class="mi">10</span>
+            
+            <span class="c1"># 大型项目风险</span>
+            <span class="k">if</span> <span class="n">complexity_metrics</span><span class="o">.</span><span class="n">code_lines</span> <span class="o">&gt;</span> <span class="mi">50000</span><span class="p">:</span>
+                <span class="n">risk_factors</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">RiskFactor</span><span class="o">.</span><span class="n">PERFORMANCE</span><span class="p">,</span> <span class="n">RiskFactor</span><span class="o">.</span><span class="n">BUILD_COMPLEXITY</span><span class="p">])</span>
+                <span class="n">high_risk_areas</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="s1">&#39;性能问题&#39;</span><span class="p">,</span> <span class="s1">&#39;构建复杂性&#39;</span><span class="p">])</span>
+                <span class="n">risk_score</span> <span class="o">+=</span> <span class="mi">15</span>
+            
+            <span class="c1"># 检查是否有数据库相关依赖</span>
+            <span class="n">all_deps</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">deps</span> <span class="ow">in</span> <span class="n">project_info</span><span class="o">.</span><span class="n">dependencies</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                <span class="n">all_deps</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">dep</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">dep</span> <span class="ow">in</span> <span class="n">deps</span><span class="p">])</span>
+            
+            <span class="n">db_indicators</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;mysql&#39;</span><span class="p">,</span> <span class="s1">&#39;postgres&#39;</span><span class="p">,</span> <span class="s1">&#39;sqlite&#39;</span><span class="p">,</span> <span class="s1">&#39;mongodb&#39;</span><span class="p">,</span> <span class="s1">&#39;redis&#39;</span><span class="p">,</span> <span class="s1">&#39;django&#39;</span><span class="p">,</span> <span class="s1">&#39;sqlalchemy&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">indicator</span> <span class="ow">in</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">all_deps</span><span class="p">)</span> <span class="k">for</span> <span class="n">indicator</span> <span class="ow">in</span> <span class="n">db_indicators</span><span class="p">):</span>
+                <span class="n">risk_factors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">RiskFactor</span><span class="o">.</span><span class="n">SQL_INJECTION</span><span class="p">)</span>
+                <span class="n">high_risk_areas</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;数据库安全&#39;</span><span class="p">)</span>
+                <span class="n">recommended_security_tools</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;semgrep&#39;</span><span class="p">)</span>
+                <span class="n">risk_score</span> <span class="o">+=</span> <span class="mi">10</span>
+            
+            <span class="c1"># 去重推荐工具</span>
+            <span class="n">recommended_security_tools</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">recommended_security_tools</span><span class="p">))</span>
+            
+            <span class="c1"># 风险缓解优先级</span>
+            <span class="n">risk_mitigation_priority</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">risk</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">risk_factors</span><span class="p">):</span>
+                <span class="n">risk_mitigation_priority</span><span class="p">[</span><span class="n">risk</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">risk_factors</span><span class="p">)</span> <span class="o">-</span> <span class="n">i</span>
+            
+            <span class="n">risk_assessment</span> <span class="o">=</span> <span class="n">RiskAssessment</span><span class="p">(</span>
+                <span class="n">risk_factors</span><span class="o">=</span><span class="n">risk_factors</span><span class="p">,</span>
+                <span class="n">risk_score</span><span class="o">=</span><span class="nb">min</span><span class="p">(</span><span class="n">risk_score</span><span class="p">,</span> <span class="mf">100.0</span><span class="p">),</span>
+                <span class="n">high_risk_areas</span><span class="o">=</span><span class="n">high_risk_areas</span><span class="p">,</span>
+                <span class="n">recommended_security_tools</span><span class="o">=</span><span class="n">recommended_security_tools</span><span class="p">,</span>
+                <span class="n">risk_mitigation_priority</span><span class="o">=</span><span class="n">risk_mitigation_priority</span>
+            <span class="p">)</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;风险评估完成: 风险分数=</span><span class="si">{</span><span class="n">risk_assessment</span><span class="o">.</span><span class="n">risk_score</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">, &quot;</span>
+                            <span class="sa">f</span><span class="s2">&quot;风险因素数=</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">risk_factors</span><span class="p">)</span><span class="si">}</span><span class="s2">, 推荐安全工具=</span><span class="si">{</span><span class="n">recommended_security_tools</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            
+            <span class="k">return</span> <span class="n">risk_assessment</span>
+            
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;风险评估失败: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="c1"># 返回默认的中等风险评估</span>
+            <span class="k">return</span> <span class="n">RiskAssessment</span><span class="p">(</span>
+                <span class="n">risk_factors</span><span class="o">=</span><span class="p">[</span><span class="n">RiskFactor</span><span class="o">.</span><span class="n">SECURITY</span><span class="p">],</span>
+                <span class="n">risk_score</span><span class="o">=</span><span class="mf">30.0</span><span class="p">,</span>
+                <span class="n">high_risk_areas</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;一般安全风险&#39;</span><span class="p">],</span>
+                <span class="n">recommended_security_tools</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;semgrep&#39;</span><span class="p">,</span> <span class="s1">&#39;gitleaks&#39;</span><span class="p">],</span>
+                <span class="n">risk_mitigation_priority</span><span class="o">=</span><span class="p">{</span><span class="n">RiskFactor</span><span class="o">.</span><span class="n">SECURITY</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+            <span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="DecisionAgent.make_tool_selection_decision">
+<a class="viewcode-back" href="../../../api/agents.html#oss_audit.core.decision_agent.DecisionAgent.make_tool_selection_decision">[文档]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">make_tool_selection_decision</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_info</span><span class="p">:</span> <span class="n">ProjectInfo</span><span class="p">,</span> 
+                                   <span class="n">available_tools</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tool</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tool</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        智能工具选择决策</span>
+<span class="sd">        </span>
+<span class="sd">        核心特性:</span>
+<span class="sd">        - 集成工具知识库进行效果预测</span>
+<span class="sd">        - 使用策略引擎制定最优策略</span>
+<span class="sd">        - 基于ML模型的工具表现预测</span>
+<span class="sd">        - 智能时间预算和资源约束</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            project_info: 项目信息</span>
+<span class="sd">            available_tools: 可用工具列表</span>
+<span class="sd">            </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            选择的工具列表</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;开始智能工具选择决策...&quot;</span><span class="p">)</span>
+            
+            <span class="c1"># 1. 分析项目特征</span>
+            <span class="n">complexity_metrics</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">analyze_project_complexity</span><span class="p">(</span><span class="n">project_info</span><span class="p">)</span>
+            <span class="n">risk_assessment</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">assess_project_risks</span><span class="p">(</span><span class="n">project_info</span><span class="p">,</span> <span class="n">complexity_metrics</span><span class="p">)</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;项目特征分析完成: 复杂度=</span><span class="si">{</span><span class="n">complexity_metrics</span><span class="o">.</span><span class="n">complexity_score</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">, &quot;</span>
+                            <span class="sa">f</span><span class="s2">&quot;风险分数=</span><span class="si">{</span><span class="n">risk_assessment</span><span class="o">.</span><span class="n">risk_score</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            
+            <span class="c1"># 2. 工具效果预测</span>
+            <span class="n">tool_effectiveness</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">predict_tool_effectiveness</span><span class="p">(</span><span class="n">available_tools</span><span class="p">,</span> <span class="n">project_info</span><span class="p">)</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;工具效果预测完成: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">tool_effectiveness</span><span class="p">)</span><span class="si">}</span><span class="s2">个工具预测&quot;</span><span class="p">)</span>
+            
+            <span class="c1"># 3. 策略引擎决策</span>
+            <span class="n">strategy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">strategy_engine</span><span class="o">.</span><span class="n">create_strategy</span><span class="p">(</span>
+                <span class="n">complexity</span><span class="o">=</span><span class="n">complexity_metrics</span><span class="o">.</span><span class="n">complexity_score</span><span class="p">,</span>
+                <span class="n">risks</span><span class="o">=</span><span class="n">risk_assessment</span><span class="o">.</span><span class="n">risk_factors</span><span class="p">,</span>
+                <span class="n">effectiveness</span><span class="o">=</span><span class="n">tool_effectiveness</span><span class="p">,</span>
+                <span class="n">time_budget</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_estimate_time_budget</span><span class="p">(</span><span class="n">project_info</span><span class="p">),</span>
+                <span class="n">project_info</span><span class="o">=</span><span class="n">project_info</span><span class="p">,</span>
+                <span class="n">available_tools</span><span class="o">=</span><span class="n">available_tools</span>
+            <span class="p">)</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;策略决策完成: </span><span class="si">{</span><span class="n">strategy</span><span class="o">.</span><span class="n">strategy_type</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">, &quot;</span>
+                           <span class="sa">f</span><span class="s2">&quot;选择</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">strategy</span><span class="o">.</span><span class="n">selected_tools</span><span class="p">)</span><span class="si">}</span><span class="s2">个工具, &quot;</span>
+                           <span class="sa">f</span><span class="s2">&quot;信心度=</span><span class="si">{</span><span class="n">strategy</span><span class="o">.</span><span class="n">confidence</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            
+            <span class="c1"># 4. 记录历史数据用于学习</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_record_selection_decision</span><span class="p">(</span><span class="n">project_info</span><span class="p">,</span> <span class="n">available_tools</span><span class="p">,</span> 
+                                          <span class="n">strategy</span><span class="o">.</span><span class="n">selected_tools</span><span class="p">,</span> <span class="n">tool_effectiveness</span><span class="p">)</span>
+            
+            <span class="k">return</span> <span class="n">strategy</span><span class="o">.</span><span class="n">selected_tools</span>
+            
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;智能工具选择决策失败: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="c1"># 智能降级策略</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_fallback_selection</span><span class="p">(</span><span class="n">available_tools</span><span class="p">,</span> <span class="n">project_info</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="DecisionAgent.create_execution_plan">
+<a class="viewcode-back" href="../../../api/agents.html#oss_audit.core.decision_agent.DecisionAgent.create_execution_plan">[文档]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_execution_plan</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">selected_tools</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tool</span><span class="p">],</span> 
+                            <span class="n">project_info</span><span class="p">:</span> <span class="n">ProjectInfo</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ExecutionPlan</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        制定执行计划</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            selected_tools: 选择的工具列表</span>
+<span class="sd">            project_info: 项目信息</span>
+<span class="sd">            </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            执行计划</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">selected_tools</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">ExecutionPlan</span><span class="p">(</span><span class="n">phases</span><span class="o">=</span><span class="p">[],</span> <span class="n">total_estimated_time</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            
+            <span class="c1"># 分析项目复杂度以决定执行策略</span>
+            <span class="n">complexity_metrics</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">analyze_project_complexity</span><span class="p">(</span><span class="n">project_info</span><span class="p">)</span>
+            <span class="n">complexity_level</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_complexity_level</span><span class="p">(</span><span class="n">complexity_metrics</span><span class="o">.</span><span class="n">complexity_score</span><span class="p">)</span>
+            
+            <span class="c1"># 按工具类型和依赖关系分组</span>
+            <span class="n">phases</span> <span class="o">=</span> <span class="p">[]</span>
+            
+            <span class="c1"># 阶段1: 快速语法检查和基础工具（并行）</span>
+            <span class="n">fast_tools</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">selected_tools</span> <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">estimated_time</span> <span class="o">&lt;=</span> <span class="mi">30</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">fast_tools</span><span class="p">:</span>
+                <span class="n">phases</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ExecutionPhase</span><span class="p">(</span>
+                    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;快速检查阶段&quot;</span><span class="p">,</span>
+                    <span class="n">tools</span><span class="o">=</span><span class="n">fast_tools</span><span class="p">,</span>
+                    <span class="n">mode</span><span class="o">=</span><span class="n">ExecutionMode</span><span class="o">.</span><span class="n">PARALLEL</span><span class="p">,</span>
+                    <span class="n">timeout</span><span class="o">=</span><span class="mi">120</span><span class="p">,</span>
+                    <span class="n">allow_failure</span><span class="o">=</span><span class="kc">True</span>
+                <span class="p">))</span>
+            
+            <span class="c1"># 阶段2: 质量分析工具（根据复杂度决定执行模式）</span>
+            <span class="n">quality_tools</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">selected_tools</span> 
+                           <span class="k">if</span> <span class="n">t</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">fast_tools</span> <span class="ow">and</span> <span class="s1">&#39;quality&#39;</span> <span class="ow">in</span> <span class="n">t</span><span class="o">.</span><span class="n">categories</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">quality_tools</span><span class="p">:</span>
+                <span class="c1"># 复杂项目使用串行执行避免资源竞争</span>
+                <span class="n">mode</span> <span class="o">=</span> <span class="n">ExecutionMode</span><span class="o">.</span><span class="n">SEQUENTIAL</span> <span class="k">if</span> <span class="n">complexity_level</span> <span class="ow">in</span> <span class="p">[</span><span class="n">ComplexityLevel</span><span class="o">.</span><span class="n">HIGH</span><span class="p">,</span> <span class="n">ComplexityLevel</span><span class="o">.</span><span class="n">VERY_HIGH</span><span class="p">]</span> <span class="k">else</span> <span class="n">ExecutionMode</span><span class="o">.</span><span class="n">PARALLEL</span>
+                <span class="n">phases</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ExecutionPhase</span><span class="p">(</span>
+                    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;质量分析阶段&quot;</span><span class="p">,</span>
+                    <span class="n">tools</span><span class="o">=</span><span class="n">quality_tools</span><span class="p">,</span>
+                    <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">,</span>
+                    <span class="n">timeout</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span>
+                    <span class="n">dependencies</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;快速检查阶段&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="n">fast_tools</span> <span class="k">else</span> <span class="p">[],</span>
+                    <span class="n">allow_failure</span><span class="o">=</span><span class="kc">True</span>
+                <span class="p">))</span>
+            
+            <span class="c1"># 阶段3: 安全分析工具（串行执行，确保准确性）</span>
+            <span class="n">security_tools</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">selected_tools</span> 
+                            <span class="k">if</span> <span class="n">t</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">fast_tools</span> <span class="ow">and</span> <span class="n">t</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">quality_tools</span> <span class="ow">and</span> <span class="s1">&#39;security&#39;</span> <span class="ow">in</span> <span class="n">t</span><span class="o">.</span><span class="n">categories</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">security_tools</span><span class="p">:</span>
+                <span class="n">phases</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ExecutionPhase</span><span class="p">(</span>
+                    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;安全分析阶段&quot;</span><span class="p">,</span>
+                    <span class="n">tools</span><span class="o">=</span><span class="n">security_tools</span><span class="p">,</span>
+                    <span class="n">mode</span><span class="o">=</span><span class="n">ExecutionMode</span><span class="o">.</span><span class="n">SEQUENTIAL</span><span class="p">,</span>
+                    <span class="n">timeout</span><span class="o">=</span><span class="mi">900</span><span class="p">,</span>
+                    <span class="n">dependencies</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;质量分析阶段&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="n">quality_tools</span> <span class="k">else</span> <span class="p">([</span><span class="s2">&quot;快速检查阶段&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="n">fast_tools</span> <span class="k">else</span> <span class="p">[]),</span>
+                    <span class="n">allow_failure</span><span class="o">=</span><span class="kc">False</span>  <span class="c1"># 安全工具不允许失败</span>
+                <span class="p">))</span>
+            
+            <span class="c1"># 阶段4: 其他工具（剩余工具）</span>
+            <span class="n">other_tools</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">selected_tools</span> 
+                          <span class="k">if</span> <span class="n">t</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">fast_tools</span> <span class="ow">and</span> <span class="n">t</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">quality_tools</span> <span class="ow">and</span> <span class="n">t</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">security_tools</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">other_tools</span><span class="p">:</span>
+                <span class="n">phases</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ExecutionPhase</span><span class="p">(</span>
+                    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;其他分析阶段&quot;</span><span class="p">,</span>
+                    <span class="n">tools</span><span class="o">=</span><span class="n">other_tools</span><span class="p">,</span>
+                    <span class="n">mode</span><span class="o">=</span><span class="n">ExecutionMode</span><span class="o">.</span><span class="n">PARALLEL</span><span class="p">,</span>
+                    <span class="n">timeout</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
+                    <span class="n">dependencies</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;安全分析阶段&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="n">security_tools</span> <span class="k">else</span> <span class="p">[],</span>
+                    <span class="n">allow_failure</span><span class="o">=</span><span class="kc">True</span>
+                <span class="p">))</span>
+            
+            <span class="c1"># 计算总预估时间</span>
+            <span class="n">total_time</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">phase</span> <span class="ow">in</span> <span class="n">phases</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">phase</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="n">ExecutionMode</span><span class="o">.</span><span class="n">PARALLEL</span><span class="p">:</span>
+                    <span class="c1"># 并行执行取最长工具时间</span>
+                    <span class="n">phase_time</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="n">t</span><span class="o">.</span><span class="n">estimated_time</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">phase</span><span class="o">.</span><span class="n">tools</span><span class="p">])</span> <span class="k">if</span> <span class="n">phase</span><span class="o">.</span><span class="n">tools</span> <span class="k">else</span> <span class="mi">0</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c1"># 串行执行累加所有工具时间</span>
+                    <span class="n">phase_time</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">estimated_time</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">phase</span><span class="o">.</span><span class="n">tools</span><span class="p">)</span>
+                <span class="n">total_time</span> <span class="o">+=</span> <span class="n">phase_time</span>
+            
+            <span class="c1"># 根据复杂度调整并行工具数</span>
+            <span class="n">max_parallel</span> <span class="o">=</span> <span class="mi">2</span> <span class="k">if</span> <span class="n">complexity_level</span> <span class="o">==</span> <span class="n">ComplexityLevel</span><span class="o">.</span><span class="n">LOW</span> <span class="k">else</span> <span class="p">(</span><span class="mi">3</span> <span class="k">if</span> <span class="n">complexity_level</span> <span class="o">==</span> <span class="n">ComplexityLevel</span><span class="o">.</span><span class="n">MEDIUM</span> <span class="k">else</span> <span class="mi">4</span><span class="p">)</span>
+            
+            <span class="n">execution_plan</span> <span class="o">=</span> <span class="n">ExecutionPlan</span><span class="p">(</span>
+                <span class="n">phases</span><span class="o">=</span><span class="n">phases</span><span class="p">,</span>
+                <span class="n">total_estimated_time</span><span class="o">=</span><span class="n">total_time</span><span class="p">,</span>
+                <span class="n">max_parallel_tools</span><span class="o">=</span><span class="n">max_parallel</span><span class="p">,</span>
+                <span class="n">early_termination_conditions</span><span class="o">=</span><span class="p">[</span>
+                    <span class="s2">&quot;critical_security_issue_found&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;build_failure&quot;</span>
+                <span class="p">],</span>
+                <span class="n">fallback_strategy</span><span class="o">=</span><span class="s2">&quot;continue_with_warnings&quot;</span>
+            <span class="p">)</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;执行计划制定完成: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">phases</span><span class="p">)</span><span class="si">}</span><span class="s2">个阶段, &quot;</span>
+                           <span class="sa">f</span><span class="s2">&quot;总工具数=</span><span class="si">{</span><span class="n">execution_plan</span><span class="o">.</span><span class="n">get_total_tools</span><span class="p">()</span><span class="si">}</span><span class="s2">, &quot;</span>
+                           <span class="sa">f</span><span class="s2">&quot;预估时间=</span><span class="si">{</span><span class="n">total_time</span><span class="si">}</span><span class="s2">秒&quot;</span><span class="p">)</span>
+            
+            <span class="k">return</span> <span class="n">execution_plan</span>
+            
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;执行计划制定失败: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="c1"># 降级策略：简单的单阶段并行执行</span>
+            <span class="k">return</span> <span class="n">ExecutionPlan</span><span class="p">(</span>
+                <span class="n">phases</span><span class="o">=</span><span class="p">[</span><span class="n">ExecutionPhase</span><span class="p">(</span>
+                    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;默认执行阶段&quot;</span><span class="p">,</span>
+                    <span class="n">tools</span><span class="o">=</span><span class="n">selected_tools</span><span class="p">,</span>
+                    <span class="n">mode</span><span class="o">=</span><span class="n">ExecutionMode</span><span class="o">.</span><span class="n">PARALLEL</span><span class="p">,</span>
+                    <span class="n">timeout</span><span class="o">=</span><span class="mi">600</span>
+                <span class="p">)],</span>
+                <span class="n">total_estimated_time</span><span class="o">=</span><span class="nb">sum</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">estimated_time</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">selected_tools</span><span class="p">),</span>
+                <span class="n">max_parallel_tools</span><span class="o">=</span><span class="mi">2</span>
+            <span class="p">)</span></div>
+
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_complexity_level</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">complexity_score</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ComplexityLevel</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;根据复杂度分数确定等级&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">complexity_score</span> <span class="o">&lt;</span> <span class="mi">20</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ComplexityLevel</span><span class="o">.</span><span class="n">LOW</span>
+        <span class="k">elif</span> <span class="n">complexity_score</span> <span class="o">&lt;</span> <span class="mi">50</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ComplexityLevel</span><span class="o">.</span><span class="n">MEDIUM</span>
+        <span class="k">elif</span> <span class="n">complexity_score</span> <span class="o">&lt;</span> <span class="mi">80</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ComplexityLevel</span><span class="o">.</span><span class="n">HIGH</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ComplexityLevel</span><span class="o">.</span><span class="n">VERY_HIGH</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_categorize_tools</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tools</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tool</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Tool</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;按类别对工具进行分组&quot;&quot;&quot;</span>
+        <span class="n">categories</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+        
+        <span class="k">for</span> <span class="n">tool</span> <span class="ow">in</span> <span class="n">tools</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">category</span> <span class="ow">in</span> <span class="n">tool</span><span class="o">.</span><span class="n">categories</span><span class="p">:</span>
+                <span class="n">categories</span><span class="p">[</span><span class="n">category</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tool</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">categories</span><span class="p">)</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_calculate_directory_depth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;计算项目目录深度&quot;&quot;&quot;</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+        <span class="n">max_depth</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">root</span><span class="p">,</span> <span class="n">dirs</span><span class="p">,</span> <span class="n">files</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">project_path</span><span class="p">):</span>
+                <span class="c1"># 跳过常见的忽略目录</span>
+                <span class="n">dirs</span><span class="p">[:]</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dirs</span> <span class="k">if</span> <span class="n">d</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">{</span>
+                    <span class="s1">&#39;.git&#39;</span><span class="p">,</span> <span class="s1">&#39;node_modules&#39;</span><span class="p">,</span> <span class="s1">&#39;__pycache__&#39;</span><span class="p">,</span> <span class="s1">&#39;.pytest_cache&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;venv&#39;</span><span class="p">,</span> <span class="s1">&#39;.venv&#39;</span><span class="p">,</span> <span class="s1">&#39;env&#39;</span><span class="p">,</span> <span class="s1">&#39;.env&#39;</span><span class="p">,</span> <span class="s1">&#39;target&#39;</span><span class="p">,</span> <span class="s1">&#39;build&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;dist&#39;</span><span class="p">,</span> <span class="s1">&#39;.idea&#39;</span><span class="p">,</span> <span class="s1">&#39;.vscode&#39;</span>
+                <span class="p">}]</span>
+                
+                <span class="n">depth</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">relpath</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">project_path</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="p">))</span>
+                <span class="n">max_depth</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">max_depth</span><span class="p">,</span> <span class="n">depth</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;计算目录深度失败: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="mi">5</span>  <span class="c1"># 默认深度</span>
+        
+        <span class="k">return</span> <span class="n">max_depth</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_count_config_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;统计配置文件数量&quot;&quot;&quot;</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+        <span class="n">config_files</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s1">&#39;.gitignore&#39;</span><span class="p">,</span> <span class="s1">&#39;.editorconfig&#39;</span><span class="p">,</span> <span class="s1">&#39;.pre-commit-config.yaml&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;pytest.ini&#39;</span><span class="p">,</span> <span class="s1">&#39;setup.cfg&#39;</span><span class="p">,</span> <span class="s1">&#39;pyproject.toml&#39;</span><span class="p">,</span> <span class="s1">&#39;tox.ini&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;package.json&#39;</span><span class="p">,</span> <span class="s1">&#39;tsconfig.json&#39;</span><span class="p">,</span> <span class="s1">&#39;.eslintrc&#39;</span><span class="p">,</span> <span class="s1">&#39;.prettierrc&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;pom.xml&#39;</span><span class="p">,</span> <span class="s1">&#39;build.gradle&#39;</span><span class="p">,</span> <span class="s1">&#39;Cargo.toml&#39;</span><span class="p">,</span> <span class="s1">&#39;go.mod&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;Dockerfile&#39;</span><span class="p">,</span> <span class="s1">&#39;docker-compose.yml&#39;</span><span class="p">,</span> <span class="s1">&#39;requirements.txt&#39;</span>
+        <span class="p">]</span>
+        
+        <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">config_file</span> <span class="ow">in</span> <span class="n">config_files</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">project_path</span><span class="p">,</span> <span class="n">config_file</span><span class="p">)):</span>
+                    <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;统计配置文件失败: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">count</span>
+
+
+    <span class="c1"># ========== 智能分析方法 ==========</span>
+    
+<div class="viewcode-block" id="DecisionAgent.predict_tool_effectiveness">
+<a class="viewcode-back" href="../../../api/agents.html#oss_audit.core.decision_agent.DecisionAgent.predict_tool_effectiveness">[文档]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">predict_tool_effectiveness</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tools</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tool</span><span class="p">],</span> <span class="n">project_info</span><span class="p">:</span> <span class="n">ProjectInfo</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        预测工具效果</span>
+<span class="sd">        </span>
+<span class="sd">        集成工具知识库和ML模型进行效果预测</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># 1. 使用工具知识库预测</span>
+            <span class="n">knowledge_predictions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">knowledge_base</span><span class="o">.</span><span class="n">predict_tool_effectiveness</span><span class="p">(</span><span class="n">tools</span><span class="p">,</span> <span class="n">project_info</span><span class="p">)</span>
+            
+            <span class="c1"># 2. 使用ML模型预测</span>
+            <span class="n">risk_score</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">10</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">assess_project_risks</span><span class="p">(</span><span class="n">project_info</span><span class="p">,</span> 
+                           <span class="bp">self</span><span class="o">.</span><span class="n">analyze_project_complexity</span><span class="p">(</span><span class="n">project_info</span><span class="p">))</span><span class="o">.</span><span class="n">risk_factors</span><span class="p">)</span>
+            
+            <span class="n">features</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">learning_model</span><span class="o">.</span><span class="n">extract_features</span><span class="p">(</span><span class="n">project_info</span><span class="p">,</span> <span class="n">risk_score</span><span class="p">)</span>
+            <span class="n">ml_predictions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">learning_model</span><span class="o">.</span><span class="n">predict_batch</span><span class="p">(</span><span class="n">tools</span><span class="p">,</span> <span class="n">features</span><span class="p">)</span>
+            
+            <span class="c1"># 3. 综合预测结果（知识库权重0.6，ML模型权重0.4）</span>
+            <span class="n">combined_predictions</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">tool</span> <span class="ow">in</span> <span class="n">tools</span><span class="p">:</span>
+                <span class="n">knowledge_score</span> <span class="o">=</span> <span class="n">knowledge_predictions</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">tool</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+                <span class="n">ml_score</span> <span class="o">=</span> <span class="n">ml_predictions</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">tool</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                
+                <span class="k">if</span> <span class="n">ml_score</span><span class="p">:</span>
+                    <span class="n">combined_score</span> <span class="o">=</span> <span class="n">knowledge_score</span> <span class="o">*</span> <span class="mf">0.6</span> <span class="o">+</span> <span class="n">ml_score</span><span class="o">.</span><span class="n">predicted_effectiveness</span> <span class="o">*</span> <span class="mf">0.4</span>
+                    <span class="c1"># 考虑ML模型的信心度</span>
+                    <span class="n">confidence_weight</span> <span class="o">=</span> <span class="n">ml_score</span><span class="o">.</span><span class="n">confidence</span>
+                    <span class="n">final_score</span> <span class="o">=</span> <span class="n">combined_score</span> <span class="o">*</span> <span class="n">confidence_weight</span> <span class="o">+</span> <span class="n">knowledge_score</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">confidence_weight</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">final_score</span> <span class="o">=</span> <span class="n">knowledge_score</span>
+                
+                <span class="n">combined_predictions</span><span class="p">[</span><span class="n">tool</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">final_score</span><span class="p">))</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;综合效果预测完成: 平均分数=</span><span class="si">{</span><span class="nb">sum</span><span class="p">(</span><span class="n">combined_predictions</span><span class="o">.</span><span class="n">values</span><span class="p">())</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">combined_predictions</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">combined_predictions</span>
+            
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;工具效果预测失败: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">{</span><span class="n">tool</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="mf">0.5</span> <span class="k">for</span> <span class="n">tool</span> <span class="ow">in</span> <span class="n">tools</span><span class="p">}</span></div>
+
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_estimate_time_budget</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_info</span><span class="p">:</span> <span class="n">ProjectInfo</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;估算时间预算&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># 基于项目规模估算合理的分析时间</span>
+            <span class="n">code_lines</span> <span class="o">=</span> <span class="n">project_info</span><span class="o">.</span><span class="n">size_metrics</span><span class="o">.</span><span class="n">code_lines</span>
+            
+            <span class="k">if</span> <span class="n">code_lines</span> <span class="o">&lt;</span> <span class="mi">1000</span><span class="p">:</span>
+                <span class="k">return</span> <span class="mi">300</span>   <span class="c1"># 5分钟</span>
+            <span class="k">elif</span> <span class="n">code_lines</span> <span class="o">&lt;</span> <span class="mi">10000</span><span class="p">:</span>
+                <span class="k">return</span> <span class="mi">600</span>   <span class="c1"># 10分钟</span>
+            <span class="k">elif</span> <span class="n">code_lines</span> <span class="o">&lt;</span> <span class="mi">50000</span><span class="p">:</span>
+                <span class="k">return</span> <span class="mi">1200</span>  <span class="c1"># 20分钟</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="mi">1800</span>  <span class="c1"># 30分钟</span>
+                
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;时间预算估算失败: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="mi">600</span>  <span class="c1"># 默认10分钟</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_record_selection_decision</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_info</span><span class="p">:</span> <span class="n">ProjectInfo</span><span class="p">,</span> 
+                                 <span class="n">available_tools</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tool</span><span class="p">],</span>
+                                 <span class="n">selected_tools</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tool</span><span class="p">],</span>
+                                 <span class="n">effectiveness_predictions</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;记录选择决策用于学习&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># 记录选择的工具及其预测效果</span>
+            <span class="k">for</span> <span class="n">tool</span> <span class="ow">in</span> <span class="n">selected_tools</span><span class="p">:</span>
+                <span class="n">predicted_effectiveness</span> <span class="o">=</span> <span class="n">effectiveness_predictions</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">tool</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+                
+                <span class="c1"># 这里实际应用中会在工具执行后记录真实效果</span>
+                <span class="c1"># 现在先记录预测值作为占位符</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">knowledge_base</span><span class="o">.</span><span class="n">record_tool_execution</span><span class="p">(</span>
+                    <span class="n">tool_name</span><span class="o">=</span><span class="n">tool</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                    <span class="n">project_info</span><span class="o">=</span><span class="n">project_info</span><span class="p">,</span>
+                    <span class="n">execution_time</span><span class="o">=</span><span class="n">tool</span><span class="o">.</span><span class="n">estimated_time</span><span class="p">,</span>
+                    <span class="n">success</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># 预测成功</span>
+                    <span class="n">quality_score</span><span class="o">=</span><span class="n">predicted_effectiveness</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span>
+                    <span class="n">issues_found</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">predicted_effectiveness</span> <span class="o">*</span> <span class="mi">10</span><span class="p">)</span>  <span class="c1"># 估算问题数</span>
+                <span class="p">)</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;记录了</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">selected_tools</span><span class="p">)</span><span class="si">}</span><span class="s2">个工具的选择决策&quot;</span><span class="p">)</span>
+            
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;记录选择决策失败: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_create_fallback_selection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">available_tools</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tool</span><span class="p">],</span> 
+                                 <span class="n">project_info</span><span class="p">:</span> <span class="n">ProjectInfo</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tool</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;创建智能降级选择&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># 智能降级：选择最可靠的基础工具</span>
+            <span class="n">fallback_tools</span> <span class="o">=</span> <span class="p">[]</span>
+            
+            <span class="c1"># 按语言选择核心工具</span>
+            <span class="n">primary_language</span> <span class="o">=</span> <span class="n">project_info</span><span class="o">.</span><span class="n">get_primary_language</span><span class="p">()</span>
+            
+            <span class="k">if</span> <span class="n">primary_language</span> <span class="o">==</span> <span class="s1">&#39;python&#39;</span><span class="p">:</span>
+                <span class="n">preferred_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;pylint&#39;</span><span class="p">,</span> <span class="s1">&#39;bandit&#39;</span><span class="p">,</span> <span class="s1">&#39;safety&#39;</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">primary_language</span> <span class="o">==</span> <span class="s1">&#39;javascript&#39;</span><span class="p">:</span>
+                <span class="n">preferred_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;eslint&#39;</span><span class="p">,</span> <span class="s1">&#39;npm-audit&#39;</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">primary_language</span> <span class="o">==</span> <span class="s1">&#39;java&#39;</span><span class="p">:</span>
+                <span class="n">preferred_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;checkstyle&#39;</span><span class="p">,</span> <span class="s1">&#39;spotbugs&#39;</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">primary_language</span> <span class="o">==</span> <span class="s1">&#39;go&#39;</span><span class="p">:</span>
+                <span class="n">preferred_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;gofmt&#39;</span><span class="p">,</span> <span class="s1">&#39;gosec&#39;</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">preferred_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;semgrep&#39;</span><span class="p">,</span> <span class="s1">&#39;gitleaks&#39;</span><span class="p">]</span>  <span class="c1"># 通用工具</span>
+            
+            <span class="c1"># 选择可用的首选工具</span>
+            <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">preferred_names</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">tool</span> <span class="ow">in</span> <span class="n">available_tools</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">tool</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">name</span><span class="p">:</span>
+                        <span class="n">fallback_tools</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tool</span><span class="p">)</span>
+                        <span class="k">break</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">fallback_tools</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">:</span>  <span class="c1"># 最多3个降级工具</span>
+                    <span class="k">break</span>
+            
+            <span class="c1"># 如果还不够，补充优先级最高的工具</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">fallback_tools</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="n">remaining_tools</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">available_tools</span> <span class="k">if</span> <span class="n">t</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">fallback_tools</span><span class="p">]</span>
+                <span class="n">remaining_tools</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">priority</span><span class="p">)</span>
+                <span class="n">fallback_tools</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">remaining_tools</span><span class="p">[:</span><span class="mi">3</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">fallback_tools</span><span class="p">)])</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;使用降级工具选择: </span><span class="si">{</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">name</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">fallback_tools</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">fallback_tools</span>
+            
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;降级选择失败: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">available_tools</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span>  <span class="c1"># 最后的降级策略</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_analyze_tool_dependencies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tools</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tool</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        分析工具依赖关系</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            Dict[tool_name, List[dependent_tool_names]]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">dependencies</span> <span class="o">=</span> <span class="p">{}</span>
+            
+            <span class="k">for</span> <span class="n">tool</span> <span class="ow">in</span> <span class="n">tools</span><span class="p">:</span>
+                <span class="n">tool_deps</span> <span class="o">=</span> <span class="p">[]</span>
+                
+                <span class="c1"># 基于工具类型分析依赖</span>
+                <span class="k">if</span> <span class="n">tool</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;coverage&#39;</span><span class="p">,</span> <span class="s1">&#39;pytest-cov&#39;</span><span class="p">]:</span>
+                    <span class="c1"># 覆盖率工具依赖测试工具</span>
+                    <span class="n">test_tools</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tools</span> <span class="k">if</span> <span class="s1">&#39;test&#39;</span> <span class="ow">in</span> <span class="n">t</span><span class="o">.</span><span class="n">categories</span> <span class="ow">and</span> <span class="n">t</span><span class="o">.</span><span class="n">name</span> <span class="o">!=</span> <span class="n">tool</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+                    <span class="n">tool_deps</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">test_tools</span><span class="p">)</span>
+                
+                <span class="k">elif</span> <span class="n">tool</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;sonarqube-scanner&#39;</span><span class="p">]:</span>
+                    <span class="c1"># SonarQube依赖其他质量工具的结果</span>
+                    <span class="n">quality_tools</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tools</span> <span class="k">if</span> <span class="s1">&#39;quality&#39;</span> <span class="ow">in</span> <span class="n">t</span><span class="o">.</span><span class="n">categories</span> <span class="ow">and</span> <span class="n">t</span><span class="o">.</span><span class="n">name</span> <span class="o">!=</span> <span class="n">tool</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+                    <span class="n">tool_deps</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">quality_tools</span><span class="p">[:</span><span class="mi">2</span><span class="p">])</span>  <span class="c1"># 最多依赖2个</span>
+                
+                <span class="k">elif</span> <span class="s1">&#39;integration&#39;</span> <span class="ow">in</span> <span class="n">tool</span><span class="o">.</span><span class="n">categories</span><span class="p">:</span>
+                    <span class="c1"># 集成测试可能依赖单元测试</span>
+                    <span class="n">unit_test_tools</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tools</span> <span class="k">if</span> <span class="s1">&#39;unit_test&#39;</span> <span class="ow">in</span> <span class="n">t</span><span class="o">.</span><span class="n">categories</span><span class="p">]</span>
+                    <span class="n">tool_deps</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">unit_test_tools</span><span class="p">)</span>
+                
+                <span class="n">dependencies</span><span class="p">[</span><span class="n">tool</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">tool_deps</span>
+            
+            <span class="k">return</span> <span class="n">dependencies</span>
+            
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;工具依赖分析失败: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">{</span><span class="n">tool</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="p">[]</span> <span class="k">for</span> <span class="n">tool</span> <span class="ow">in</span> <span class="n">tools</span><span class="p">}</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_predict_resource_needs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tools</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tool</span><span class="p">],</span> <span class="n">project_info</span><span class="p">:</span> <span class="n">ProjectInfo</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        预测资源需求</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            Dict[tool_name, Dict[resource_type, estimated_value]]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">resource_predictions</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">project_size_factor</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">4.0</span><span class="p">,</span> <span class="n">project_info</span><span class="o">.</span><span class="n">size_metrics</span><span class="o">.</span><span class="n">code_lines</span> <span class="o">/</span> <span class="mi">10000</span><span class="p">)</span>
+            
+            <span class="k">for</span> <span class="n">tool</span> <span class="ow">in</span> <span class="n">tools</span><span class="p">:</span>
+                <span class="c1"># CPU使用率预测（基于工具类型和项目规模）</span>
+                <span class="k">if</span> <span class="n">tool</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;pylint&#39;</span><span class="p">,</span> <span class="s1">&#39;eslint&#39;</span><span class="p">,</span> <span class="s1">&#39;checkstyle&#39;</span><span class="p">]:</span>
+                    <span class="n">cpu_usage</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mi">80</span><span class="p">,</span> <span class="mi">30</span> <span class="o">+</span> <span class="n">project_size_factor</span> <span class="o">*</span> <span class="mi">10</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">tool</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;semgrep&#39;</span><span class="p">,</span> <span class="s1">&#39;sonarqube-scanner&#39;</span><span class="p">]:</span>
+                    <span class="n">cpu_usage</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mi">90</span><span class="p">,</span> <span class="mi">50</span> <span class="o">+</span> <span class="n">project_size_factor</span> <span class="o">*</span> <span class="mi">15</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">cpu_usage</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mi">70</span><span class="p">,</span> <span class="mi">20</span> <span class="o">+</span> <span class="n">project_size_factor</span> <span class="o">*</span> <span class="mi">8</span><span class="p">)</span>
+                
+                <span class="c1"># 内存使用预测</span>
+                <span class="k">if</span> <span class="n">tool</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;sonarqube-scanner&#39;</span><span class="p">,</span> <span class="s1">&#39;semgrep&#39;</span><span class="p">]:</span>
+                    <span class="n">memory_mb</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mi">2048</span><span class="p">,</span> <span class="mi">512</span> <span class="o">+</span> <span class="n">project_size_factor</span> <span class="o">*</span> <span class="mi">200</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">tool</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;pylint&#39;</span><span class="p">,</span> <span class="s1">&#39;eslint&#39;</span><span class="p">]:</span>
+                    <span class="n">memory_mb</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mi">1024</span><span class="p">,</span> <span class="mi">256</span> <span class="o">+</span> <span class="n">project_size_factor</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">memory_mb</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span> <span class="mi">128</span> <span class="o">+</span> <span class="n">project_size_factor</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
+                
+                <span class="c1"># 磁盘IO预测</span>
+                <span class="n">disk_io</span> <span class="o">=</span> <span class="n">project_size_factor</span> <span class="o">*</span> <span class="mf">0.1</span>  <span class="c1"># 相对值</span>
+                
+                <span class="n">resource_predictions</span><span class="p">[</span><span class="n">tool</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s1">&#39;cpu_percent&#39;</span><span class="p">:</span> <span class="n">cpu_usage</span><span class="p">,</span>
+                    <span class="s1">&#39;memory_mb&#39;</span><span class="p">:</span> <span class="n">memory_mb</span><span class="p">,</span>
+                    <span class="s1">&#39;disk_io_relative&#39;</span><span class="p">:</span> <span class="n">disk_io</span><span class="p">,</span>
+                    <span class="s1">&#39;network_required&#39;</span><span class="p">:</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">tool</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;npm-audit&#39;</span><span class="p">,</span> <span class="s1">&#39;safety&#39;</span><span class="p">]</span> <span class="k">else</span> <span class="mi">0</span>
+                <span class="p">}</span>
+            
+            <span class="k">return</span> <span class="n">resource_predictions</span>
+            
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;资源需求预测失败: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">{}</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_create_timeout_strategy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resource_requirements</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        创建超时策略</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            Dict[tool_name, timeout_seconds]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">timeout_strategy</span> <span class="o">=</span> <span class="p">{}</span>
+            
+            <span class="k">for</span> <span class="n">tool_name</span><span class="p">,</span> <span class="n">resources</span> <span class="ow">in</span> <span class="n">resource_requirements</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="c1"># 基础超时时间</span>
+                <span class="n">base_timeout</span> <span class="o">=</span> <span class="mi">60</span>  <span class="c1"># 1分钟基础时间</span>
+                
+                <span class="c1"># 基于内存使用调整</span>
+                <span class="n">memory_factor</span> <span class="o">=</span> <span class="n">resources</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;memory_mb&#39;</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span> <span class="o">/</span> <span class="mi">256</span>
+                <span class="n">memory_timeout</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">base_timeout</span> <span class="o">*</span> <span class="n">memory_factor</span><span class="p">)</span>
+                
+                <span class="c1"># 基于CPU使用调整</span>
+                <span class="n">cpu_factor</span> <span class="o">=</span> <span class="n">resources</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;cpu_percent&#39;</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span> <span class="o">/</span> <span class="mi">50</span>
+                <span class="n">cpu_timeout</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">base_timeout</span> <span class="o">*</span> <span class="n">cpu_factor</span><span class="p">)</span>
+                
+                <span class="c1"># 网络工具额外时间</span>
+                <span class="n">network_bonus</span> <span class="o">=</span> <span class="mi">30</span> <span class="k">if</span> <span class="n">resources</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;network_required&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="k">else</span> <span class="mi">0</span>
+                
+                <span class="n">final_timeout</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">60</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="mi">600</span><span class="p">,</span> <span class="n">memory_timeout</span> <span class="o">+</span> <span class="n">cpu_timeout</span> <span class="o">+</span> <span class="n">network_bonus</span><span class="p">))</span>
+                <span class="n">timeout_strategy</span><span class="p">[</span><span class="n">tool_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">final_timeout</span>
+            
+            <span class="k">return</span> <span class="n">timeout_strategy</span>
+            
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;超时策略创建失败: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">{}</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_create_fallback_plan</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tools</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tool</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        创建降级计划</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            Dict[tool_name, List[fallback_tool_names]]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">fallback_plan</span> <span class="o">=</span> <span class="p">{}</span>
+            
+            <span class="k">for</span> <span class="n">tool</span> <span class="ow">in</span> <span class="n">tools</span><span class="p">:</span>
+                <span class="n">fallbacks</span> <span class="o">=</span> <span class="p">[]</span>
+                
+                <span class="c1"># 基于工具功能寻找替代品</span>
+                <span class="k">if</span> <span class="n">tool</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;pylint&#39;</span><span class="p">:</span>
+                    <span class="n">fallbacks</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;flake8&#39;</span><span class="p">,</span> <span class="s1">&#39;pycodestyle&#39;</span><span class="p">]</span>
+                <span class="k">elif</span> <span class="n">tool</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;eslint&#39;</span><span class="p">:</span>
+                    <span class="n">fallbacks</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;jshint&#39;</span><span class="p">,</span> <span class="s1">&#39;prettier&#39;</span><span class="p">]</span>
+                <span class="k">elif</span> <span class="n">tool</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;bandit&#39;</span><span class="p">:</span>
+                    <span class="n">fallbacks</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;semgrep&#39;</span><span class="p">,</span> <span class="s1">&#39;gitleaks&#39;</span><span class="p">]</span>
+                <span class="k">elif</span> <span class="n">tool</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;safety&#39;</span><span class="p">:</span>
+                    <span class="n">fallbacks</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;pip-audit&#39;</span><span class="p">,</span> <span class="s1">&#39;semgrep&#39;</span><span class="p">]</span>
+                <span class="k">elif</span> <span class="n">tool</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;npm-audit&#39;</span><span class="p">:</span>
+                    <span class="n">fallbacks</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;yarn-audit&#39;</span><span class="p">,</span> <span class="s1">&#39;semgrep&#39;</span><span class="p">]</span>
+                <span class="k">elif</span> <span class="n">tool</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;sonarqube-scanner&#39;</span><span class="p">]:</span>
+                    <span class="c1"># 复杂工具的降级策略：分解为多个简单工具</span>
+                    <span class="n">fallbacks</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;pylint&#39;</span><span class="p">,</span> <span class="s1">&#39;bandit&#39;</span><span class="p">,</span> <span class="s1">&#39;safety&#39;</span><span class="p">]</span>
+                
+                <span class="c1"># 过滤出实际可用的降级工具</span>
+                <span class="n">available_fallbacks</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">fallback_name</span> <span class="ow">in</span> <span class="n">fallbacks</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">available_tool</span> <span class="ow">in</span> <span class="n">tools</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">available_tool</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">fallback_name</span> <span class="ow">and</span> <span class="n">available_tool</span> <span class="o">!=</span> <span class="n">tool</span><span class="p">:</span>
+                            <span class="n">available_fallbacks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fallback_name</span><span class="p">)</span>
+                            <span class="k">break</span>
+                
+                <span class="n">fallback_plan</span><span class="p">[</span><span class="n">tool</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">available_fallbacks</span>
+            
+            <span class="k">return</span> <span class="n">fallback_plan</span>
+            
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;降级计划创建失败: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">{}</span>
+    
+<div class="viewcode-block" id="DecisionAgent.update_tool_execution_results">
+<a class="viewcode-back" href="../../../api/agents.html#oss_audit.core.decision_agent.DecisionAgent.update_tool_execution_results">[文档]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">update_tool_execution_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tool_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">project_info</span><span class="p">:</span> <span class="n">ProjectInfo</span><span class="p">,</span>
+                                    <span class="n">actual_time</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">success</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> 
+                                    <span class="n">quality_score</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">issues_found</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        更新工具执行结果用于学习优化</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># 更新知识库</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">knowledge_base</span><span class="o">.</span><span class="n">record_tool_execution</span><span class="p">(</span>
+                <span class="n">tool_name</span><span class="o">=</span><span class="n">tool_name</span><span class="p">,</span>
+                <span class="n">project_info</span><span class="o">=</span><span class="n">project_info</span><span class="p">,</span>
+                <span class="n">execution_time</span><span class="o">=</span><span class="n">actual_time</span><span class="p">,</span>
+                <span class="n">success</span><span class="o">=</span><span class="n">success</span><span class="p">,</span>
+                <span class="n">quality_score</span><span class="o">=</span><span class="n">quality_score</span><span class="p">,</span>
+                <span class="n">issues_found</span><span class="o">=</span><span class="n">issues_found</span>
+            <span class="p">)</span>
+            
+            <span class="c1"># 为ML模型添加训练样本</span>
+            <span class="n">risk_score</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">10</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">assess_project_risks</span><span class="p">(</span><span class="n">project_info</span><span class="p">,</span> 
+                           <span class="bp">self</span><span class="o">.</span><span class="n">analyze_project_complexity</span><span class="p">(</span><span class="n">project_info</span><span class="p">))</span><span class="o">.</span><span class="n">risk_factors</span><span class="p">)</span>
+            
+            <span class="n">features</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">learning_model</span><span class="o">.</span><span class="n">extract_features</span><span class="p">(</span><span class="n">project_info</span><span class="p">,</span> <span class="n">risk_score</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">learning_model</span><span class="o">.</span><span class="n">add_training_example</span><span class="p">(</span>
+                <span class="n">features</span><span class="o">=</span><span class="n">features</span><span class="p">,</span>
+                <span class="n">tool_name</span><span class="o">=</span><span class="n">tool_name</span><span class="p">,</span>
+                <span class="n">actual_effectiveness</span><span class="o">=</span><span class="n">quality_score</span> <span class="o">/</span> <span class="mf">100.0</span><span class="p">,</span>  <span class="c1"># 转换为0-1范围</span>
+                <span class="n">actual_execution_time</span><span class="o">=</span><span class="n">actual_time</span><span class="p">,</span>
+                <span class="n">success</span><span class="o">=</span><span class="n">success</span>
+            <span class="p">)</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;更新工具执行结果: </span><span class="si">{</span><span class="n">tool_name</span><span class="si">}</span><span class="s2">, 成功=</span><span class="si">{</span><span class="n">success</span><span class="si">}</span><span class="s2">, 质量分数=</span><span class="si">{</span><span class="n">quality_score</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;更新执行结果失败: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="DecisionAgent.get_decision_stats">
+<a class="viewcode-back" href="../../../api/agents.html#oss_audit.core.decision_agent.DecisionAgent.get_decision_stats">[文档]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_decision_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;获取决策统计信息&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s1">&#39;knowledge_base_stats&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">knowledge_base</span><span class="o">.</span><span class="n">get_tool_statistics</span><span class="p">(),</span>
+                <span class="s1">&#39;ml_model_stats&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">learning_model</span><span class="o">.</span><span class="n">get_model_stats</span><span class="p">(),</span>
+                <span class="s1">&#39;strategy_engine_version&#39;</span><span class="p">:</span> <span class="s1">&#39;1.0&#39;</span>
+            <span class="p">}</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;获取决策统计失败: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">{}</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="create_decision_agent">
+<a class="viewcode-back" href="../../../api/agents.html#oss_audit.core.decision_agent.create_decision_agent">[文档]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_decision_agent</span><span class="p">(</span><span class="n">knowledge_base_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DecisionAgent</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;创建决策代理实例&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">DecisionAgent</span><span class="p">(</span><span class="n">knowledge_base_path</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2024, OSS Audit Team。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
